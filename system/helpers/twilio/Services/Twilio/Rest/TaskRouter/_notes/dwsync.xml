@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="Activities.php" server="91.210.232.194" local="130922426670703279" remote="130941320400000000" />
+<file name="Activity.php" server="91.210.232.194" local="130922426670713280" remote="130941320400000000" />
+<file name="Event.php" server="91.210.232.194" local="130922426670723280" remote="130941320400000000" />
+<file name="Events.php" server="91.210.232.194" local="130922426670723280" remote="130941320400000000" />
+<file name="Reservation.php" server="91.210.232.194" local="130922426670733281" remote="130941320400000000" />
+<file name="Reservations.php" server="91.210.232.194" local="130922426670743281" remote="130941320400000000" />
+<file name="Task.php" server="91.210.232.194" local="130922426670753282" remote="130941320400000000" />
+<file name="TaskQueue.php" server="91.210.232.194" local="130922426670753282" remote="130941320400000000" />
+<file name="TaskQueues.php" server="91.210.232.194" local="130922426670773283" remote="130941320400000000" />
+<file name="TaskQueuesStatistics.php" server="91.210.232.194" local="130922426670783284" remote="130941320400000000" />
+<file name="TaskQueueStatistics.php" server="91.210.232.194" local="130922426670763282" remote="130941320400000000" />
+<file name="Tasks.php" server="91.210.232.194" local="130922426670793284" remote="130941320400000000" />
+<file name="Worker.php" server="91.210.232.194" local="130922426670793284" remote="130941320400000000" />
+<file name="Workers.php" server="91.210.232.194" local="130922426670813285" remote="130941320400000000" />
+<file name="WorkersStatistics.php" server="91.210.232.194" local="130922426670813285" remote="130941320400000000" />
+<file name="WorkerStatistics.php" server="91.210.232.194" local="130922426670803285" remote="130941320400000000" />
+<file name="Workflow.php" server="91.210.232.194" local="130922426670823286" remote="130941320400000000" />
+<file name="Workflows.php" server="91.210.232.194" local="130922426670843287" remote="130941320400000000" />
+<file name="WorkflowStatistics.php" server="91.210.232.194" local="130922426670833286" remote="130941320400000000" />
+<file name="Workspace.php" server="91.210.232.194" local="130922426670843287" remote="130941320400000000" />
+<file name="Workspaces.php" server="91.210.232.194" local="130922426670863288" remote="130941320400000000" />
+<file name="WorkspaceStatistics.php" server="91.210.232.194" local="130922426670853288" remote="130941320400000000" />
+</dwsync>

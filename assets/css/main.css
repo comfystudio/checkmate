@@ -1,0 +1,123 @@
+.header-nav{
+	padding:115px 0;
+}
+
+.header-nav ul{
+	list-style: none;
+}
+
+.header-nav li{
+	list-style: none;
+	font-family: Lato;
+	font-size: 18px;
+	font-weight: lighter;
+	float:left;
+	color:#282424;
+}
+
+.logo-text{
+	font-family: Lato;
+	font-size: 18px;
+	font-weight: lighter;	
+	color:#282424;
+}
+
+.logo{
+	margin:0 auto;
+	width:423px;
+}
+
+.header-phone{
+	padding:115px 0;
+	font-family: Lato;
+	font-size: 18px;
+	font-weight: lighter;
+	float:right;
+	color:#282424;
+
+}
+
+.search{
+	padding:115px 0;
+}
+
+.lord-container{
+	padding:0 !important;
+}
+
+.tenant-container{
+	padding:0 !important;
+}
+
+.lord-box{
+	top:-325px;
+	padding:0 !important;
+	background-color: #2c3f83;
+	opacity: 0.8;
+}
+
+.logo-small{
+	width:47px;
+	margin: 0 auto;
+}
+
+.strapline-header{
+	padding: 50px 0;
+	font-family: Lato;
+	font-size: 36px;
+	font-weight: lighter;
+	float:right;
+	color:#282424;
+	text-align: center;
+	line-height:1;
+}
+
+.strapline-text{
+	font-family: Lato;
+	font-size: 16px;
+	float:right;
+	color:#282424;
+	text-align: center;
+	padding-bottom: 60px;
+}
+
+
+.top-footer-section{
+	background-image: url("../images/footer-image.png");
+}
+
+.footer-top-text{
+	font-family: Lato;
+	font-size: 36px;
+	font-weight: lighter;
+	float:right;
+	text-align: center;
+	color:white;
+	padding:100px 0;
+}
+
+.footer-icon-header{
+	font-family: Lato;
+	font-size: 22px;
+	color:white;
+}
+
+.footer-icon-text{
+	font-family: Lato;
+	font-size: 14px;
+	color:white;
+}
+
+.footer-icons{
+	float:left;
+	padding-right:36px;
+	padding-bottom:36px;
+}
+
+.footer-underline{
+	padding-top: 4px;
+}
+
+.footer-cost-div{
+	background-image: url("../images/cost.png") no-repeat left top;
+}

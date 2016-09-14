@@ -1,0 +1,338 @@
+.hide{
+	display: none !important;
+}
+.block-options{
+	height: auto;
+}
+pre{
+	background:#fff;
+}
+/*FORMS*/
+.form-wrap{
+	width:100%;
+	clear:both;
+}
+.form-wrap .table-responsive{
+	margin-bottom:20px;
+}
+
+#password_result {
+	margin-top:9px;
+	float: left;
+	padding:4px;
+}
+
+/*SEARCH BUTTON*/
+.block-title h2{
+	padding: 14px 15px 14px;
+}
+#esearch{
+	margin: 0.3em 0;
+}
+.search-btn{
+	display: table-cell;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+.search-btn button{
+	border: 1px solid #ccc !important;
+	border-color: #ccc !important;
+	border-left: 0 !important;
+	border-radius: 4px;
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1;
+	color: #555;
+	min-width: 45px;
+	text-align: center;
+	background-color: #fff;
+	display: block;
+	padding: 9px 10px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: auto;
+	margin: 0 1em 0 0;
+}
+.search-btn button:hover{
+	background-color: #ddd;
+}
+/*PAGINATION*/
+div.dataTables_paginate{
+	float: right;
+}
+/*TABLES*/
+.margin-right{
+	margin-right: 1em;
+}
+.no-margin{
+	margin: 0;
+}
+.filter-select{
+	width:200px;
+}
+.chosen-container-single .chosen-single abbr {
+    top: 11px;
+}
+#back-btn, #generate-btn{
+	margin:15px 0 0 0;
+}
+.fade-row{
+	color: #AAA;
+	font-style: italic;
+}
+.no-result{
+	border-top: 1px solid #ebeef2 !important;
+	border-bottom: 1px solid #ebeef2 !important;
+}
+.no-result p{
+	margin:1em 0;
+}
+.nowrap{
+    white-space: nowrap;
+}
+.error_cell{
+	background: #de815c !important;
+	color: #fff !important;
+}
+.table-responsive{
+	width:100%;
+	margin-bottom:0;
+	padding:0 !important;
+	border:0 !important;
+	overflow-y:hidden;
+	overflow-x:auto;
+	-ms-overflow-style:-ms-autohiding-scrollbar;
+	-webkit-overflow-scrolling:touch;
+}
+.table-responsive th{
+	white-space:nowrap
+}
+
+.pagination-wrap{
+	padding:8px 15px !important;
+}
+/* Products */
+.double-input{
+	padding:0;
+}
+.has-error .chosen-container-single .chosen-single, .has-error .chosen-container .chosen-drop{
+    border-color: #de815c;
+}
+.has-error .chosen-container-single .chosen-single:focus {
+    border-color: #cc7872;
+}
+.has-error .chosen-choices {
+	border-color: #cc7872 !important;
+}
+.has-error .tagsinput{
+	border-color: #de815c;
+}
+#loader{
+	margin-top:7px;
+}
+.checkbox .switch{
+	padding-left:0;
+}
+.edit-download-wrap{
+	display:block;
+}
+.edit-download-wrap .btn{
+	margin-top:7px;
+}
+.form-actions .btn{
+	margin-right:5px;
+}
+#overwrite_table .form-control{
+	width:35px;
+	margin:0;
+}
+#overwrite_table .badge{
+	margin:0 8px 8px 0;
+}
+#overwrite_table .input-wrap{
+	min-width:70px;
+}
+
+.highlight-row{
+	background-color:#e9f5f7;
+}
+.import-form{
+	display:block;
+}
+.tracking_note {
+	display:block;
+	width:100%;
+	font-weight:bold;
+	font-size: 12px;
+}
+.dataTables_wrapper .dataTables_scroll{
+    border:0 !important;
+    padding:0 !important;
+}
+.dataTables_wrapper .dataTables_scrollBody {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+}
+#order_intro{
+	padding:0 0 20px !important;
+}
+#order_form{
+	margin:0 0 20px !important;
+}
+.order_row{
+	width:100%;
+}
+.order_row .lead{
+	margin-bottom:10px;
+}
+.user-levels-row{
+	width:100%;
+	padding:15px;
+}
+.user-levels-row .sub-header{
+	margin:0;
+}
+div.dataTables_paginate ul.pagination .pagination_break{
+	float:left;
+}
+.alert ul{
+	margin-bottom:10px;
+}
+p.important{
+	font-weight:bold;
+	font-size:15px;
+	color:#FF0;
+}
+#inner_sub_nav{
+	margin:0 0 20px 0;
+}
+
+/* Returns stock span classes */
+#returns-table span {
+	display: inline;
+	padding: 1px 4px;
+	font-weight: normal;
+	font-size: 90%;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: .25em;
+}
+.green {
+	background-color: #afde5c;
+}
+.yellow {
+	background-color: #deb25c;
+}
+.red {
+	background-color: #de815c;
+}
+.chars_remaining{
+    color:#de815c;
+	font-weight:bold;
+    font-style:italic;
+    font-weight:400;
+    margin-top:8px;
+}
+#reports-datatable_processing{
+	display:none !important;
+}
+
+#reports-datatable #reports-datatable .draft, #reports-datatable .pending_approval, #reports-datatable .approved_placed, #reports-datatable .processing, #reports-datatable .picking, #reports-datatable .partially_shipped, #reports-datatable .despatched, #reports-datatable .cancelled{
+	font-size:0.8571em;
+	background:#fbce43;
+	text-transform:uppercase;
+	display:block;
+	padding:0.5833em;
+	-moz-border-radius:2px;
+  	-webkit-border-radius:2px;
+    border-radius:2px;
+	text-align:center;
+	font-weight:700;
+	white-space:nowrap;
+}
+#reports-datatable .draft {
+	background:#5cafde;
+	color:#fff;
+}
+#reports-datatable .pending_approval {
+	background: #fbce43;
+}
+#reports-datatable .approved_placed {
+	background: #96deea;
+}
+#reports-datatable .processing {
+	background: #e5e3e2;
+}
+#reports-datatable .picking {
+	background: #faed7e;
+}
+#reports-datatable .partially_shipped {
+	background: #B5F2AC;
+}
+#reports-datatable .despatched {
+    background: #7ee96d;
+}
+#reports-datatable .cancelled {
+    background: #ff0036;
+	color:#fff;
+}
+.generate-form-wrap{
+	padding:20px 0;
+}
+#returns-table .has-error{
+	background-color: #ffffff;
+    border-color: #de815c;
+}
+
+/* Order status classes for orders page */
+
+#reports-datatable #reports-datatable .draft, #reports-datatable .pending_approval, #reports-datatable .approved_placed, #reports-datatable .processing, #reports-datatable .picking, #reports-datatable .partially_shipped, #reports-datatable .despatched, #reports-datatable .cancelled{
+	font-size:0.8571em;
+	background:#fbce43;
+	text-transform:uppercase;
+	display:block;
+	padding:0.5833em;
+	-moz-border-radius:2px;
+  	-webkit-border-radius:2px;
+    border-radius:2px;
+	text-align:center;
+	font-weight:700;
+	white-space:nowrap;
+}
+#reports-datatable .draft {
+	background:#5cafde;
+	color:#fff;
+}
+#reports-datatable .pending_approval {
+	background: #fbce43;
+}
+#reports-datatable .approved_placed {
+	background: #96deea;
+}
+#reports-datatable .processing {
+	background: #e5e3e2;
+}
+#reports-datatable .picking {
+	background: #faed7e;
+}
+#reports-datatable .partially_shipped {
+	background: #B5F2AC;
+}
+#reports-datatable .despatched {
+    background: #7ee96d;
+}
+#reports-datatable .cancelled {
+    background: #ff0036;
+}
+
+@media screen and (max-width:767px){
+	.table-responsive>.table-bordered{
+		border: 1px solid #ebeef2;
+	}
+}

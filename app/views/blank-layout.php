@@ -1,0 +1,1 @@
+<?php require $pathToViewsFolder . $renderBody . '.php'; ?>
