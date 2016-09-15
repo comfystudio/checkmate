@@ -160,7 +160,7 @@ Header
   display: inline-block;
   color:red;
   float: right;
-  background: url(../images/search.png) center center no-repeat;
+  background: url(../assets/images/search.png) center center no-repeat;
   text-indent: -10000px;
   border: none;
   position: absolute;
@@ -326,7 +326,7 @@ Why Choose
 *************************************************************************/
 
 .top-footer-section{
-	background-image: url("/images/footer-image.png");
+	background-image: url("/assets/images/footer-image.png");
 	background-repeat: no-repeat;
     background-size: cover;
 }
@@ -371,7 +371,7 @@ Why Choose
 }
 
 .footer-cost-div{
-	background-image: url("/images/cost.png") no-repeat left top;
+	background-image: url("/assets/images/cost.png") no-repeat left top;
 }
 .whychooselinks{
 	padding-top: 50px;
@@ -485,12 +485,14 @@ Forms
 	background-color: #d94848;
 	color: #fff;
 	text-align: center;
-	display: none;
 }
 .landing-box h1{
 	text-align: center;
 	margin-top: 50px;
 	font-size: 50px;
+}
+.error input{
+	border:1px solid #ebccd1;
 }
 
 /*************************************************************************

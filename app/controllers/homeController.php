@@ -13,6 +13,10 @@ class HomeController extends BaseController {
 	 * This method handles the sites home page
 	 */
 	public function index(){
+		if(!isset($_SESSION['AdminLoggedIn']) || empty($_SESSION['AdminLoggedIn'])){
+			Url::redirect('home/holding');
+		}
+
 		// Set the Page Title ('pageName', 'pageSection', 'areaName')
 		$this->_view->pageTitle = array();
 		// Set Page Description
@@ -22,11 +26,28 @@ class HomeController extends BaseController {
 		// Set Page Sub Section
 		$this->_view->pageSubSection = '';
 
-
 		// Render the view ($renderBody, $layout, $area)
 		$this->_view->render('home/index');
 
-        $users = explode(',', USERS);
+	}
+
+	/**
+	 * PAGE: Index
+	 * GET: /home/index
+	 * This method handles the sites home page
+	 */
+	public function holding(){
+		// Set the Page Title ('pageName', 'pageSection', 'areaName')
+		$this->_view->pageTitle = array();
+		// Set Page Description
+		$this->_view->pageDescription = '';
+		// Set Page Section
+		$this->_view->pageSection = 'Holding';
+		// Set Page Sub Section
+		$this->_view->pageSubSection = '';
+
+		// Render the view ($renderBody, $layout, $area)
+		$this->_view->render('/home/holding');
 	}
 
 }

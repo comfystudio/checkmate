@@ -35,7 +35,7 @@ a:hover { text-decoration: none !important; }
 						<table style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; border-collapse: collapse; border-spacing: 0; font-size: 14px; margin: 0; padding: 0; border: 0;">
 							<tr style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; margin: 0; padding: 0; border: 0;">
 								<td style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-align: left; margin: 0; padding: 0; border: 0;" align="left">
-							        <p style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-size: 12px; line-height: 18px; text-align: left; margin: 0 0 12px; padding: 0; border: 0;" align="left">Hi <?php echo $this->data['firstname'].' '.$this->data['surname']?>,</p>
+							        <p style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-size: 12px; line-height: 18px; text-align: left; margin: 0 0 12px; padding: 0; border: 0;" align="left">Hi <?php echo $this->data['name']?>,</p>
 							        <?php echo $this->data['message']?>
 						        </td>
 							</tr>
@@ -43,7 +43,7 @@ a:hover { text-decoration: none !important; }
 						        <td style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-align: left; margin: 0; padding: 10px 0 20px; border: 0;" align="left">
 							        <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; border-collapse: collapse; border-spacing: 0; font-size: 14px; margin: 0; padding: 0; border: 0;">
 								        <tr style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; margin: 0; padding: 0; border: 0;">
-									        <td class="ie_btn_fix"><a href="<?php echo $this->data['link']?>" style="font-family: Helvetica,Arial,sans-serif; color: #fff; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-decoration: none; text-align: center; width: 500px; display: block; font-size: 14px; line-height: 12px; font-weight: 700; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px; background-color: #2d3e86; margin: 0; padding: 14px 0; border: 1px solid #2d3e86;"><?php echo $this->data['button_text']?></a></td>
+									        <td class="ie_btn_fix"><a href="<?php echo $this->data['button_link']?>" style="font-family: Helvetica,Arial,sans-serif; color: #fff; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-decoration: none; text-align: center; width: 500px; display: block; font-size: 14px; line-height: 12px; font-weight: 700; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px; background-color: #2d3e86; margin: 0; padding: 14px 0; border: 1px solid #2d3e86;"><?php echo $this->data['button_text']?></a></td>
 								        </tr>
 							        </table>
 							    </td>

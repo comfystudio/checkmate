@@ -16,6 +16,7 @@
     <!-- Css -->
     <?php 
 	    renderDefaultCssBundle();
+        renderDefaultHeadJSBundle();
 	?>
     <?php echo isset($this->pageCss) ? Page::getPageCss($this->pageCss) : ''; ?>
 </head>
@@ -33,7 +34,7 @@
             <?php } ?>
 
             <!--IF Error Message then display it-->
-            <?php if (!empty($this->error)) { ?>
+<!--             <?php if (!empty($this->error)) { ?>
                 <div class="alert-danger alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h4><strong>Error</strong></h4>
@@ -41,10 +42,13 @@
                         echo Html::formatErrors($this->error);
                     ?>
                 </div>
-            <?php } ?>
+            <?php } ?> -->
 
             <?php require $pathToViewsFolder . $renderBody . '.php'; ?>
         </div>
+    <?php if (isset($this->pageSection) && $this->pageSection != 'Holding'){?>
+        <?php $this->renderPartial('shared/_why-choose');?>
+    <?php } ?>
     <?php $this->renderPartial('shared/_footer');?>
     <?php 
 	    renderDefaultJSBundle();

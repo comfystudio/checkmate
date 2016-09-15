@@ -523,7 +523,11 @@ class ReportsController extends BaseController {
                         $mpdf->WriteHTML('</th>');
 
                         $mpdf->WriteHTML('<td>');
-                            $mpdf->WriteHTML('<img src = "'.ROOT.'/assets/uploads/'.$this->_view->stored_data['meter_image'].'" width="120px;" height="120px">');
+                            if(isset($this->_view->stored_data['meter_image']) && !empty($this->_view->stored_data['meter_image'])){
+                                $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$this->_view->stored_data['meter_image'].'" width="120px;" height="120px">');
+                            }else{
+                                $mpdf->WriteHTML('No Meter Image supplied');
+                            }
                         $mpdf->WriteHTML('</td>');
                     $mpdf->WriteHTML('</tr>');
 
@@ -653,7 +657,7 @@ class ReportsController extends BaseController {
 
                                         $mpdf->WriteHTML('<td>');
                                             if(isset($item['image']) && !empty($item['image'])){
-                                                $mpdf->WriteHTML('<img src = "'.ROOT.'/assets/uploads/'.$item['image'].'" width="120px;" height="120px">');
+                                                $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="120px;" height="120px">');
                                             }else{
                                                 $mpdf->WriteHTML('No Image Supplied');
                                             }
@@ -761,7 +765,7 @@ class ReportsController extends BaseController {
 
                                         $mpdf->WriteHTML('<td>');
                                             if(isset($item['image']) && !empty($item['image'])){
-                                                $mpdf->WriteHTML('<img src = "'.ROOT.'/assets/uploads/'.$item['image'].'" width="120px;" height="120px">');
+                                                $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="120px;" height="120px">');
                                             }else{
                                                 $mpdf->WriteHTML('No Image Supplied');
                                             }

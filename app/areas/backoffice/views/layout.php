@@ -8,7 +8,7 @@
 
     <!-- Css -->
     <?php renderAdminCssBundle(); ?>
-     <?php renderAdminHeadJSBundle(); ?>
+    <?php renderAdminHeadJSBundle(); ?>
     <?php echo isset($this->pageCss) ? Page::getPageCss($this->pageCss) : ''; ?>
 
     <title><?php echo isset($this->pageTitle) ? Page::getPageTitle($this->pageTitle) : SITE_NAME; ?></title>

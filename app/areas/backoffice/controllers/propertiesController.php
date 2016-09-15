@@ -238,7 +238,6 @@ class PropertiesController extends BaseController {
 
                 $this->_view->data = $selectDataByID[0];
                 $this->_view->data['message'] = 'Administrator has made changes to your property please review at the following link.';
-                Debug::printr($this->_view->data);die;
 
                 // Need to create email for property owner
                 $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');

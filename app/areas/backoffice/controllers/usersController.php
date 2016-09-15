@@ -89,7 +89,6 @@ class UsersController extends BaseController {
                 $this->uploadFile($_FILES);
             }
 
-
             // Create new user
             $createData = $this->_model->createData($_POST);
             if(isset($createData['error']) && $createData['error'] != null){

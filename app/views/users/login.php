@@ -1,30 +1,53 @@
-<div id="login_page" class="popup_form clearfix">
-	<div class="container clearfix">
-		<div class="inner clearfix">
-			<h2>Login</h2>
-			<div class="login_form full">
-            	<?php
-				if (!empty($this->error)) {
-					echo Html::formatErrors($this->error);
-				}
-				if(!empty($_GET['logout'])){
-					$this->success[] = 'You have successfully logged out.';
-					echo Html::formatSuccess($this->success);
-				}
-				?>
-				<form class="full" action="/login" method="post" id="LoginForm">
-					<div class="full email_outer <?php if ((!empty($this->missing)) && in_array('email', $this->missing)) { echo 'error'; }?>">
-						<input name="email" class="with_icon" type="text" placeholder="Email Address"/>
-					</div>
-					<div class="full pw_outer <?php if ((!empty($this->missing)) && in_array('password', $this->missing)) { echo 'error'; }?>">
-						<input name="password" type="password" class="with_icon" placeholder="Password"/>
-					</div>
-					<input type="submit" class="btn duckegg solid full" value="Login">
-				</form>
-			</div>
-			<div class="full already_have_account">
-				<a href="/users/forgot-password/">Forgot password?</a>
-			</div>
-		</div>
-	</div>
+<div class="greyback">
+    <div class ="container">
+        <div class="formintro">
+            <?php if (!empty($this->error)) { ?>
+                <div class="alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><strong>Error</strong></h4>
+                    <?php
+                        echo Html::formatErrors($this->error);
+                    ?>
+                </div>
+            <?php } ?>
+
+            <div class = "row front-content">
+                <div class = "col-md-offset-4 col-md-4 ">
+                    <img src="/assets/images/logo-small.png" alt ="Check mate small logo" class = "logo-small">
+                </div>
+                <div class = "col-md-offset-4">
+                </div>
+            </div>
+
+            <div class = "row">
+                <div class = "col-md-offset-4 col-md-4 strapline-header">
+                    Login
+                </div>
+            </div>
+            <div class = "row">
+                <div class ="col-xs-12 welcome-message">
+                    Welcome Back. Pleae login to access your account
+                </div>
+            </div>
+        </div>
+
+        <form class="full" action="/users/login" method="post" id="LoginForm">
+            <div class="col-sm-offset-2">
+                <div class="form-group col-sm-5">
+                    <input type="email" class="form-control" id="email" placeholder="Email Address" name="email">
+                </div>
+
+                <div class="form-group col-sm-5">
+                    <input type="password" class="form-control" id="pwd" placeholder="Password" name="password">
+                </div>
+            </div>
+             <div class="col-sm-12 form-spacing" style="text-align:center">
+                <button type="submit" class="formbtn btn-default">Login</button>
+                
+                <div class="lostpassword">
+                    <a href="/users/register/">Register </a>/ <a href="/users/forgot-password">Lost Password</a>
+                </div>   
+            </div>
+        </form>
+    </div>
 </div>

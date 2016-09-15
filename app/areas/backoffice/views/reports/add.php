@@ -350,7 +350,7 @@
 
 
                     <div id="back-btn" class="block-section">
-                        <a href="/backoffice/properties/" class="btn btn-effect-ripple btn-primary" style="overflow: hidden; position: relative;"><i class="fa fa-chevron-circle-left"></i> Back</a>
+                        <a href="/backoffice/reports/" class="btn btn-effect-ripple btn-primary" style="overflow: hidden; position: relative;"><i class="fa fa-chevron-circle-left"></i> Back</a>
                     </div>
                     <!-- </div> -->
                 </div>

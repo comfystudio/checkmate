@@ -1,5 +1,5 @@
 <?php
-class User extends Model{
+class Users extends Model{
 	/** __construct */
 	public function __construct(){
 		parent::__construct();
@@ -151,9 +151,11 @@ class User extends Model{
 	public function selectDataByID($user_id, $is_active = 'active'){
         $optActive = "";
         if(isset($is_active) && $is_active != null){if($is_active == 'active'){$optActive = "AND t1.is_active = 1";}else{$optActive = "AND t1.is_active = 0";}}else{$optActive = "";}
-		$sql = "SELECT t1.id, t1.firstname, t1.surname, t1.email, t1.email_verified, t1.is_active
-				FROM frontend_users t1
+		$sql = "SELECT t1.*, t2.id as payment_id, t2.type as payment_type, t2.last_payment, t2.remaining_credits
+				FROM users t1
+					LEFT JOIN payments t2 ON t1.id = t2.user_id
 				WHERE t1.id = :id ".$optActive."
+				GROUP BY t1.id
 				";
 									
 		return $this->_db->select($sql, array(':id' => $user_id));
@@ -169,7 +171,7 @@ class User extends Model{
         $optActive = "";
         if(isset($is_active) && $is_active != null){if($is_active == 'active'){$optActive = "AND t1.is_active = 1";}else{$optActive = "AND t1.is_active = 0";}}else{$optActive = "";}
 		$sql = "SELECT t1.id, t1.firstname, t1.surname, t1.email, t1.email_verified, t1.is_active
-				FROM frontend_users t1
+				FROM users t1
 				WHERE t1.email = :email ".$optActive."
 				";
 									
@@ -184,7 +186,7 @@ class User extends Model{
 //	 */
 //	public function selectUserByID($user_id){
 //		$sql = "SELECT t1.id, t1.firstname, t1.surname, t1.company, t1.gender, DATE_FORMAT(t1.dob, '%Y-%m-%d') AS dob, t1.email, t1.email_verified, t1.password, t1.salt, t1.phone, t1.mobile, t1.default_currency, t1.where_you_live, t1.town, t1.describe_yourself, t1.image, t1.country_id, t1.region_id, t1.is_active
-//				FROM frontend_users t1
+//				FROM users t1
 //				WHERE t1.id = :id";
 //
 //		return $this->_db->select($sql, array(':id' => $user_id));
@@ -203,7 +205,7 @@ class User extends Model{
         if(isset($is_active) && $is_active != null){if($is_active == 'active'){$optActive = "AND t1.is_active = 1";}else{$optActive = "AND t1.is_active = 0";}}else{$optActive = "";}
 
 		$sql = "SELECT t1.id, t1.firstname, t1.surname, t1.email, t1.email_verified, t1.is_active
-				FROM frontend_users t1
+				FROM users t1
 				WHERE 1 = 1
 				".$optKeywords."
 				".$optActive."
@@ -225,7 +227,7 @@ class User extends Model{
         if(isset($is_active) && $is_active != null){if($is_active == 'active'){$optActive = "AND t1.is_active = 1";}else{$optActive = "AND t1.is_active = 0";}}else{$optActive = "";}
 
 		$sql = "SELECT COUNT(t1.id) AS total
-				FROM frontend_users t1
+				FROM users t1
 				WHERE 1=1 ".$optActive."
 				".$optKeywords;
 				
@@ -242,7 +244,7 @@ class User extends Model{
         $optActive = "";
         if(isset($is_active) && $is_active != null){if($is_active == 'active'){$optActive = "AND t1.is_active = 1";}else{$optActive = "AND t1.is_active = 0";}}else{$optActive = "";}
 		$sql = "SELECT t1.id, t1.firstname, t1.surname, t1.email, t1.email_verified, t1.is_active, t1.salt, t1.password
-				FROM frontend_users t1
+				FROM users t1
 				WHERE t1.email = :email ".$optActive."
 				";
 		return $this->_db->select($sql, array(':email' => $email));	
@@ -255,7 +257,7 @@ class User extends Model{
 	 */
 	public function checkUserIsVerified($id){
 		$sql = "SELECT t1.email_verified
-				FROM frontend_users t1
+				FROM users t1
 				WHERE t1.id = :id";
 				
 		return $this->_db->select($sql, array(':id' => $id));	
@@ -267,7 +269,7 @@ class User extends Model{
 	 * @param mixed $data An array of data passed from the Controller
 	 */
 	public function verifyEmailAddress($data){
-		$dbTable = 'frontend_users';
+		$dbTable = 'users';
         $postData = array(
 			'email_verified' => $data['email_verified']
         );
@@ -284,7 +286,7 @@ class User extends Model{
 	 * @param mixed $data An array of data passed from the Controller
 	 */
 	public function insertPasswordRecovery($data){
-		$dbTable = 'frontend_users_pw_recovery';
+		$dbTable = 'users_pw_recovery';
         $postData = array(
             'users_id' => $data['user_id'],
 			'security_key' => $data['security_key'],
@@ -302,7 +304,7 @@ class User extends Model{
 	 * @param mixed $data An array of data passed from the Controller
 	 */
 	public function updatePasswordRecovery($data){
-		$dbTable = 'frontend_users_pw_recovery';
+		$dbTable = 'users_pw_recovery';
         $postData = array(
             'security_key' => $data['security_key'],
 			'exp_date' => $data['exp_date']
@@ -319,7 +321,7 @@ class User extends Model{
 	 */
 	public function deletePasswordRecovery($users_id){
 
-		$dbTable = 'frontend_users_pw_recovery';
+		$dbTable = 'users_pw_recovery';
         $where = "`users_id` = $users_id";
         $this->_db->delete($dbTable, $where);
 		return true;
@@ -334,7 +336,7 @@ class User extends Model{
 	 */
 	public function validatePasswordRecovery($user_id, $security_key){
 		$sql = "SELECT t1.id
-				FROM frontend_users_pw_recovery t1
+				FROM users_pw_recovery t1
 				WHERE t1.users_id = :user_id
 				AND t1.security_key = :security_key
 				AND CURDATE() < t1.exp_date";
@@ -347,23 +349,23 @@ class User extends Model{
 	 * This function adds a new User to the Database from frontend signup
 	 * @param mixed $data Array of User Data
 	 */
-	public function createUserByEmail($data){	
-		$dbTable = 'frontend_users';
-        $postData = array(
-	        'type_id' => $data['type_id'],
-            'firstname' => $data['firstname'],
-			'surname' => $data['surname'],
-			'email' => $data['email'],
-			'dob' => $data['dob'],
-			'password' => $data['password'],
-			'salt' => $data['salt']
-        );
+	// public function createUserByEmail($data){	
+	// 	$dbTable = 'users';
+ //        $postData = array(
+	//         'type_id' => $data['type_id'],
+ //            'firstname' => $data['firstname'],
+	// 		'surname' => $data['surname'],
+	// 		'email' => $data['email'],
+	// 		'dob' => $data['dob'],
+	// 		'password' => $data['password'],
+	// 		'salt' => $data['salt']
+ //        );
         
-        $this->_db->insert($dbTable, $postData);
+ //        $this->_db->insert($dbTable, $postData);
 		
-		// Gets Last Insert ID
-		return $lastInsertID = $this->_db->lastInsertId('id');
-	}
+	// 	// Gets Last Insert ID
+	// 	return $lastInsertID = $this->_db->lastInsertId('id');
+	// }
 	
 	/**
 	 * FUNCTION: createData
@@ -375,7 +377,7 @@ class User extends Model{
         if(isset($data['error']) && $data['error'] != null) {
             return $data;
         }else{
-            $dbTable = 'frontend_users';
+            $dbTable = 'users';
             $postData = array(
                 'firstname' => $data['firstname'],
                 'surname' => $data['surname'],
@@ -401,7 +403,7 @@ class User extends Model{
         if(isset($data['error']) && $data['error'] != null) {
             return $data;
         }else {
-            $dbTable = 'frontend_users';
+            $dbTable = 'users';
             $postData = array(
                 'firstname' => $data['firstname'],
                 'surname' => $data['surname'],
@@ -423,7 +425,7 @@ class User extends Model{
 	 * @param mixed $data An array of data passed from the Controller
 	 */
 	public function updateUserPassword($data){
-		$dbTable = 'frontend_users';
+		$dbTable = 'users';
         $postData = array(
 	        'password' => $data['password'],
 			'salt' => $data['salt']
@@ -443,9 +445,46 @@ class User extends Model{
         $optActive = "";
         if(isset($is_active) && $is_active != null){if($is_active == 'active'){$optActive = "AND t1.is_active = 1";}else{$optActive = "AND t1.is_active = 0";}}else{$optActive = "";}
 		$sql = "SELECT t1.id
-				FROM frontend_users t1
+				FROM users t1
 				WHERE t1.email = :email ".$optActive."
 				";
 		return $this->_db->select($sql, array(':email' => $email));
+	}
+
+	/**
+	 * FUNCTION: checkEmail
+	 * This function checks if an email exists
+	 * @param string $email
+	 */
+	public function checkEmail($email){
+		$sql = "SELECT t1.id
+				FROM users t1
+				WHERE t1.email = :email";		
+		return $this->_db->select($sql, array(':email' => $email));	
+	}
+
+	/**
+	 * FUNCTION: createUserByEmail
+	 * This function adds a new User to the Database from frontend signup
+	 * @param mixed $data Array of User Data
+	 */
+	public function createUserByEmail($data){	
+		$dbTable = 'users';
+        $postData = array(
+	        'type' => $data['type'],
+            'firstname' => $data['firstname'],
+			'surname' => $data['surname'],
+			'email' => $data['email'],
+			'password' => $data['password'],
+			'salt' => $data['salt'],
+			'contact_num' => $data['contact_num'],
+			'logo_image' => $data['logo_image'][0],
+			'email_verified' => 1
+        );
+        
+        $this->_db->insert($dbTable, $postData);
+		
+		// Gets Last Insert ID
+		return $lastInsertID = $this->_db->lastInsertId('id');
 	}
 }?>

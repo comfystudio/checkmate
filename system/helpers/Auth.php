@@ -29,7 +29,7 @@ class Auth{
 			}
 			
 			Session::destroy('UserLoggedIn');
-			header('Location: /login');
+			header('Location: /users/login');
 			exit();
 		}
 	}
