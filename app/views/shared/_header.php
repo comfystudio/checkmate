@@ -3,11 +3,15 @@
 			<div class = "col-md-4">
 				<?php if (isset($this->pageSection) && $this->pageSection != 'Holding'){?>
 					<ul class = "header-nav">
-						<li>About</li>
-						<li>FAQ'S</li>
-						<li>Contact</li>
-						<li>Prices</li>
-						<li>Login/Register</li>
+						<a href = "/about-us/"><li>About</li></a>
+						<a href = "/faqs/"><li>FAQ'S</li></a>
+						<a href = "/contact/"><li>Contact</li></a>
+						<a href = "/prices/"><li>Prices</li></a>
+						<?php if(!isset($_SESSION['UserCurrentUserID'])){?>
+							<a href = "/users/login/"><li>Login/Register</li></a>
+						<?php } else {?>
+							<a href = "/users/logout/"><li>Logout</li></a>
+						<?php } ?>
 					<ul>
 				<?php } ?>
 			</div>
@@ -22,12 +26,16 @@
 				<div class="col-xs-2">
 					<div class = "slide-out-menu">
 						<div id="mySidenav" class="sidenav">
-						  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-						  <a href="#">About</a>
-						  <a href="#">FAQ'S</a>
-						  <a href="#">Contact</a>
-						  <a href="#">Prices</a>
-						  <a href="#">Login/Register</a>
+							<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+							<a href="/about-us/">About</a>
+					  		<a href="/faqs/">FAQ'S</a>
+					  		<a href="/contact/">Contact</a>
+					  		<a href="/prices/">Prices</a>
+  							<?php if(!isset($_SESSION['UserCurrentUserID'])){?>
+					  			<a href="/users/login/">Login/Register</a>
+				  			<?php } else {?>
+								<a href = "/users/logout/">Logout</a>
+							<?php } ?>
 						</div>
 
 						<span onclick="openNav()"><img src="/assets/images/slideout.png"></span>
@@ -42,11 +50,15 @@
 					</div>
 					<div class="mobile-list">
 						<ul>	
-							<li>About</li>
-							<li>FAQ'S</li>
-							<li>Contact</li>
-							<li>Prices</li>
-							<li>Login/Register</li>
+							<a href="/about-us/"><li>About</li></a>
+							<a href="/faqs/"><li>FAQ'S</li></a>
+							<a href="/contact/"><li>Contact</li></a>
+							<a href="/prices/"><li>Prices</li></a>
+							<?php if(!isset($_SESSION['UserCurrentUserID'])){?>
+								<a href="/users/login/"><li>Login/Register</li></a>
+							<?php }	else {?>
+								<a href = "/users/logout/"><li>Logout</li></a>
+							<?php } ?>
 							<li><div class = "mobile-header-phone header-phone">
 									07568322383 / 07753137475
 								</div>

@@ -57,4 +57,33 @@ class Notifications extends Model{
         return $this->_db->select($sql, array(':user_id' => $user_id));
     }
 
+    /**
+     * FUNCTION: selectDataByID
+     * This function gets notifications information
+     * @param int $id
+     */
+    public function selectDataByID($id){
+        $sql = "SELECT t1.*
+                FROM notifications t1
+                WHERE t1.id = :id
+                GROUP BY t1.id";
+
+        return $this->_db->select($sql, array(':id' => $id));
+    }
+
+    /**
+     * FUNCTION: setReadById
+     * This function sets the read status of a notification to 1 based on $id
+     * @param int $id
+     */
+    public function setReadById($id){
+        $dbTable = 'notifications';
+            $postData = array(
+                'read' => 1
+            );
+            $where = "`id` = {$id}";
+
+            $this->_db->update($dbTable, $postData, $where);
+    }
+
 }?>

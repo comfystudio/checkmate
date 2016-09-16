@@ -3,17 +3,15 @@
 		<div class="container">
 	       <div class="col-sm-5 footernews">
 		       	<h1>latest news</h1>
-		       	<div class="news-item-1">
-		       		<span>October 27th 2016</span>
-		       		<h3>Are Landlords Reducing Tenant Fears?</h3>
-		       		<p>A survey from AXA Business Survey has revealed the biggest fears of 8.3 million tenants [...]</p>
-		       	</div>
 
-		       	<div class="news-item-2">
-		       		<span>February 26th 2016</span>
-		       		<h3>Why Does an Inventory Service Matter?</h3>
-		       		<p>Renting a property comes with a range of costs – these can get very frustrating if unexpected or through no fault of your own.</p>
-		       	</div>
+		       	<?php foreach($this->footerNews as $news){?>
+			       	<div class="news-item-1">
+			       		<span><?php echo date('F jS, Y', strtotime($news['date']))?></span>
+			       		<h3><a href = "/news/view/<?php echo $news['slug']?>" style = "color:#333;"><?php echo $news['title']?></a></h3>
+			       		<p><?php echo substr($news['text_clean'], 0, 50)?>...</p>
+			       	</div>
+		       	<?php } ?>
+
 	       </div>
 
 	       <div class="col-sm-offset-2 col-sm-5 footercontact">

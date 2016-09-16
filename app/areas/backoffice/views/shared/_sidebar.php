@@ -72,6 +72,7 @@
                         <li><a href="/backoffice/faqs/" <?php echo isset($this->pageSubSection) && $this->pageSubSection == 'Faqs' ? ' class="active"' : ''; ?>>Faqs</a></li>
                         <li><a href="/backoffice/about-us/" <?php echo isset($this->pageSubSection) && $this->pageSubSection == 'AboutUs' ? ' class="active"' : ''; ?>>About</a></li>
                         <li><a href="/backoffice/prices/" <?php echo isset($this->pageSubSection) && $this->pageSubSection == 'Prices' ? ' class="active"' : ''; ?>>Price</a></li>
+                        <li><a href="/backoffice/news/" <?php echo isset($this->pageSubSection) && $this->pageSubSection == 'News' ? ' class="active"' : ''; ?>>News</a></li>
                     </ul>
                 </li>
 

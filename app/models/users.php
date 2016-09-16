@@ -87,6 +87,22 @@ class Users extends Model{
                 }
             }
 
+            //contact_num
+            if($key == 'contact_num'){
+                //Required
+                if(empty($input) || $input == null){
+                    $return['error'][$key] = 'Contact Number cannot be empty';
+                }
+            }
+
+            //type
+            if($key == 'type'){
+                //required
+                if($input < 0 || $input > 2){
+                    $return['error'][$key] = 'User Type cannot be empty';
+                }
+            }
+
             //password
             if($key == 'password'){
                 //Required
@@ -137,6 +153,8 @@ class Users extends Model{
             if($key == 'salt' && isset($hash[2]) && !empty($hash[2])){
                 $return['salt'] = $hash[2];
             }
+
+
 
         }
         return $return;
@@ -414,6 +432,36 @@ class Users extends Model{
 
             );
             $where = "`id` = {$data['id']}";
+            $this->_db->update($dbTable, $postData, $where);
+            return true;
+        }
+    }
+
+  	/**
+	 * FUNCTION: updateUser
+	 * This function updates user details for backoffice
+	 * @param mixed $data An array of data passed from the Controller
+	 */
+	public function updateData($data){
+        $data = $this->validation($data, 'edit');
+        if(isset($data['error']) && $data['error'] != null) {
+            return $data;
+        }else{
+            $dbTable = 'users';
+            $postData = array(
+                'firstname' => $data['firstname'],
+                'surname' => $data['surname'],
+                'email' => $data['email'],
+                'email_verified' => $data['email_verified'],
+                'password' => $data['password'],
+                'salt' => $data['salt'],
+                'is_active' => $data['is_active'],
+                'type' => $data['type'],
+                'contact_num' => $data['contact_num'],
+                'logo_image' => $data['image'][0]
+            );
+            $where = "`id` = {$data['id']}";
+
             $this->_db->update($dbTable, $postData, $where);
             return true;
         }

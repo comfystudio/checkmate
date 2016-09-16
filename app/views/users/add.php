@@ -1,100 +1,97 @@
-<div class="content_left">
-    <div class="post_item">
-        <div class="white_area">
-            <h2 class="floatleft"><?php if(isset($this->stored_id)){echo "Edit a user"; }else{ echo "Add a new user";}?></h2>
-            <div class="form_surround">
-                <form action="" method="post" class="form-horizontal form-bordered">
-                    <input type="hidden" name="stored_password" value="<?php if(!empty($this->stored_password)){echo $this->stored_password;} ?>" />
-			        <input type="hidden" name="stored_salt" value="<?php if(!empty($this->stored_salt)){echo $this->stored_salt;} ?>" />
-
-                    <!--FIRST NAME-->
-                    <div class="form_item">
-                        <label class ="<?php if ((!empty($this->missing)) && in_array('firstname', $this->missing)) { echo 'error'; }?>">
-                            First Name <span class="red">*</span>
-                        </label>
-                        <input class = "<?php if ((!empty($this->missing)) && in_array('firstname', $this->missing)) { echo 'error'; }?>"
-                           value = "<?php if ((!empty($this->missing)) || (!empty($this->error))) {
-                               echo Formatting::utf8_htmlentities($_POST['firstname']);
-                           } elseif(!empty($this->stored_firstname)){
-                               echo $this->stored_firstname;
-                           }?>"type="text" name="firstname"
-                        >
-                    </div>
-
-                    <!--SURNAME-->
-                    <div class="form_item">
-                        <label class ="<?php if ((!empty($this->missing)) && in_array('surname', $this->missing)) { echo 'error'; }?>">
-                            Surname <span class="red">*</span>
-                        </label>
-                        <input class = "<?php if ((!empty($this->missing)) && in_array('surname', $this->missing)) { echo 'error'; }?>"
-                           value = "<?php if ((!empty($this->missing)) || (!empty($this->error))) {
-                               echo Formatting::utf8_htmlentities($_POST['surname']);
-                           } elseif(!empty($this->stored_surname)){
-                               echo $this->stored_surname;
-                           }?>"type="text" name="surname"
-                        >
-                    </div>
-
-                    <!--EMAIL-->
-                    <div class="form_item">
-                        <label class ="<?php if ((!empty($this->missing)) && in_array('email', $this->missing)) { echo 'error'; }?>">
-                            Email <span class="red">*</span>
-                        </label>
-                        <input class = "<?php if ((!empty($this->missing)) && in_array('email', $this->missing)) { echo 'error'; }?>"
-                           value = "<?php if ((!empty($this->missing)) || (!empty($this->error))) {
-                               echo Formatting::utf8_htmlentities($_POST['email']);
-                           } elseif(!empty($this->stored_email)){
-                               echo $this->stored_email;
-                           }?>"type="text" name="email"
-                        >
-                    </div>
-
-                    <!--Password-->
-                    <div class="form_item">
-                        <label class ="<?php if ((!empty($this->missing)) && in_array('password', $this->missing)) { echo 'error'; }?>">
-                            Password <?php if(isset($this->stored_id)){ }else{ echo "<span class = 'red'>*</span>";}?>
-                        </label>
-                        <input id = "password" class = "<?php if ((!empty($this->missing)) && in_array('password', $this->missing)) { echo 'error'; }?>"
-                           type="password" name="password"
-                        >
-                        <span class = "help-block">Note: Password must contain at least one number, one uppercase letter and at least 8 characters.</span>
-                    </div>
-
-                    <!--GENERATE PASSWORD-->
-                    <div class="form_item">
-                        <div class="checkbox">
-                            <label for="generate_password">Generate</label>
-                        </div>
-                        <input type="checkbox" id="generate_password" name="generate_password" value="1" /><span id="generated_password"></span>
-                    </div>
-
-                    <!--Confirm Password-->
-                    <div class="form_item">
-                        <label class ="<?php if ((!empty($this->missing)) && in_array('password_again', $this->missing)) { echo 'error'; }?>">
-                            Confirm Password <?php if(isset($this->stored_id)){ }else{ echo "<span class = 'red'>*</span>";}?>
-                        </label>
-                        <input id = "password_again" class = "<?php if ((!empty($this->missing)) && in_array('password_again', $this->missing)) { echo 'error'; }?>"
-                           type="password" name="password_again"
-                        >
-                    </div>
-
-                    <!--Is_Active-->
-                    <div class="form_item">
-                        <label>Is Active</label>
-                        <div class="switch_surround">
-                            <div class="onoffswitch">
-                                <input type="hidden" name="is_active" id="" value="0">
-                                <input type="checkbox" name="is_active" class="onoffswitch-checkbox" id="myonoffswitch" <?php if((!empty($_POST['is_active']) && $_POST['is_active'] != 0)  || (!empty($this->stored_is_active) && $this->stored_is_active != 0) || (!isset($this->stored_id))) {echo 'checked="checked"';}?>>
-<!--                                <label class="onoffswitch-label" for="myonoffswitch"></label>-->
+<div class="greyback">
+    <div class ="container">
+        <div class="formintro">
+            <div class="single_notification">
+                    <?php if (!empty($this->error)) { ?>
+                         <div class="alert alert-info alert-labeled formerror">
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                            </button>
+                            <div class="alert-labeled-row">
+                                <span class="alert-label alert-label-left alert-labelled-cell">
+                                    <i class="glyphicon glyphicon-info-sign"></i>
+                                </span>
+                                <p class="alert-body alert-body-right alert-labelled-cell">
+                                    <?php
+                                        foreach($this->error as $error){
+                                            echo $error.'<br/>';
+                                        }
+                                    ?>
+                                </p>
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
+ 
 
-                    <input type="submit" class="submitbtn" name="save" value = "Save">
-                    <input type="submit" class="submitbtn cancel" name="cancel" value = "Cancel">
-
-                </form>
+                </div>
+            <div class = "row front-content">
+                <div class = "col-md-offset-4 col-md-4 ">
+                    <img src="/assets/images/logo-small.png" alt ="Check mate small logo" class = "logo-small">
+                </div>
+                <div class = "col-md-offset-4">
+                </div>
             </div>
-        </div><!--white_area-->
-    </div><!--post_item-->
-</div><!--content_left-->
+
+            <div class = "row">
+                <div class = "col-md-offset-4 col-md-4 strapline-header">
+                    Edit Account
+                </div>
+            </div>
+            <div class = "row">
+                <div class ="col-xs-12 welcome-message">
+                    Make any desired changes below.
+                </div>
+            </div>
+        </div>
+
+        <form class="full" action="" method="post" enctype="multipart/form-data">
+            <div class="col-sm-offset-2">
+                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('firstname', $this->missing)) { echo 'error'; }?>">
+                    <input type="name" class="form-control" id="firstname" placeholder="First name" name = "firstname" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['firstname']);} elseif(!empty($this->stored_data['firstname'])){echo $this->stored_data['firstname'];}?>">
+                </div>
+                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('surname', $this->missing)) { echo 'error'; }?>">
+                    <input type="name" class="form-control" id="name" placeholder="Last name" name = "surname" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['surname']);} elseif(!empty($this->stored_data['surname'])){echo $this->stored_data['surname'];}?>">
+                </div>
+
+                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('email', $this->missing)) { echo 'error'; }?>">
+                    <input type="email" class="form-control" id="email" placeholder="Email Address" name="email" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['email']);} elseif(!empty($this->stored_data['email'])){echo $this->stored_data['email'];}?>">
+                </div>
+
+
+                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('password', $this->missing)) { echo 'error'; }?>">
+                    <input type="password" class="form-control" id="password" placeholder="Password" name="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''; ?>">
+                </div>
+
+                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('password_again', $this->missing)) { echo 'error'; }?>">
+                    <input type="password" class="form-control" id="password_again" placeholder="Confirm Password" name="password_again" value="<?php echo isset($_POST['password_again']) ? $_POST['password_again'] : ''; ?>">
+                </div>
+
+                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('contact_num', $this->missing)) { echo 'error'; }?>">
+                    <input type="text" class="form-control" id="contact_num" placeholder="Contact Number" name="contact_num" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['contact_num']);} elseif(!empty($this->stored_data['contact_num'])){echo $this->stored_data['contact_num'];}?>">
+                </div>
+
+                <input type="hidden" name="is_active" value="1">
+
+
+                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('type', $this->missing)) { echo 'error'; }?>">
+                    <select id="type" name="type" class="form-control">
+                        <?php foreach($this->userTypes as $key => $type){?>
+                            <option value="<?php echo $key ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['type'] == $key)) {echo 'selected="selected"';} elseif(!empty($this->stored_data['type']) && $this->stored_data['type'] == $key){echo 'selected="selected"';}?> > <?php echo $type?></option>
+                        <?php } ?>
+                    </select>                
+                </div>
+
+                <?php if (isset( $this->stored_data['logo_image']) && !empty( $this->stored_data['logo_image'])){?>
+                    <div class="form-group col-sm-5">
+                        <input type="file" class="form-control" name="logo_image" id="logo_image">
+                    </div>
+                <?php } ?>
+
+            </div>
+             <div class="col-sm-12 form-spacing" style="text-align:center">
+                <button type="submit" class="formbtn btn-default" name="save" value = "save">Update</button>
+                <button type="submit" class="formbtn btn-default" name="cancel" value = "Cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

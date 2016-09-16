@@ -23,7 +23,6 @@
 <body class="cbp-spmenu-push">
     <?php $this->renderPartial('shared/_header');?>
         <div id="container">
-
             <!--IF Flash Message then display it-->
             <?php if (!empty($this->flash)) { ?>
                 <div class="alert-<?php echo $this->flash[1];?> alert-dismissable">
@@ -31,7 +30,9 @@
                     <h4><strong><?php echo ucfirst($this->flash[1]);?></strong></h4>
                     <?php echo Html::formatSuccess($this->flash[0]); ?>
                 </div>
+                <?php Session::destroy('backofficeFlash');?>
             <?php } ?>
+
 
             <!--IF Error Message then display it-->
 <!--             <?php if (!empty($this->error)) { ?>

@@ -15,10 +15,14 @@ class BaseController{
         //checking sessions flash so we can always pass message along pages
         if(!empty($_SESSION['backofficeFlash'])){
 			$this->_view->flash = $_SESSION['backofficeFlash'];
-			Session::destroy('backofficeFlash');
+			//Session::destroy('backofficeFlash');
 		}
 
 		//define('CLEAN', array(0 => 'Very Clean', 1 => 'Moderately Clean', 2 => 'Unclean'));
+
+		//Need the news information for nearly every stage of the site.
+		$this->_newsModel = $this->loadModel('news');
+		$this->_view->footerNews = $this->_newsModel->getFooterNews();
     }
 	
     /**

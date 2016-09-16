@@ -459,12 +459,19 @@ class UsersController extends BaseController {
 	 * This method handles the edit User page
 	 */
 	public function edit($id = false){
+        Auth::checkUserLogin();
+
 		if(!empty($id)){
 			$selectDataByID = $this->_model->selectDataByID($id);
 			if(isset($selectDataByID[0]['id']) && !empty($selectDataByID[0]['id'])){
                 $this->_view->stored_data = $selectDataByID[0];
                 if(isset($_POST['is_active']) && ($_POST['is_active'] == 1 || $_POST['is_active'] == 0)){
                      $this->_view->stored_data['is_active'] = $_POST['is_active'];
+                }
+                if($id != $_SESSION['UserCurrentUserID']){
+            		$this->_view->flash[] = "ID does not match current user";
+			        Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+					Url::redirect('users/');
                 }
 			}else{
                 $this->_view->flash[] = "No Users matches this id";
@@ -486,6 +493,8 @@ class UsersController extends BaseController {
 		// Set Page Sub Section
 		$this->_view->pageSubSection = 'Edit User';
 
+		$this->_view->userTypes = explode(',', USERS);
+
 
 		// Set default variables
 		$this->_view->error = array();
@@ -497,6 +506,13 @@ class UsersController extends BaseController {
             $_POST['user_pass'] = $selectDataByID[0]['password'];
             $_POST['stored_user_email'] = $selectDataByID[0]['email'];
 
+            if(!isset($_FILES) || $_FILES['logo_image']['name'] == null) {
+                $_POST['image'][0] = $this->_view->stored_data['logo_image'];
+            }else{
+                //calls function that moves resourced documents
+                $_POST['image'] = $this->uploadFile($_FILES);
+            }
+
             // Update user details
             $updateData = $this->_model->updateData($_POST);
 
@@ -505,7 +521,12 @@ class UsersController extends BaseController {
                     $this->_view->error[$key] = $error;
                 }
             } else {
-                $this->_view->flash[] = "User updated successfully.";
+            	if (isset($_FILES) && $_FILES['image']['name'] != null) {
+                    //remove old file
+                    unlink(ROOT . UPLOAD_DIR . '/' . $this->_view->stored_data['logo_image']);
+                }
+
+                $this->_view->flash[] = "Account updated successfully.";
                 Session::set('backofficeFlash', array($this->_view->flash, 'success'));
                 Url::redirect('users/');
             }
@@ -770,6 +791,10 @@ class UsersController extends BaseController {
 		// Need to get properties and reports by user_id
 		$this->_propertyModel = $this->loadModel('properties');
 		$this->_view->properties = $this->_propertyModel->getAlldataByUserId($user_id);
+		$this->_view->propertyCount = count($this->_view->properties);
+		// Need to get reports with tenant ID of user_id
+		$this->_reportsModel = $this->loadModel('reports');
+		$this->_view->reports = $this->_reportsModel->getAlldataByTenantId($user_id);
 
 		$this->_view->userTypes = explode(',', USERS);
 

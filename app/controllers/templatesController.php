@@ -7,12 +7,12 @@ class TemplatesController extends BaseController {
 	public function __construct(){
 		parent::__construct();
 		// Load the User Model ($modelName, $area)
-		$this->_model = $this->loadModel('templatesBackoffice', 'backoffice');
+		$this->_model = $this->loadModel('templates');
 	}
 
     /**
 	 * PAGE: Templates Index
-	 * GET: /backoffice/templates/index
+	 * GET: templates/index
 	 * This method handles the view awards page
 	 */
 	public function index(){
@@ -46,12 +46,12 @@ class TemplatesController extends BaseController {
 		$this->_view->page_links = $pages->page_links();
 
 		// Render the view ($renderBody, $layout, $area)
-		$this->_view->render('templates/index', 'layout', 'backoffice');
+		$this->_view->render('templates/index', 'layout');
 	}
 
     /**
 	 * PAGE: Templates Edit
-	 * GET: /backoffice/templates/edit:id
+	 * GET: templates/edit:id
      * @param string $id The unique id for the award user
 	 * This method handles the edit award user page
 	 */
@@ -64,12 +64,12 @@ class TemplatesController extends BaseController {
 			}else{
                 $this->_view->flash[] = "No Templates matches this id";
                 Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
-				Url::redirect('backoffice/templates/index');
+				Url::redirect('templates/index');
 			}
 		}else{
             $this->_view->flash[] = "No ID provided for Templates";
             Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
-			Url::redirect('backoffice/templates/index');
+			Url::redirect('templates/index');
 		}
 
 		// Set the Page Title ('pageName', 'pageSection', 'areaName')
@@ -115,21 +115,21 @@ class TemplatesController extends BaseController {
         		}
                 $this->_view->flash[] = "Templates updated successfully.";
                 Session::set('backofficeFlash', array($this->_view->flash, 'success'));
-                Url::redirect('backoffice/templates/index');
+                Url::redirect('templates/index');
             }
 		}
 
 		if(!empty($_POST['cancel'])){
-			Url::redirect('backoffice/templates/index');
+			Url::redirect('templates/index');
 		}
 
 		// Render the view ($renderBody, $layout, $area)
-		$this->_view->render('templates/add', 'layout', 'backoffice');
+		$this->_view->render('templates/add', 'layout');
 	}
 
     /**
      * PAGE: Templates Delete
-     * GET: /backoffice/admin-users/delete/:id
+     * GET: templates/delete/:id
      * This method handles the deletion of Templates
      * @param string $id The unique id for the Templates
      */
@@ -160,40 +160,40 @@ class TemplatesController extends BaseController {
                             // Redirect to next page
                             $this->_view->flash[] = "Templates deleted successfully.";
                             Session::set('backofficeFlash', array($this->_view->flash, 'success'));
-                            Url::redirect('backoffice/templates/index');
+                            Url::redirect('templates/index');
                         } else {
                             $this->_view->error[] = 'A problem has occurred when trying to delete this award.';
                         }
                     } elseif (!empty($_POST['cancel'])) {
-                        Url::redirect('backoffice/templates/index');
+                        Url::redirect('templates/index');
                     }
                 }
 			}else{
                 $this->_view->flash[] = "No Templates matches this id";
                 Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
-				Url::redirect('backoffice/templates/index');
+				Url::redirect('templates/index');
 			}
 		}else{
             $this->_view->flash[] = "No ID provided for Templates";
             Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
-			Url::redirect('backoffice/templates/index');
+			Url::redirect('templates/index');
 		}
         // Render the view ($renderBody, $layout, $area)
-		$this->_view->render('templates/delete', 'layout', 'backoffice');
+		$this->_view->render('templates/delete', 'layout');
     }
 
 
     /**
      * PAGE: Templates Add
-     * GET: /backoffice/templates/add/:id
+     * GET: templates/add/:id
      * This method handles the adding of templates
      */
 	public function add(){
-        Auth::checkAdminLogin();
+        Auth::checkUserLogin();
 		// Set the Page Title ('pageName', 'pageSection', 'areaName')
 		$this->_view->pageTitle = array('Template', 'Template');
 		// Set Page Description
-		$this->_view->pageDescription = 'Template Add';
+		$this->_view->pageDescription = 'Checkmate Template Add';
 		// Set Page Section
 		$this->_view->pageSection = 'Rooms';
 		// Set Page Sub Section
@@ -208,8 +208,10 @@ class TemplatesController extends BaseController {
 		if(!empty($_POST)){
             //if user selected cancel
             if(!empty($_POST['cancel'])){
-			    Url::redirect('backoffice/templates/index');
+			    Url::redirect('users/dashboard');
 		    }
+
+            Debug::printr($_POST);die;
 
             // Create new Templates
             $createData = $this->_model->createData($_POST);
@@ -227,12 +229,29 @@ class TemplatesController extends BaseController {
 
                 $this->_view->flash[] = "Template added successfully.";
                 Session::set('backofficeFlash', array($this->_view->flash, 'success'));
-                Url::redirect('backoffice/templates/index');
+                Url::redirect('users/dashboard');
             }
 		}
 		// Render the view ($renderBody, $layout, $area)
-		$this->_view->render('templates/add', 'layout', 'backoffice');
+		$this->_view->render('templates/add', 'layout');
 	}
+
+    /**
+     * PAGE: Templates getRooms
+     * GET: /templates/getRooms
+     * This method handles getting rooms for admin 
+     */
+    public function getRooms(){
+        if(!empty($_POST['current'])){
+            // Fetch an array of all the regions
+            $this->_view->current = $_POST['current'];
+            $this->_roomsModel = $this->loadModel('rooms');
+            $this->_view->rooms = $this->_roomsModel->getAllData();
+
+            // Render the view ($renderBody, $layout, $area)
+            $this->_view->renderPartial('templates/_rooms');
+        }
+    }
 
 }
 ?>
