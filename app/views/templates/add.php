@@ -77,9 +77,9 @@
             <?php }else{ ?>
 
                 <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('type', $this->error)) { echo 'has-error'; }?>" id = "room-group_1">
-                    <label class="col-md-2 control-label" for="rooms[]">Room 1</label>
+                    <label class="col-md-2 control-label" for="rooms[1]">Room 1</label>
                     <div class="col-md-5">
-                        <select id="rooms1" name="rooms[]" class="form-control">
+                        <select id="rooms1" name="rooms[1]" class="form-control">
                             <option value="0">-- Please Select Room --</option>
                             <?php foreach($this->rooms as $key => $room){?>
                                 <option value="<?php echo $room['id'] ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['rooms'] == $key)) {echo 'selected="selected"';} elseif(!empty($this->stored_data['rooms']) && $this->stored_data['rooms'] == $key){echo 'selected="selected"';}?> > <?php echo $room['name'].": (".$room['items'].")"?></option>

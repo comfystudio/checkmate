@@ -586,7 +586,7 @@ class UsersController extends BaseController {
 		// Set the Page Title ('pageName', 'pageSection', 'areaName')
 		$this->_view->pageTitle = array('Signup');
 		// Set Page Description
-		$this->_view->pageDescription = 'Signup to checkmate.com';
+		$this->_view->pageDescription = 'Signup to checkmatedeposit.com';
 		// Set Page Section
 		$this->_view->pageSection = 'Signup';
 

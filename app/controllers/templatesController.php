@@ -201,7 +201,8 @@ class TemplatesController extends BaseController {
 
         $this->_view->error = array();
 
-		$this->_roomsModel = $this->loadModel('roomsBackoffice', 'backoffice');
+		$this->_roomsModel = $this->loadModel('rooms');
+        $this->_itemsModel = $this->loadModel('items');
 		$this->_view->rooms = $this->_roomsModel->getAllData();
 
         // If Form has been submitted process it
@@ -211,7 +212,8 @@ class TemplatesController extends BaseController {
 			    Url::redirect('users/dashboard');
 		    }
 
-            Debug::printr($_POST);die;
+            Debug::printr($_POST);
+            $_POST['created_by'] = $_SESSION['UserCurrentUserID'];
 
             // Create new Templates
             $createData = $this->_model->createData($_POST);
@@ -220,12 +222,51 @@ class TemplatesController extends BaseController {
                     $this->_view->error[$key] = $error;
                 }
             }else{
-        		// We need to populate template_rooms
-        		if(isset($_POST['rooms']) && !empty($_POST['rooms'])){
-    				foreach($_POST['rooms'] as $key => $room){
-    					$this->_model->createTemplateRoom($createData, $room);
-    				}
-        		}
+                if(isset($_POST['items']) && !empty($_POST['items'])){
+                    foreach($_POST['items'] as $key => $item){
+                        if(isset($item) && !empty($item)){
+                            $itemArray = array();
+                            foreach ($item as $key2 => $itemName) {
+                                // Need to create new item.
+                                $data['name'] = $itemName;
+                                $data['is_active'] = 1;
+                                $itemArray[] = $this->_itemsModel->createData($data);
+                            }
+                        }
+                        if(isset($itemArray) && !empty($itemArray)){
+                            if(isset($_POST['rooms'][$key]) && !empty($_POST['rooms'][$key])){
+                                $room = $this->_roomsModel->selectDataByID($_POST['rooms'][$key]);
+                                $roomData['name'] = $room[0]['name'];
+                                $roomData['is_active'] = 1;
+
+                                // Creating new room
+                                $roomID = $this->_roomsModel->createData($roomData);
+                                $roomIDs[$key] = $roomID;
+                                // Need to create room_items for new rooms / items
+                                $itemIds = explode(',', $room[0]['items']);
+                                foreach ($itemArray as $key3 => $id) {
+                                    $itemIds[] = $id;
+                                }
+                                if(isset($itemIds) && !empty($itemIds)){
+                                    foreach ($itemIds as $key4 => $itemid) {
+                                        // creating new room_item
+                                        $this->_roomsModel->createRoomItems($roomID, $itemid);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach($_POST['rooms'] as $key => $room){
+                    // creating template_rooms
+                    if(isset($_POST['items'][$key]) && !empty($_POST['items'][$key])){
+                        $this->_model->createTemplateRoom($createData, $roomIDs[$key]);
+                    }else{
+                        $this->_model->createTemplateRoom($createData, $room);
+                    }
+                }
+
 
                 $this->_view->flash[] = "Template added successfully.";
                 Session::set('backofficeFlash', array($this->_view->flash, 'success'));

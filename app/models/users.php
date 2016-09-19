@@ -188,12 +188,29 @@ class Users extends Model{
 	public function getUserByEmail($email, $is_active = 'active'){
         $optActive = "";
         if(isset($is_active) && $is_active != null){if($is_active == 'active'){$optActive = "AND t1.is_active = 1";}else{$optActive = "AND t1.is_active = 0";}}else{$optActive = "";}
-		$sql = "SELECT t1.id, t1.firstname, t1.surname, t1.email, t1.email_verified, t1.is_active
+		$sql = "SELECT t1.*
 				FROM users t1
 				WHERE t1.email = :email ".$optActive."
 				";
 									
 		return $this->_db->select($sql, array(':email' => $email));
+	}
+
+
+	/**
+	 * FUNCTION: createUserReport
+	 * This function creates a user_reports
+	 * @param int $user_id, int $report_id
+	 */
+	public function createUserReport($user_id, $report_id){
+		$dbTable = 'user_reports';
+        $postData = array(
+            'user_id' => $user_id,
+            'report_id' => $report_id
+        );
+
+        $this->_db->insert($dbTable, $postData);
+        return $lastInsertID = $this->_db->lastInsertId('id');
 	}
 	
 //	/**
@@ -384,6 +401,26 @@ class Users extends Model{
 	// 	// Gets Last Insert ID
 	// 	return $lastInsertID = $this->_db->lastInsertId('id');
 	// }
+
+	/**
+	 * FUNCTION: createDataSystem
+	 * This function adds a new User to the Database from backoffice
+	 * @param mixed $data Array of User Data
+	 */
+	public function createDataSystem($data){
+        $dbTable = 'users';
+        $postData = array(
+            'firstname' => $data['firstname'],
+            'surname' => $data['surname'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+            'salt' => $data['salt']
+        );
+
+        $this->_db->insert($dbTable, $postData);
+        // Gets Last Insert ID
+        return $lastInsertID = $this->_db->lastInsertId('id');
+	}
 	
 	/**
 	 * FUNCTION: createData
@@ -401,7 +438,7 @@ class Users extends Model{
                 'surname' => $data['surname'],
                 'email' => $data['email'],
                 'password' => $data['password'],
-                'salt' => $data['salt'],
+                'salt' => $data['salt']
             );
 
             $this->_db->insert($dbTable, $postData);

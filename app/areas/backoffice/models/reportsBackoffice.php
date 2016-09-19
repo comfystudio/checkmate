@@ -116,8 +116,9 @@ class ReportsBackoffice extends Model{
                 'check_out' => $data['check_out'],
                 'meter_type' => $data['meter_type'],
                 'meter_reading' => $data['meter_reading'],
+                'meter_measurement' => $data['meter_measurement'],
                 'oil_level' => $data['oil_level'],
-                'keys_acquired' => $data['keys_acquired'],
+                'keys_acquired' => $data['keys_acquired']
             );
             $where = "`id` = {$data['id']}";
 

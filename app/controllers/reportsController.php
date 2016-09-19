@@ -7,8 +7,251 @@ class ReportsController extends BaseController {
 	public function __construct(){
 		parent::__construct();
 		// Load the User Model ($modelName, $area)
-		$this->_model = $this->loadModel('reportsBackoffice', 'backoffice');
+		$this->_model = $this->loadModel('reports');
 	}
+
+    public function start($property_id){
+        Auth::checkUserLogin();
+        // Set the Page Title ('pageName', 'pageSection', 'areaName')
+        $this->_view->pageTitle = array('Reports');
+        // Set Page Description
+        $this->_view->pageDescription = 'Checkmate Check In';
+        // Set Page Section
+        $this->_view->pageSection = 'Reports';
+        // Set Page Sub Section
+        $this->_view->pageSubSection = 'Reports';
+
+        // Building drop down arrays
+        $this->_view->status = explode(',', REPORT);
+        $this->_view->meter_type = explode(',', METER);
+        $this->_view->key_status = explode(',', KEYS);
+        $this->_view->clean_status = explode(',', CLEAN);
+
+        $this->_roomsModel = $this->loadModel('rooms');
+        $this->_itemsModel = $this->loadModel('items');
+        $this->_notificationModel = $this->loadModel('notifications');
+
+        if(!isset($property_id) || empty($property_id)){
+            $this->_view->flash[] = "No Property Id provided";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard');
+        }
+
+        $this->_propertiesModel = $this->loadModel('properties');
+        $property = $this->_propertiesModel->selectDataByID($property_id);
+
+        if(!isset($property) || empty($property)){
+            $this->_view->flash[] = "No Property matches the id";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard');
+        }
+
+        $this->_view->property = $property;
+
+        // Need to work out if we need a Lead Tenent or LandLord input box.
+        $this->_userModel = $this->loadModel('users');
+        $user = $this->_userModel->selectDataByID($property[0]['created_by']);
+        if($user[0]['type'] == 0){
+            $leadTenantId = $user[0]['id'];
+            $_POST['lead_tenant_id'] = $user[0]['id'];
+            $lordId = null;
+        }else{
+            $lordId = $user[0]['id'];
+            $_POST['lord_id'] = $user[0]['id'];
+            $leadTenantId = null;
+        }
+        $this->_view->leadTenantId = $leadTenantId;
+        $this->_view->lordId = $lordId;
+
+        
+        if(!empty($_POST['cancel'])){
+            Url::redirect('users/dashboard');
+        }
+
+        if(!empty($_POST['save'])){
+            $userIdArray = array();
+            $_POST['property_id'] = $property_id;
+
+            // Debug::printr($_POST);die;
+
+            if(isset($_POST['lord_id']) && !empty($_POST['lord_id'])){
+                $user = $this->_userModel->getUserByEmail($_POST['lord_id']);
+                // If this user already exists on our system
+                if(isset($user) && !empty($user)){
+                    $data['text'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link. <a href = "'.SITE_URL.'reports/checkin/'.$property[0]['id'].'">Link</a>';
+                    $data['user_id'] = $user[0]['id'];
+                    $this->_notificationModel->createData($data);
+
+                    $this->_view->data['name'] = $user[0]['firstname'].' '.$user[0]['surname'];
+                    $this->_view->data['message'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link.';
+                    $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$property[0]['id'];
+                    $this->_view->data['button_text'] = 'Review Report';
+
+                    // Need to create email
+                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                    Html::sendEmail($user[0]['email'], 'Checkmate - New report has been created for you.', SITE_EMAIL, $message);
+                    $userIdArray[] = $user[0]['id'];
+                    $_POST['lord_id'] = $user[0]['id'];
+
+                }else{
+                    // If user doesn't exist in our system, we need to create them and send email / Notification to them.
+                    $newUser['type'] = 1;
+                    $newUser['firstname'] = 'tempfirstname';
+                    $newUser['surname'] = 'tempSurname';
+                    $newUser['email'] = $_POST['lord_id'];
+                    $newUser['contact_num'] = 'temp number';
+                    $random = rand();
+                    $tempPassword = 'temp'.$random;
+                    $hash = Password::password_hash($tempPassword);
+                    $newUser['password'] = $hash[1];
+                    $newUser['password_again'] = $hash[1];
+                    $newUser['salt'] = $hash[2];
+
+                    $createUser = $this->_userModel->createDataSystem($newUser);
+
+                    $data['user_id'] = $createUser;
+                    $data['text'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link. <a href = "'.SITE_URL.'reports/checkin/'.$property[0]['id'].'">Link</a>';
+                    $this->_notificationModel->createData($data);
+
+                    $this->_view->data['name'] = 'New User';
+                    $this->_view->data['message'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link. Your password is: '.$tempPassword;
+                    $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$property[0]['id'];
+                    $this->_view->data['button_text'] = 'Review Report';
+
+                    // Need to create email
+                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                    Html::sendEmail($newUser['email'], 'Checkmate - New report has been created for you.', SITE_EMAIL, $message);
+                    $userIdArray[] = $createUser;
+                    $_POST['lord_id'] = $createUser;
+                }
+            }
+
+            if(isset($_POST['lead_tenant_id']) && !empty($_POST['lead_tenant_id'])){
+                $user = $this->_userModel->getUserByEmail($_POST['lead_tenant_id']);
+                // If this user already exists on our system
+                if(isset($user) && !empty($user)){
+                    $data['user_id'] = $user[0]['id'];
+                    $data['text'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link. <a href = "'.SITE_URL.'reports/checkin/'.$property[0]['id'].'">Link</a>';
+                    $this->_notificationModel->createData($data);
+
+                    $this->_view->data['name'] = $user[0]['firstname'].' '.$user[0]['surname'];
+                    $this->_view->data['message'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link.';
+                    $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$property[0]['id'];
+                    $this->_view->data['button_text'] = 'Review Report';
+
+                    // Need to create email
+                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                    Html::sendEmail($user[0]['email'], 'Checkmate - New report has been created for you.', SITE_EMAIL, $message);
+                    $userIdArray[] = $user[0]['id'];
+                    $_POST['lead_tenant_id'] = $user[0]['id'];
+
+                }else{
+                    // If user doesn't exist in our system, we need to create them and send email / Notification to them.
+                    $newUser['type'] = 1;
+                    $newUser['firstname'] = 'temp firstname';
+                    $newUser['surname'] = 'temp Surname';
+                    $newUser['email'] = $_POST['lead_tenant_id'];
+                    $newUser['contact_num'] = 'temp number';
+                    $random = rand();
+                    $tempPassword = 'temp'.$random;
+                    $hash = Password::password_hash($tempPassword);
+                    $newUser['password'] = $hash[1];
+                    $newUser['salt'] = $hash[2];
+
+                    $createUser = $this->_userModel->createDataSystem($newUser);
+
+                    $data['user_id'] = $createUser;
+                    $data['text'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link. <a href = "'.SITE_URL.'reports/checkin/'.$property[0]['id'].'">Link</a>';
+                    $this->_notificationModel->createData($data);
+
+                    $this->_view->data['name'] = 'New User';
+                    $this->_view->data['message'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link. Your password is: '.$tempPassword;
+                    $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$property[0]['id'];
+                    $this->_view->data['button_text'] = 'Review Report';
+
+                    // Need to create email
+                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                    Html::sendEmail($newUser['email'], 'Checkmate - New report has been created for you.', SITE_EMAIL, $message);
+                    $userIdArray[] = $createUser;
+                    $_POST['lead_tenant_id'] = $createUser;
+
+                }
+            }
+
+            if(isset($_POST['users']) && !empty($_POST['users'])){
+                foreach($_POST['users'] as $key => $email){
+                    $user = $this->_userModel->getUserByEmail($email);
+                    // If this user already exists on our system
+                    if(isset($user) && !empty($user)){
+                        $data['user_id'] = $user[0]['id'];
+                        $data['text'] = 'You have been named a tenant for property '.$property[0]['title'].' Please review check in at the following link. <a href = "'.SITE_URL.'reports/checkin/'.$property[0]['id'].'">Link</a>';
+                        $this->_notificationModel->createData($data);
+
+                        $this->_view->data['name'] = $user[0]['firstname'].' '.$user[0]['surname'];
+                        $this->_view->data['message'] = 'You have been named a tenant for property '.$property[0]['title'].' Please review check in at the following link.';
+                        $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$property[0]['id'];
+                        $this->_view->data['button_text'] = 'Review Report';
+
+                        // Need to create email
+                        $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                        Html::sendEmail($user[0]['email'], 'Checkmate - New report has been created for you.', SITE_EMAIL, $message);
+                        $userIdArray[] = $user[0]['id'];
+
+                    }else{
+                        // If user doesn't exist in our system, we need to create them and send email / Notification to them.
+                        $newUser['type'] = 1;
+                        $newUser['firstname'] = 'temp firstname';
+                        $newUser['surname'] = 'temp Surname';
+                        $newUser['email'] = $_POST['lord_id'];
+                        $newUser['contact_num'] = 'temp number';
+                        $random = rand();
+                        $tempPassword = 'temp'.$random;
+                        $hash = Password::password_hash($tempPassword);
+                        $newUser['password'] = $hash[1];
+                        $newUser['salt'] = $hash[2];
+
+                        $createUser = $this->_userModel->createDataSystem($newUser);
+
+                        $data['user_id'] = $createUser;
+                        $data['text'] = 'You have been named a tenant for property '.$property[0]['title'].' Please review check in at the following link. <a href = "'.SITE_URL.'reports/checkin/'.$property[0]['id'].'">Link</a>';
+                        $this->_notificationModel->createData($data);
+
+                        $this->_view->data['name'] = 'New User';
+                        $this->_view->data['message'] = 'You have been named a tenant for property '.$property[0]['title'].' Please review check in at the following link. Your password is: '.$tempPassword;
+                        $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$property[0]['id'];
+                        $this->_view->data['button_text'] = 'Review Report';
+
+                        // Need to create email
+                        $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                        Html::sendEmail($newUser['email'], 'Checkmate - New report has been created for you.', SITE_EMAIL, $message);
+                        $userIdArray[] = $createUser;
+                    }
+                }
+            }
+
+            // Create Report
+            $createData = $this->_model->startReport($_POST);
+            if(isset($createData['error']) && $createData['error'] != null){
+                foreach($createData['error'] as $key => $error){
+                    $this->_view->error[$key] = $error;
+                }
+            }else{
+
+                // We need to create user_reports for some reason maybe need it later.
+                foreach($userIdArray as $key => $id){
+                    $this->_userModel->createUserReport($id, $createData);
+                }
+
+                $this->_view->flash[] = "Report created successfully.";
+                Session::set('backofficeFlash', array($this->_view->flash, 'success'));
+                Url::redirect('users/dashboard');
+            }
+        }
+
+        // Render the view ($renderBody, $layout, $area)
+        $this->_view->render('reports/start', 'layout');
+
+    }
 
     /**
 	 * PAGE: Reports Index

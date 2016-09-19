@@ -5,6 +5,41 @@ class Reports extends Model{
 		parent::__construct();
 	}
 
+    /**
+     * FUNCTION: validation
+     * This function validates post data, and should be called for any update or create model calls.
+     * @param mixed array $data, $type can define different standards depending on if edit for example.
+     */
+    public function validation($data, $type){
+        $return = $data;
+        foreach($data as $key => $input){
+            $temp = null;
+            $input = is_array($input) ? FormInput::trimArray($input) : FormInput::checkInput($input);
+            $return[$key] = $input;
+
+            //user_name
+            // if($key == 'firstname'){
+            //     //Max length
+            //     $temp = Form::MaxLength($input, 20);
+            //     if($temp[0] != true){
+            //         $return['error'][$key] = 'Firstname should not exceed 20 characters';
+            //     }
+
+            //     //Alphabetic
+            //     $temp = Form::ValidateAlphabetic($input);
+            //     if($temp != true){
+            //         $return['error'][$key] = 'Firstname should contain only alphabetic characters';
+            //     }
+
+            //     //Required
+            //     if(empty($input) || $input == null){
+            //         $return['error'][$key] = 'Firstname cannot be empty';
+            //     }
+            // }
+        }
+        return $return;
+    }
+
 
 
     /**
@@ -13,20 +48,75 @@ class Reports extends Model{
 	 * @param mixed $data Array of User Data
 	 */
 	public function createData($data){
-        //$data = $this->validation($data, 'add');
-        //if(isset($data['error']) && $data['error'] != null) {
-            //return $data;
-       // }else {
-            $dbTable = 'notifications';
+        $data = $this->validation($data, 'add');
+        if(isset($data['error']) && $data['error'] != null) {
+            return $data;
+       }else {
+            $dbTable = 'reports';
             $postData = array(
-                'user_id' => $data['user_id'],
-                'text' => $data['text'],
+                'lord_id' => $data['lord_id'],
+                'lead_tenant_id' => $data['lead_tenant_id'],
+                'status' => $data['status'],
+                'check_in' => $data['check_in'],
+                'check_out' => $data['check_out'],
+                'meter_type' => $data['meter_type'],
+                'meter_reading' => $data['meter_reading'],
+                'meter_measurement' => $data['meter_measurement'],
+                'oil_level' => $data['oil_level'],
+                'keys_acquired' => $data['keys_acquired']
             );
             $this->_db->insert($dbTable, $postData);
             // Gets Last Insert ID
             return $lastInsertID = $this->_db->lastInsertId('id');
-       // }
+       }
 	}
+
+    /**
+     * FUNCTION: startReport
+     * This function starts a new report
+     * @param mixed $data Array of User Data
+     */
+    public function startReport($data){
+        $data = $this->validation($data, 'add');
+        if(isset($data['error']) && $data['error'] != null) {
+            return $data;
+       }else {
+            $dbTable = 'reports';
+            $postData = array(
+                'lord_id' => $data['lord_id'],
+                'lead_tenant_id' => $data['lead_tenant_id'],
+                'check_in' => $data['check_in'],
+                'check_out' => $data['check_out'],
+                'property_id' => $data['property_id']
+            );
+            $this->_db->insert($dbTable, $postData);
+            // Gets Last Insert ID
+            return $lastInsertID = $this->_db->lastInsertId('id');
+       }
+    }
+
+    public function updateData($data){
+        $data = $this->validation($data, 'edit');
+        if(isset($data['error']) && $data['error'] != null){
+            return $data;
+        }else {
+            $dbTable = 'reports';
+            $postData = array(
+                'status' => $data['status'],
+                'check_in' => $data['check_in'],
+                'check_out' => $data['check_out'],
+                'meter_type' => $data['meter_type'],
+                'meter_reading' => $data['meter_reading'],
+                'meter_measurement' => $data['meter_measurement'],
+                'oil_level' => $data['oil_level'],
+                'keys_acquired' => $data['keys_acquired']
+            );
+            $where = "`id` = {$data['id']}";
+
+            $this->_db->update($dbTable, $postData, $where);
+            return true;
+        }
+    }
 
     /**
      * FUNCTION: getAlldataByTenantId

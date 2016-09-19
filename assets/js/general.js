@@ -1,4 +1,8 @@
 jQuery(document).ready(function(){
+
+	// Initialize Datepicker
+	$('.input-datepicker, .input-daterange').datepicker({weekStart: 1}).on('changeDate', function(e){ $(this).datepicker('hide'); });
+
     // Generate a random password for users
 	jQuery("#generate_password").change(function() {
 		var generate = jQuery(this).prop('checked');
@@ -73,7 +77,6 @@ jQuery(document).ready(function(){
     	html += '</div>';
 
     	jQuery('#room-group_'+currentItem).after(html);
-    	//jQuery("#room-group_"+current).remove();
 	})
 
 	function addItems(){
@@ -91,4 +94,16 @@ jQuery(document).ready(function(){
 		})
 	}
 
+	// Add 
+	jQuery(".add-tenants").click(function(){
+    	var currentItem =  jQuery(this).data('id');
+    	var html = '<div class="form-group ">';
+	    		html += '<label class="col-md-2 control-label">Add Other Tenants</label>';
+	    		html += '<div class="col-md-5">';
+		    		html += '<input type="email" placeholder = "email" name="users[]" class="form-control">';
+				html += '</div>';
+    	html += '</div>';
+
+    	jQuery('#add-tenants_'+currentItem).after(html);
+	})
 });

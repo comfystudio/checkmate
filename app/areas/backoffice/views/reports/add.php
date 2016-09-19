@@ -102,6 +102,13 @@
                 </div>
             </div>
 
+            <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('meter_measurement', $this->error)) { echo 'has-error'; }?>">
+                <label class="col-md-2 control-label" for="meta_title">Meter Measurement</label>
+                <div class="col-md-5">
+                    <input type="text" id="meter_measurement" name="meter_measurement" class="form-control" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['meter_measurement']);} elseif(!empty($this->stored_data['meter_measurement'])){echo $this->stored_data['meter_measurement'];}?>">
+                </div>
+            </div>
+
             <?php if(isset($this->stored_data['id']) && $this->stored_data['id'] != null && !empty($this->stored_data['meter_image'])){?>
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="current file">Current Meter Image</label>

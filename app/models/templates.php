@@ -113,7 +113,8 @@ class Templates extends Model{
             $dbTable = 'templates';
             $postData = array(
                 'title' => $data['title'],
-                'description' => $data['description']
+                'description' => $data['description'],
+                'created_by' => $data['created_by']
             );
 
             $this->_db->insert($dbTable, $postData);
