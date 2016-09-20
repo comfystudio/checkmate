@@ -96,8 +96,8 @@
                                                 }
                                             ?>
                                         </td>
-                                        <td><?php echo date("F j, Y, g:i a", strtotime($data['check_in'])) ?></td>
-                                        <td><?php echo date("F j, Y, g:i a", strtotime($data['check_out'])) ?></td>
+                                        <td><?php echo date("F j, Y", strtotime($data['check_in'])) ?></td>
+                                        <td><?php echo date("F j, Y", strtotime($data['check_out'])) ?></td>
                                         <td class="text-left">
                                             <a href="/backoffice/reports/report-download/<?php echo $data['id']; ?>/" data-toggle="tooltip" title="Download PDF" class="btn btn-effect-ripple btn-sm btn-primary"><i class="fa fa-cloud-download"></i></a>
                                             <a href="/backoffice/reports/edit/<?php echo $data['id']; ?>/" data-toggle="tooltip" title="Edit Report" class="btn btn-effect-ripple btn-sm btn-success"><i class="fa fa-pencil"></i></a>

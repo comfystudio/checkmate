@@ -194,6 +194,23 @@ class rooms extends Model{
     }
 
     /**
+     * FUNCTION: createCheckInRoom
+     * This function adds a new check_in_room
+     * @param int $report_id, int $room_id
+     */
+    public function createCheckInRoom($report_id, $room_id){
+        $dbTable = 'check_in_rooms';
+        $postData = array(
+            'report_id' => $report_id,
+            'room_id' => $room_id
+        );
+
+        $this->_db->insert($dbTable, $postData);
+        // Gets Last Insert ID
+        return $lastInsertID = $this->_db->lastInsertId('id');
+    }
+
+    /**
      * FUNCTION: selectCheckOutRoomsByID
      * This function get checkoutrooms by id
      * @param int $check_out_room_id

@@ -266,11 +266,9 @@
 
                                     <?php } ?>
                                 <?php } ?>
-
                             </table>
                         <?php } ?>
                     </div>
-
 
                     <div id="back-btn" class="block-section">
                         <a href="/backoffice/properties/" class="btn btn-effect-ripple btn-primary" style="overflow: hidden; position: relative;"><i class="fa fa-chevron-circle-left"></i> Back</a>

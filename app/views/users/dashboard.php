@@ -60,7 +60,7 @@
 							<?php if($difference <= $fourDay){?>
 								<a href = "/reports/checkout/<?php echo $property['id']?>">Begin Check Out</a>
 							<?php }elseif($differenceCheckIn <= $sevenDay){ ?>
-								<a href = "/reports/start/<?php echo $property['id']?>">Amend Check in</a>
+								<a href = "/reports/checkin/<?php echo $property['id']?>">Amend Check in</a>
 							<?php } ?>
 						<?php } else {?>
 							<a href = "/reports/start/<?php echo $property['id']?>">Create Check in</a>
@@ -88,7 +88,7 @@
 						<?php if($difference <= $fourDay){?>
 							<a href = "/reports/checkout/<?php echo $property['id']?>">Begin Check Out</a>
 						<?php }elseif($differenceCheckIn <= $sevenDay){ ?>
-							<a href = "/reports/start/<?php echo $property['id']?>">Create Check in</a>
+							<a href = "/reports/checkin/<?php echo $property['id']?>">Create Check in</a>
 						<?php } ?>
 					</li>
 				<?php } ?>

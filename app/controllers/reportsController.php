@@ -10,6 +10,13 @@ class ReportsController extends BaseController {
 		$this->_model = $this->loadModel('reports');
 	}
 
+
+    /**
+     * PAGE: reports start
+     * GET: /reports/start/:id/
+     * This method handles the creation of reports along with user creation where necessary
+     * @param $int property_id
+     */
     public function start($property_id){
         Auth::checkUserLogin();
         // Set the Page Title ('pageName', 'pageSection', 'areaName')
@@ -69,12 +76,12 @@ class ReportsController extends BaseController {
         }
 
         if(!empty($_POST['save'])){
-            $userIdArray = array();
+            $userIdArray[] = $_SESSION['UserCurrentUserID'];
             $_POST['property_id'] = $property_id;
 
             // Debug::printr($_POST);die;
 
-            if(isset($_POST['lord_id']) && !empty($_POST['lord_id'])){
+            if(isset($_POST['lord_id']) && !empty($_POST['lord_id']) && !is_numeric($_POST['lord_id'])){
                 $user = $this->_userModel->getUserByEmail($_POST['lord_id']);
                 // If this user already exists on our system
                 if(isset($user) && !empty($user)){
@@ -96,8 +103,8 @@ class ReportsController extends BaseController {
                 }else{
                     // If user doesn't exist in our system, we need to create them and send email / Notification to them.
                     $newUser['type'] = 1;
-                    $newUser['firstname'] = 'tempfirstname';
-                    $newUser['surname'] = 'tempSurname';
+                    $newUser['firstname'] = 'temp firstname';
+                    $newUser['surname'] = 'temp Surname';
                     $newUser['email'] = $_POST['lord_id'];
                     $newUser['contact_num'] = 'temp number';
                     $random = rand();
@@ -126,7 +133,7 @@ class ReportsController extends BaseController {
                 }
             }
 
-            if(isset($_POST['lead_tenant_id']) && !empty($_POST['lead_tenant_id'])){
+            if(isset($_POST['lead_tenant_id']) && !empty($_POST['lead_tenant_id']) && !is_numeric($_POST['lead_tenant_id'])){
                 $user = $this->_userModel->getUserByEmail($_POST['lead_tenant_id']);
                 // If this user already exists on our system
                 if(isset($user) && !empty($user)){
@@ -147,7 +154,7 @@ class ReportsController extends BaseController {
 
                 }else{
                     // If user doesn't exist in our system, we need to create them and send email / Notification to them.
-                    $newUser['type'] = 1;
+                    $newUser['type'] = 0;
                     $newUser['firstname'] = 'temp firstname';
                     $newUser['surname'] = 'temp Surname';
                     $newUser['email'] = $_POST['lead_tenant_id'];
@@ -199,10 +206,10 @@ class ReportsController extends BaseController {
 
                     }else{
                         // If user doesn't exist in our system, we need to create them and send email / Notification to them.
-                        $newUser['type'] = 1;
+                        $newUser['type'] = 0;
                         $newUser['firstname'] = 'temp firstname';
                         $newUser['surname'] = 'temp Surname';
-                        $newUser['email'] = $_POST['lord_id'];
+                        $newUser['email'] = $email;
                         $newUser['contact_num'] = 'temp number';
                         $random = rand();
                         $tempPassword = 'temp'.$random;
@@ -236,10 +243,24 @@ class ReportsController extends BaseController {
                     $this->_view->error[$key] = $error;
                 }
             }else{
-
                 // We need to create user_reports for some reason maybe need it later.
                 foreach($userIdArray as $key => $id){
                     $this->_userModel->createUserReport($id, $createData);
+                }
+
+                // We need to create check_in_rooms and check_in_items based on property template if exists
+                if(isset($property[0]['room_ids']) && !empty($property[0]['room_ids'])){
+                    $check_in_room_ids = explode(',', $property[0]['room_ids']);
+                    foreach($check_in_room_ids as $key => $check_in_room){
+                        $createRoom = $this->_roomsModel->createCheckInRoom($createData, $check_in_room);
+                        $rooms = $this->_roomsModel->selectDataByID($check_in_room);
+                        if(isset($rooms[0]['items']) && !empty($rooms[0]['items'])){
+                            $item_ids = explode(',', $rooms[0]['items']);
+                            foreach ($item_ids as $key2 => $item) {
+                                $this->_itemsModel->createCheckInItem($createRoom, $item);
+                            }
+                        }
+                    }
                 }
 
                 $this->_view->flash[] = "Report created successfully.";
@@ -250,220 +271,65 @@ class ReportsController extends BaseController {
 
         // Render the view ($renderBody, $layout, $area)
         $this->_view->render('reports/start', 'layout');
-
     }
 
     /**
-	 * PAGE: Reports Index
-	 * GET: /backoffice/reports/index
-	 * This method handles the view awards page
-	 */
-	public function index(){
-        Auth::checkAdminLogin();
-
-		// Set the Page Title ('pageName', 'pageSection', 'areaName')
-		$this->_view->pageTitle = array('Reports');
-		// Set Page Description
-		$this->_view->pageDescription = 'Reports Index';
-		// Set Page Section
-		$this->_view->pageSection = 'Reports';
-		// Set Page Sub Section
-		$this->_view->pageSubSection = 'Reports';
-
-        //Need a bunch of status etc
-        $this->_view->status = explode(',', REPORT);
-
-		###### PAGINATION ######
-        //sanitise or set keywords to false
-        if(isset($_GET['keywords']) && !empty($_GET['keywords'])){
-            $_GET['keywords'] = FormInput::checkKeywords($_GET['keywords']);
-        }else{
-            $_GET['keywords'] = false;
-        }
-
-        $totalItems = $this->_model->countAllData($_GET['keywords']);
-        if(!isset($totalItems) || empty($totalItems)){
-            $totalItems = 0;
-        }
-        $pages = new Pagination(20,'keywords='.$_GET['keywords'].'&page', $totalItems[0]['total']);
-        $this->_view->getAllData = $this->_model->getAllData($pages->get_limit(), $_GET['keywords']);
-
-		// Create the pagination nav menu
-		$this->_view->page_links = $pages->page_links();
-
-		// Render the view ($renderBody, $layout, $area)
-		$this->_view->render('reports/index', 'layout', 'backoffice');
-	}
-
-
-    /**
-     * PAGE: Reports Delete
-     * GET: /backoffice/reports/delete/:id
-     * This method handles the deletion of Reports
-     * @param string $id The unique id for the Reports
+     * PAGE: reports checkin
+     * GET: /reports/checkin/:id/
+     * This method handles the checkin process for both the lord and lead tenant for a report
+     * @param $int property_id
      */
-    public function delete($id){
-        Auth::checkAdminLogin();
+    public function checkin($property_id){
+        Auth::checkUserLogin();
         // Set the Page Title ('pageName', 'pageSection', 'areaName')
         $this->_view->pageTitle = array('Reports');
         // Set Page Description
-        $this->_view->pageDescription = 'View Reports';
+        $this->_view->pageDescription = 'Checkmate Check In';
         // Set Page Section
         $this->_view->pageSection = 'Reports';
         // Set Page Sub Section
         $this->_view->pageSubSection = 'Reports';
-
-        //Check we got ID
-        if(!empty($id)){
-            $selectDataByID = $this->_model->selectDataByID($id);
-            $this->_view->selectedData = $selectDataByID;
-
-            // We need to work out if its safe to delete this user.
-            $currentDate = date("Y-m-d");
-            $this->_view->conflict = $this->_model->getReportsByIdAndDate($id, $currentDate);
-
-            //Check ID returns an Reports
-            if(isset($selectDataByID[0]['id']) && !empty($selectDataByID[0]['id'])){
-                if(isset($_POST) && !empty($_POST)) {
-                    if (!empty($_POST['delete'])) {
-
-                        $this->_roomsModel = $this->loadModel('roomsBackoffice', 'backoffice');
-                        $this->_itemsModel = $this->loadModel('itemsBackoffice', 'backoffice');
-
-                        $imageArray = array();
-
-                        // Need to remove check_in_items and check_out_item images
-                        if(isset($selectDataByID[0]['check_in_room_ids']) && !empty($selectDataByID[0]['check_in_room_ids'])){
-                            $check_in_room_ids = explode(',', $selectDataByID[0]['check_in_room_ids']);
-
-                            foreach($check_in_room_ids as $key => $check_in_room){
-                                $rooms = $this->_roomsModel->selectCheckInRoomsByID($check_in_room);
-                                $rooms = $rooms[0];
-                                if(isset($rooms['check_in_item_ids']) && !empty($rooms['check_in_item_ids'])){
-                                    $item_ids = explode(',', $rooms['check_in_item_ids']);
-                                    foreach ($item_ids as $key2 => $item) {
-                                        $items = $this->_itemsModel->selectCheckInItemsByID($item);
-                                        $items = $items[0];
-                                        if(isset($items['image']) && !empty($items['image'])){
-                                            $imageArray[] = $items['image'];
-                                        }
-
-                                    }
-                                }
-                            }
-                        }
-
-                        // Need to remove check_in_items and check_out_item images
-                        if(isset($selectDataByID[0]['check_out_room_ids']) && !empty($selectDataByID[0]['check_out_room_ids'])){
-                            $check_out_room_ids = explode(',', $selectDataByID[0]['check_out_room_ids']);
-
-                            foreach($check_out_room_ids as $key => $check_out_room){
-                                $rooms = $this->_roomsModel->selectCheckOutRoomsByID($check_out_room);
-                                $rooms = $rooms[0];
-                                if(isset($rooms['check_out_item_ids']) && !empty($rooms['check_out_item_ids'])){
-                                    $item_ids = explode(',', $rooms['check_out_item_ids']);
-                                    foreach ($item_ids as $key2 => $item) {
-                                        $items = $this->_itemsModel->selectCheckOutItemsByID($item);
-                                        $items = $items[0];
-                                        if(isset($items['image']) && !empty($items['image'])){
-                                            $imageArray[] = $items['image'];
-                                        }
-
-                                    }
-                                }
-                            }
-                        }
-
-                        $deleteAttempt = $this->_model->deleteData($id);
-                        //Check we have deleted Reports
-                        if (!empty($deleteAttempt)) {
-
-                            // Need to remove meter image if it exists
-                            if(isset($selectDataByID[0]['meter_image']) && !empty($selectDataByID[0]['meter_image'])){
-                                unlink(ROOT . UPLOAD_DIR . '/' . $selectDataByID[0]['meter_image']);
-                            }
-
-                            //Removing items images
-                            if(isset($imageArray) && !empty($imageArray)){
-                                foreach($imageArray as $image){
-                                    unlink(ROOT . UPLOAD_DIR . '/' . $image);
-                                }
-                            }
-
-                            // Redirect to next page
-                            $this->_view->flash[] = "Reports deleted successfully.";
-                            Session::set('backofficeFlash', array($this->_view->flash, 'success'));
-                            Url::redirect('backoffice/reports/index');
-                        } else {
-                            $this->_view->error[] = 'A problem has occurred when trying to delete this award.';
-                        }
-                    } elseif (!empty($_POST['cancel'])) {
-                        Url::redirect('backoffice/reports/index');
-                    }
-                }
-            }else{
-                $this->_view->flash[] = "No Reports matches this id";
-                Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
-                Url::redirect('backoffice/reports/index');
-            }
-        }else{
-            $this->_view->flash[] = "No ID provided for Reports";
-            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
-            Url::redirect('backoffice/reports/index');
-        }
-        // Render the view ($renderBody, $layout, $area)
-        $this->_view->render('reports/delete', 'layout', 'backoffice');
-    }
-
-    /**
-     * PAGE: Reports Edit
-     * GET: /backoffice/reports/edit:id
-     * @param string $id The unique id for the award user
-     * This method handles the edit reports page
-     */
-    public function edit($id = false){
-        Auth::checkAdminLogin();
-        if(!empty($id)){
-            $selectDataByID = $this->_model->selectDataByID($id);
-            if(isset($selectDataByID[0]['id']) && !empty($selectDataByID[0]['id'])){
-                $this->_view->stored_data = $selectDataByID[0];
-
-            }else{
-                $this->_view->flash[] = "No Reports matches this id";
-                Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
-                Url::redirect('backoffice/reports/index');
-            }
-        }else{
-            $this->_view->flash[] = "No ID provided for Rooms";
-            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
-            Url::redirect('backoffice/reports/index');
-        }
-
-        // Set the Page Title ('pageName', 'pageSection', 'areaName')
-        $this->_view->pageTitle = array('Reports', 'Reports');
-        // Set Page Description
-        $this->_view->pageDescription = 'Reports Edit';
-        // Set Page Section
-        $this->_view->pageSection = 'Reports';
-        // Set Page Sub Section
-        $this->_view->pageSubSection = 'Reports';
-
-        // Set default variables
-        $this->_view->error = array();
 
         // Building drop down arrays
         $this->_view->status = explode(',', REPORT);
         $this->_view->meter_type = explode(',', METER);
         $this->_view->key_status = explode(',', KEYS);
         $this->_view->clean_status = explode(',', CLEAN);
+        $this->_view->YesNo = array('No', 'Yes');
 
+        $this->_roomsModel = $this->loadModel('rooms');
+        $this->_itemsModel = $this->loadModel('items');
+        $this->_notificationModel = $this->loadModel('notifications');
+        $this->_userModel = $this->loadModel('users');
+        $this->_propertiesModel = $this->loadModel('properties');
 
-        $this->_roomsModel = $this->loadModel('roomsBackoffice', 'backoffice');
-        $this->_itemsModel = $this->loadModel('itemsBackoffice', 'backoffice');
+        if(!isset($property_id) || empty($property_id)){
+            $this->_view->flash[] = "No ID provided for property";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard');
+        }
 
-        // Constructing our check in details
-        if(isset($selectDataByID[0]['check_in_room_ids']) && !empty($selectDataByID[0]['check_in_room_ids'])){
-            $check_in_room_ids = explode(',', $selectDataByID[0]['check_in_room_ids']);
+        // Need to get the right report information based on property_id
+        $report = $this->_model->getCheckInReportsByPropertyId($property_id);
+
+        if(!isset($report) || empty($report)){
+            $this->_view->flash[] = "No report checkin time matches this property";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard');
+        }
+
+        // Need to get the users assoicated with this check in and bounce them if they don't belong here.
+        $users = $this->_model->getUserReports($report[0]['id']);
+        $users = explode(',', $users[0]['user_id']);
+        if(!in_array($_SESSION['UserCurrentUserID'], $users)){
+            $this->_view->flash[] = "You don't appear to be assoicated with this check_in";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard');
+        }
+
+        // We need to work if we have already created rooms from template
+        if(isset($report[0]['check_in_room_ids']) && !empty($report[0]['check_in_room_ids'])){
+            $check_in_room_ids = explode(',', $report[0]['check_in_room_ids']);
 
             $this->_view->checkInData = array();
             foreach($check_in_room_ids as $key => $check_in_room){
@@ -482,52 +348,41 @@ class ReportsController extends BaseController {
             }
         }
 
-        // Constructing our check out details
-        $rooms = array();
-        $items = array();
-        if(isset($selectDataByID[0]['check_out_room_ids']) && !empty($selectDataByID[0]['check_out_room_ids'])){
-            $check_out_room_ids = explode(',', $selectDataByID[0]['check_out_room_ids']);
-            $this->_view->checkOutData = array();
-            foreach($check_out_room_ids as $key => $check_out_room){
-                $rooms = $this->_roomsModel->selectCheckOutRoomsByID($check_out_room);
-                $rooms = $rooms[0];
-                if(isset($rooms['check_out_item_ids']) && !empty($rooms['check_out_item_ids'])){
-                    $item_ids = explode(',', $rooms['check_out_item_ids']);
-                    foreach ($item_ids as $key2 => $item) {
-                        $items = $this->_itemsModel->selectCheckOutItemsByID($item);
-                        $items = $items[0];
-                        $rooms['items'][] = $items;
-                    }
-                }
-
-                $this->_view->checkOutData[] = $rooms;
-            }
+        // We need to get normal tenants who or not lords or lead tenant
+        foreach($users as $key => $user){
+            $usersArray[] = $this->_userModel->selectDataByID($user);
         }
 
-        // If Form has been submitted process it
-        if(!empty($_POST['save'])){
-            $_POST['id'] = $id;
+        $this->_view->users = $usersArray;
+        $this->_view->report = $report;
+        $this->_view->property = $this->_propertiesModel->selectDataByID($report[0]['property_id']);
 
-            // Update Rooms details
-            $updateData = $this->_model->updateData($_POST);
-
-            if(isset($updateData['error']) && $updateData['error'] != null){
-                foreach($updateData['error'] as $key => $error){
-                    $this->_view->error[$key] = $error;
-                }
-            } else {
-                $this->_view->flash[] = "Rooms updated successfully.";
-                Session::set('backofficeFlash', array($this->_view->flash, 'success'));
-                Url::redirect('backoffice/reports/index');
-            }
+        //working out if current users role.
+        if($report[0]['lead_tenant_id'] == $_SESSION['UserCurrentUserID']){
+            $this->_view->userRole = 'lead_tenant';
+        }elseif($report[0]['lord_id'] == $_SESSION['UserCurrentUserID']){
+            $this->_view->userRole = 'lord';
+        }else{
+            $this->_view->userRole = 'tenant';
         }
+       
+        Debug::printr($this->_view->property);
 
-        if(!empty($_POST['cancel'])){
-            Url::redirect('backoffice/reports/index');
-        }
+        Debug::printr($report);
+
+        Debug::printr($this->_view->checkInData);
+
+
+
+
+
+
+        //$this->_userModel = $this->_userModel->getUsersByUserReports();
+
 
         // Render the view ($renderBody, $layout, $area)
-        $this->_view->render('reports/add', 'layout', 'backoffice');
+        $this->_view->render('reports/checkin', 'layout');
+
     }
 
     /**

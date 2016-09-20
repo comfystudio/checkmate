@@ -169,6 +169,16 @@ class Items extends Model{
         return $this->_db->select($sql, array(':check_in_item_id' => $check_in_item_id));
     }
 
+    public function createCheckInItem($report_rooms_id, $item_id){
+        $dbTable = 'check_in_items';
+        $postData = array(
+            'report_rooms_id' => $report_rooms_id,
+            'item_id' => $item_id
+        );
+
+        $this->_db->insert($dbTable, $postData);
+    }
+
     /**
      * FUNCTION: selectCheckOutItemsByID
      * This function gets the checked out items by id

@@ -148,4 +148,34 @@ class Reports extends Model{
         return $this->_db->select($sql, array(':property_id' => $property_id, ':date' => $date));
     }
 
+    /**
+     * FUNCTION: getCheckInReportsByPropertyId
+     * This function returns reports that have $user_id and between $date between check_in and out
+     * @param int $property_id
+     */
+    public function getCheckInReportsByPropertyId($property_id){
+        $sql = "SELECT t1.*, t2.title as property_title, t2.id as property_id, t3.firstname as lord_firstname, t3.surname as lord_surname, t3.id as lord_id, t4.firstname as tenant_firstname, t4.surname as tenant_surname, t4.id as tenant_id, GROUP_CONCAT(DISTINCT t5.id separator ',') as check_in_room_ids, GROUP_CONCAT(DISTINCT t6.id separator ',') as check_out_room_ids
+                FROM reports t1
+                    LEFT JOIN properties t2 ON t1.property_id = t2.id
+                    LEFT JOIN users t3 ON t1.lord_id = t3.id
+                    LEFT JOIN users t4 ON t1.lead_tenant_id = t4.id
+                    LEFT JOIN check_in_rooms t5 ON t1.id = t5.report_id
+                    LEFT JOIN check_out_rooms t6 ON t1.id = t6.report_id
+                WHERE t1.property_id = :property_id AND t1.check_in BETWEEN  DATE_ADD(NOW(), INTERVAL -7 DAY) AND DATE_ADD(NOW(), INTERVAL 7 DAY)
+                GROUP BY t1.id";
+        return $this->_db->select($sql, array(':property_id' => $property_id));
+    }
+
+    /**
+     * FUNCTION: getUserReports
+     * This function returns the user reports based on report_id
+     * @param int $property_id
+     */
+    public function getUserReports($report_id){
+        $sql = "SELECT GROUP_CONCAT(t1.user_id) as user_id
+                FROM user_reports t1
+                WHERE t1.report_id = :report_id";
+        return $this->_db->select($sql, array(':report_id' => $report_id));
+    }
+
 }?>

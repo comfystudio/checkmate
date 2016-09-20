@@ -410,6 +410,7 @@ class Users extends Model{
 	public function createDataSystem($data){
         $dbTable = 'users';
         $postData = array(
+        	'type' => $data['type'],
             'firstname' => $data['firstname'],
             'surname' => $data['surname'],
             'email' => $data['email'],
