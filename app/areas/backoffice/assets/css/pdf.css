@@ -6,7 +6,7 @@ h3{
     font-family: Arial;
 }
 
-table{
+#main{
     border:1px solid black;
     border-collapse: collapse;
     width:100%;
@@ -14,9 +14,10 @@ table{
 
 }
 
-th{
+#main th{
     font-family: Arial;
-    width:60%; text-align: left;
+    width:60%; 
+    text-align: left;
     font-size:24px;
     background-color:#DDDDDD;
     border-bottom: 1px solid black;
@@ -29,7 +30,7 @@ th{
     background-color:#DDDDDD;
 }
 
-td{
+#main td{
     font-family: Arial;
     font-size:24px;
     border-right:1px solid black;
@@ -42,10 +43,56 @@ td{
     text-align: right;
 }
 
+.align-left{
+    text-align: left;
+}
+
 .align-centre{
     text-align: center;
 }
 
 .pay-element{
     width:60%;
+}
+
+.left{
+    float:left;
+}
+
+.right{
+    float:right;
+}
+
+.logo{
+    width: 100%; 
+    margin: 0 auto; 
+    text-align: center;
+}
+
+.center{
+    text-align: center;
+}
+
+.blue{
+    color:#2c3f83;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.underline{
+    border-top:1px solid #2c3f83;
+}
+
+.background-main{
+    background-color:#0c7edd;
+}
+
+.background-secondary{
+    background-color:grey;
+}
+
+.color-offset{
+    color:black;
 }

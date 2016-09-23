@@ -800,28 +800,6 @@ class UsersController extends BaseController {
 
 		$this->_view->paymentTypes = explode(',', PAYMENTS);
 
-		// Debug::printr($this->_view->properties);die;
-
-
-		
-
-
-
-		###### PAGINATION ######
-        //sanitise or set keywords to false
-        // if(isset($_GET['keywords']) && !empty($_GET['keywords'])){
-        //     $_GET['keywords'] = FormInput::checkKeywords($_GET['keywords']);
-        // }else{
-        //     $_GET['keywords'] = false;
-        // }
-
-        // $totalItems = $this->_model->countAllData($_GET['keywords'], 'active');
-        // $pages = new Pagination(12,'keywords='.$_GET['keywords'].'&page', $totalItems[0]['total']);
-        // $this->_view->getAllData = $this->_model->getAllData($pages->get_limit(), $_GET['keywords'], 'active');
-
-		// Create the pagination nav menu
-		//$this->_view->page_links = $pages->page_links('?', null, 'front');
-
 		// Render the view ($renderBody, $layout, $area)
 		$this->_view->render('users/dashboard', 'layout');
 	}

@@ -40,6 +40,26 @@ class Reports extends Model{
         return $return;
     }
 
+    /**
+     * FUNCTION: selectDataByID
+     * This function gets a report
+     * @param int $id
+     */
+    public function selectDataByID($id){
+        $sql = "SELECT t1.*, t2.title as property_title, t2.id as property_id, t2.house_number as property_number, t2.address_1 as property_address_1, t2.address_2 as property_address_2, t2.address_3 as property_address_3, t2.address_4 as property_address_4, t2.postcode as property_postcode, t2.image as property_image, t3.firstname as lord_firstname, t3.surname as lord_surname, t3.id as lord_id, t3.email as lord_email, t4.firstname as tenant_firstname, t4.surname as tenant_surname, t4.id as tenant_id, t4.email as tenant_email, GROUP_CONCAT(DISTINCT t5.id separator ',') as check_in_room_ids, GROUP_CONCAT(DISTINCT t6.id separator ',') as check_out_room_ids, GROUP_CONCAT(DISTINCT t7.user_id separator ',') as user_ids
+                FROM reports t1
+                    LEFT JOIN properties t2 ON t1.property_id = t2.id
+                    LEFT JOIN users t3 ON t1.lord_id = t3.id
+                    LEFT JOIN users t4 ON t1.lead_tenant_id = t4.id
+                    LEFT JOIN check_in_rooms t5 ON t1.id = t5.report_id
+                    LEFT JOIN check_out_rooms t6 ON t1.id = t6.report_id
+                    LEFT JOIN user_reports t7 ON t1.id = t7.report_id
+                WHERE t1.id = :id
+                GROUP BY t1.id";
+
+        return $this->_db->select($sql, array(':id' => $id));
+    }
+
 
 
     /**
@@ -103,13 +123,22 @@ class Reports extends Model{
             $dbTable = 'reports';
             $postData = array(
                 'status' => $data['status'],
-                'check_in' => $data['check_in'],
-                'check_out' => $data['check_out'],
+                // 'check_in' => $data['check_in'],
+                // 'check_out' => $data['check_out'],
                 'meter_type' => $data['meter_type'],
                 'meter_reading' => $data['meter_reading'],
                 'meter_measurement' => $data['meter_measurement'],
+                'meter_image' => $data['meter_image'][0],
+                'tenant_agreement' => $data['tenant_agreement'][0],
                 'oil_level' => $data['oil_level'],
-                'keys_acquired' => $data['keys_acquired']
+                'keys_acquired' => $data['keys_acquired'],
+                'fire_extin' => $data['fire_extin'][0],
+                'fire_blanket' => $data['fire_blanket'],
+                'smoke_alarm' => $data['smoke_alarm'],
+                'tenant_approved_check_in' => $data['tenant_approved_check_in'],
+                'lord_approved_check_in' => $data['lord_approved_check_in'],
+                'tenant_approved_check_out' => $data['tenant_approved_check_out'],
+                'lord_approved_check_out' => $data['lord_approved_check_out']
             );
             $where = "`id` = {$data['id']}";
 
@@ -142,7 +171,7 @@ class Reports extends Model{
     public function getReportsByPropertyIdAndDate($property_id, $date){
         $sql = "SELECT t1.id
                 FROM reports t1
-                WHERE t1.property_id = :property_id AND :date BETWEEN t1.check_in AND t1.check_out
+                WHERE t1.property_id = :property_id AND :date BETWEEN DATE_ADD(t1.check_in, INTERVAL -7 DAY) AND DATE_ADD(t1.check_out, INTERVAL 7 DAY)
                 GROUP BY t1.id";
 
         return $this->_db->select($sql, array(':property_id' => $property_id, ':date' => $date));
@@ -167,6 +196,24 @@ class Reports extends Model{
     }
 
     /**
+     * FUNCTION: getCheckOutReportsByPropertyId
+     * This function returns reports that have $user_id and between $date between check_in and out
+     * @param int $property_id
+     */
+    public function getCheckOutReportsByPropertyId($property_id){
+        $sql = "SELECT t1.*, t2.title as property_title, t2.id as property_id, t3.firstname as lord_firstname, t3.surname as lord_surname, t3.id as lord_id, t4.firstname as tenant_firstname, t4.surname as tenant_surname, t4.id as tenant_id, GROUP_CONCAT(DISTINCT t5.id separator ',') as check_in_room_ids, GROUP_CONCAT(DISTINCT t6.id separator ',') as check_out_room_ids
+                FROM reports t1
+                    LEFT JOIN properties t2 ON t1.property_id = t2.id
+                    LEFT JOIN users t3 ON t1.lord_id = t3.id
+                    LEFT JOIN users t4 ON t1.lead_tenant_id = t4.id
+                    LEFT JOIN check_in_rooms t5 ON t1.id = t5.report_id
+                    LEFT JOIN check_out_rooms t6 ON t1.id = t6.report_id
+                WHERE t1.property_id = :property_id AND t1.check_out BETWEEN  DATE_ADD(NOW(), INTERVAL -7 DAY) AND DATE_ADD(NOW(), INTERVAL 7 DAY)
+                GROUP BY t1.id";
+        return $this->_db->select($sql, array(':property_id' => $property_id));
+    }
+
+    /**
      * FUNCTION: getUserReports
      * This function returns the user reports based on report_id
      * @param int $property_id
@@ -177,5 +224,8 @@ class Reports extends Model{
                 WHERE t1.report_id = :report_id";
         return $this->_db->select($sql, array(':report_id' => $report_id));
     }
+
+
+    
 
 }?>

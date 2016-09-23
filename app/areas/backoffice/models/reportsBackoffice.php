@@ -118,7 +118,10 @@ class ReportsBackoffice extends Model{
                 'meter_reading' => $data['meter_reading'],
                 'meter_measurement' => $data['meter_measurement'],
                 'oil_level' => $data['oil_level'],
-                'keys_acquired' => $data['keys_acquired']
+                'keys_acquired' => $data['keys_acquired'],
+                'fire_extin' => $data['fire_extin'],
+                'fire_blanket' => $data['fire_blanket'],
+                'smoke_alarm' => $data['smoke_alarm']
             );
             $where = "`id` = {$data['id']}";
 
@@ -181,7 +184,7 @@ class ReportsBackoffice extends Model{
     public function getReportsByPropertyIdAndDate($property_id, $date){
         $sql = "SELECT t1.id
                 FROM reports t1
-                WHERE t1.property_id = :property_id AND :date BETWEEN t1.check_in AND t1.check_out
+                WHERE t1.property_id = :property_id AND :date BETWEEN DATE_ADD(t1.check_in, INTERVAL -7 DAY) AND DATE_ADD(t1.check_out, INTERVAL 7 DAY)
                 GROUP BY t1.id";
 
         return $this->_db->select($sql, array(':property_id' => $property_id, ':date' => $date));

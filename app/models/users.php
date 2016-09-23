@@ -573,4 +573,53 @@ class Users extends Model{
 		// Gets Last Insert ID
 		return $lastInsertID = $this->_db->lastInsertId('id');
 	}
+
+	/**
+	 * FUNCTION: updateUserReportCheckOut
+	 * This function updates user_reports with new checkout info
+	 * @param mixed $data An array of data passed from the Controller
+	 */
+	public function updateUserReportCheckOut($data){
+		$dbTable = 'user_reports';
+        $postData = array(
+	        'check_out_signature' => $data['check_out_signature'],
+			'check_out_time' => $data['check_out_time']
+        );
+		$where = "`user_id` = {$data['user_id']} AND `report_id` = {$data['report_id']}";
+
+        $this->_db->update($dbTable, $postData, $where);
+        return true;
+	}
+
+	/**
+	 * FUNCTION: updateUserReportCheckIn
+	 * This function updates user_reports with new checkout info
+	 * @param mixed $data An array of data passed from the Controller
+	 */
+	public function updateUserReportCheckIn($data){
+		$dbTable = 'user_reports';
+        $postData = array(
+	        'check_in_signature' => $data['check_in_signature'],
+			'check_in_time' => $data['check_in_time']
+        );
+		$where = "`user_id` = {$data['user_id']} AND `report_id` = {$data['report_id']}";
+
+        $this->_db->update($dbTable, $postData, $where);
+        return true;
+	}
+
+	/**
+	 * FUNCTION: getAllByArray
+	 * This function returns the details for All Users in an array
+     * @param array $users, int $report_id
+	 */
+	public function getAllByArray($users, $report_id){
+		$sql = "SELECT t1.*, t2.*
+				FROM users t1
+					LEFT JOIN user_reports t2 ON t1.id = t2.user_id AND t2.report_id = $report_id
+				WHERE t1.id IN (".$users.")
+				GROUP BY t1.id";
+				
+		return $this->_db->select($sql);	
+	}
 }?>

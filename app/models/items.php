@@ -169,6 +169,11 @@ class Items extends Model{
         return $this->_db->select($sql, array(':check_in_item_id' => $check_in_item_id));
     }
 
+    /**
+     * FUNCTION: createCheckInItem
+     * This function creates a check in item
+     * @param int $report_rooms_id, $item_id
+     */
     public function createCheckInItem($report_rooms_id, $item_id){
         $dbTable = 'check_in_items';
         $postData = array(
@@ -177,6 +182,40 @@ class Items extends Model{
         );
 
         $this->_db->insert($dbTable, $postData);
+    }
+
+    /**
+     * FUNCTION: createCheckOutItem
+     * This function creates a check out Item
+     * @param int $report_rooms_id, $item_id
+     */
+    public function createCheckOutItem($report_rooms_id, $item_id){
+        $dbTable = 'check_out_items';
+        $postData = array(
+            'report_rooms_id' => $report_rooms_id,
+            'item_id' => $item_id
+        );
+
+        $this->_db->insert($dbTable, $postData);
+    }
+
+    /**
+     * FUNCTION: createCheckInItemTenant
+     * This function creates a check in item based on tenant criteria
+     * @param array $data
+     */
+    public function createCheckInItemTenant($data){
+        $dbTable = 'check_in_items';
+        $postData = array(
+            'item_id' => $data['item_id'],
+            'report_rooms_id' => $data['report_rooms_id'],
+            'tenant_comment' => $data['tenant_comment'],
+            'tenant_approved' => $data['tenant_approved'],
+            'image' => $data['image'][0],
+        );
+
+        $this->_db->insert($dbTable, $postData);
+        return $lastInsertID = $this->_db->lastInsertId('id');
     }
 
     /**
@@ -191,6 +230,49 @@ class Items extends Model{
                 WHERE t1.id = :check_out_item_id
                 GROUP BY t1.id";
         return $this->_db->select($sql, array(':check_out_item_id' => $check_out_item_id));
+    }
+
+
+    /**
+     * FUNCTION: updateCheckInItem
+     * This function updates check in items 
+     * @param mixed $data An array of data passed from the Controller
+     */
+    public function updateCheckInItem($data){
+        $dbTable = 'check_in_items';
+        $postData = array(
+            'tenant_comment' => $data['tenant_comment'],
+            'lord_comment' => $data['lord_comment'],
+            'status' => $data['status'],
+            'tenant_approved' => $data['tenant_approved'],
+            'lord_approved' => $data['lord_approved'],
+            'image' => $data['image'][0]
+        );
+        $where = "`id` = {$data['id']}";
+
+        $this->_db->update($dbTable, $postData, $where);
+        return true;
+    }
+
+    /**
+     * FUNCTION: updateCheckOutItem
+     * This function updates check out items 
+     * @param mixed $data An array of data passed from the Controller
+     */
+    public function updateCheckOutItem($data){
+        $dbTable = 'check_out_items';
+        $postData = array(
+            'tenant_comment' => $data['tenant_comment'],
+            'lord_comment' => $data['lord_comment'],
+            'status' => $data['status'],
+            'tenant_approved' => $data['tenant_approved'],
+            'lord_approved' => $data['lord_approved'],
+            'image' => $data['image'][0]
+        );
+        $where = "`id` = {$data['id']}";
+
+        $this->_db->update($dbTable, $postData, $where);
+        return true;
     }
 
 }?>

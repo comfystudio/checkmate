@@ -58,12 +58,12 @@
 							<?php $difference = abs($checkOutTime - $timeInSeconds)?>
 							<?php $differenceCheckIn = abs($checkInTime - $timeInSeconds)?>
 							<?php if($difference <= $fourDay){?>
-								<a href = "/reports/checkout/<?php echo $property['id']?>">Begin Check Out</a>
+								<a href = "/reports/checkout/<?php echo $property['id']?>">Check Out</a>
 							<?php }elseif($differenceCheckIn <= $sevenDay){ ?>
-								<a href = "/reports/checkin/<?php echo $property['id']?>">Amend Check in</a>
+								<a href = "/reports/checkin/<?php echo $property['id']?>">Check in</a>
 							<?php } ?>
 						<?php } else {?>
-							<a href = "/reports/start/<?php echo $property['id']?>">Create Check in</a>
+							<a href = "/reports/start/<?php echo $property['id']?>">Start Check in</a>
 						<?php } ?>
 						<br/>
 						<a href = "/properties/edit/<?php echo $property['id']?>">Edit Property</a>
@@ -86,10 +86,12 @@
 						<?php $difference = abs($checkOutTime - $timeInSeconds)?>
 						<?php $differenceCheckIn = abs($checkInTime - $timeInSeconds)?>
 						<?php if($difference <= $fourDay){?>
-							<a href = "/reports/checkout/<?php echo $property['id']?>">Begin Check Out</a>
+							<a href = "/reports/checkout/<?php echo $report['property_id']?>">Check Out</a>
 						<?php }elseif($differenceCheckIn <= $sevenDay){ ?>
-							<a href = "/reports/checkin/<?php echo $property['id']?>">Create Check in</a>
+							<a href = "/reports/checkin/<?php echo $report['property_id']?>">Check in</a>
 						<?php } ?>
+						<br/>
+						<a href = "/reports/report-download/<?php echo $report['id']?>">Download PDF</a>
 					</li>
 				<?php } ?>
 			</ul>

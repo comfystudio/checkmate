@@ -155,6 +155,27 @@
                 </div>
             </div>
 
+            <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('fire_extin', $this->error)) { echo 'has-error'; }?>">
+                <label class="col-md-2 control-label" for="fire_extin">Fire Extinguishers</label>
+                <div class="col-md-5">
+                    <input type="text" id="fire_extin" name="fire_extin" class="form-control" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['fire_extin']);} elseif(!empty($this->stored_data['fire_extin'])){echo $this->stored_data['fire_extin'];}?>">
+                </div>
+            </div>
+
+            <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('fire_blanket', $this->error)) { echo 'has-error'; }?>">
+                <label class="col-md-2 control-label" for="fire_blanket">Fire Blankets</label>
+                <div class="col-md-5">
+                    <input type="text" id="fire_blanket" name="fire_blanket" class="form-control" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['fire_blanket']);} elseif(!empty($this->stored_data['fire_blanket'])){echo $this->stored_data['fire_blanket'];}?>">
+                </div>
+            </div>
+
+            <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('smoke_alarm', $this->error)) { echo 'has-error'; }?>">
+                <label class="col-md-2 control-label" for="smoke_alarm">Smoke Alarms</label>
+                <div class="col-md-5">
+                    <input type="text" id="smoke_alarm" name="smoke_alarm" class="form-control" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['smoke_alarm']);} elseif(!empty($this->stored_data['smoke_alarm'])){echo $this->stored_data['smoke_alarm'];}?>">
+                </div>
+            </div>
+
             <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('tenant_approved_check_in', $this->error)) { echo 'has-error'; }?>">
                 <label class="col-md-2 control-label" for="tenant_approved_check_in">Check In Status</label>
                 <div class="col-md-5">

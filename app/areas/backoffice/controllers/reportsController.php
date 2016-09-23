@@ -563,6 +563,36 @@ class ReportsController extends BaseController {
 
                     $mpdf->WriteHTML('<tr>');
                         $mpdf->WriteHTML('<th>');
+                            $mpdf->WriteHTML('Fire Extinguishers');
+                        $mpdf->WriteHTML('</th>');
+
+                        $mpdf->WriteHTML('<td>');
+                            $mpdf->WriteHTML($this->_view->stored_data['fire_extin']);
+                        $mpdf->WriteHTML('</td>');
+                    $mpdf->WriteHTML('</tr>');
+
+                    $mpdf->WriteHTML('<tr>');
+                        $mpdf->WriteHTML('<th>');
+                            $mpdf->WriteHTML('Fire Blankets');
+                        $mpdf->WriteHTML('</th>');
+
+                        $mpdf->WriteHTML('<td>');
+                            $mpdf->WriteHTML($this->_view->stored_data['fire_blanket']);
+                        $mpdf->WriteHTML('</td>');
+                    $mpdf->WriteHTML('</tr>');
+
+                    $mpdf->WriteHTML('<tr>');
+                        $mpdf->WriteHTML('<th>');
+                            $mpdf->WriteHTML('Smoke Alarms');
+                        $mpdf->WriteHTML('</th>');
+
+                        $mpdf->WriteHTML('<td>');
+                            $mpdf->WriteHTML($this->_view->stored_data['smoke_alarm']);
+                        $mpdf->WriteHTML('</td>');
+                    $mpdf->WriteHTML('</tr>');
+
+                    $mpdf->WriteHTML('<tr>');
+                        $mpdf->WriteHTML('<th>');
                             $mpdf->WriteHTML('Check In Status');
                         $mpdf->WriteHTML('</th>');
 

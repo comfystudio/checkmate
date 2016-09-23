@@ -211,6 +211,23 @@ class rooms extends Model{
     }
 
     /**
+     * FUNCTION: createCheckOutRoom
+     * This function adds a new check_out_room
+     * @param int $report_id, int $room_id
+     */
+    public function createCheckOutRoom($report_id, $room_id){
+        $dbTable = 'check_out_rooms';
+        $postData = array(
+            'report_id' => $report_id,
+            'room_id' => $room_id
+        );
+
+        $this->_db->insert($dbTable, $postData);
+        // Gets Last Insert ID
+        return $lastInsertID = $this->_db->lastInsertId('id');
+    }
+
+    /**
      * FUNCTION: selectCheckOutRoomsByID
      * This function get checkoutrooms by id
      * @param int $check_out_room_id
@@ -225,6 +242,55 @@ class rooms extends Model{
                 ";
 
         return $this->_db->select($sql, array(':check_out_room_id' => $check_out_room_id));
+    }
+
+    /**
+     * FUNCTION: updateCheckInRoom
+     * This function updates check_in_rooms
+     * @param mixed $data An array of data passed from the Controller
+     */
+    public function updateCheckInRoom($data){
+        $dbTable = 'check_in_rooms';
+        $postData = array(
+            'clean' => $data['clean'],
+            'tenant_comment' => $data['tenant_comment'],
+            'lord_comment' => $data['lord_comment']
+        );
+        $where = "`id` = {$data['id']}";
+
+        $this->_db->update($dbTable, $postData, $where);
+        return true;
+    }
+
+    /**
+     * FUNCTION: updateCheckOutRoom
+     * This function updates check_out_rooms
+     * @param mixed $data An array of data passed from the Controller
+     */
+    public function updateCheckOutRoom($data){
+        $dbTable = 'check_out_rooms';
+        $postData = array(
+            'clean' => $data['clean'],
+            'tenant_comment' => $data['tenant_comment'],
+            'lord_comment' => $data['lord_comment']
+        );
+        $where = "`id` = {$data['id']}";
+
+        $this->_db->update($dbTable, $postData, $where);
+        return true;
+    }
+
+
+    /**
+     * FUNCTION: deleteCheckOutRoomsByReportId
+     * This function deletes all check out rooms by report_id
+     * @param int $report_id
+     */
+    public function deleteCheckOutRoomsByReportId($report_id){
+        $dbTable = 'check_out_rooms';
+        $where = "`report_id` = $report_id";
+        $this->_db->delete($dbTable, $where);
+        return true;
     }
 
 }?>

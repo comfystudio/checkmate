@@ -76,7 +76,7 @@
 <br/>
 <br/>
 
-<?php $action  = $this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID'] ? '/reports/sign/'.$this->report[0]['id'].'/checkin' : ''?>
+<?php $action  = $this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID'] ? '/reports/sign/'.$this->report[0]['id'].'/checkout' : ''?>
 <form id="form" action="<?php echo $action?>" method="post" class="form-horizontal form-bordered" enctype="multipart/form-data">
     <div class = "container">
         <div class = "row">
@@ -219,9 +219,9 @@
             </div>
 
             <div class = "col-md-3">
-                <select <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID'] || $this->report[0]['tenant_approved_check_in'] == 1){echo 'disabled';}?> id="tenant_approved_check_in" name="tenant_approved_check_in" class="form-control">
+                <select <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID'] || $this->report[0]['tenant_approved_check_out'] == 1){echo 'disabled';}?> id="tenant_approved_check_out" name="tenant_approved_check_out" class="form-control">
                     <?php foreach($this->YesNo as $key3 => $type){?>
-                        <option value="<?php echo $key3 ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['tenant_approved_check_in'] == $key3)) {echo 'selected="selected"';} elseif(!empty($this->report[0]['tenant_approved_check_in']) && $this->report[0]['tenant_approved_check_in'] == $key3){echo 'selected="selected"';}?> > <?php echo $type?></option>
+                        <option value="<?php echo $key3 ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['tenant_approved_check_out'] == $key3)) {echo 'selected="selected"';} elseif(!empty($this->report[0]['tenant_approved_check_out']) && $this->report[0]['tenant_approved_check_out'] == $key3){echo 'selected="selected"';}?> > <?php echo $type?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -231,9 +231,9 @@
             </div>
 
             <div class = "col-md-3">
-                <select <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] || $this->report[0]['lord_approved_check_in'] == 1){echo 'disabled';}?> id="lord_approved_check_in" name="lord_approved_check_in" class="form-control">
+                <select <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] || $this->report[0]['lord_approved_check_out'] == 1){echo 'disabled';}?> id="lord_approved_check_out" name="lord_approved_check_out" class="form-control">
                     <?php foreach($this->YesNo as $key3 => $type){?>
-                        <option value="<?php echo $key3 ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['lord_approved_check_in'] == $key3)) {echo 'selected="selected"';} elseif(!empty($this->report[0]['lord_approved_check_in']) && $this->report[0]['lord_approved_check_in'] == $key3){echo 'selected="selected"';}?> > <?php echo $type?></option>
+                        <option value="<?php echo $key3 ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['lord_approved_check_out'] == $key3)) {echo 'selected="selected"';} elseif(!empty($this->report[0]['lord_approved_check_out']) && $this->report[0]['lord_approved_check_out'] == $key3){echo 'selected="selected"';}?> > <?php echo $type?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -242,17 +242,14 @@
         <br/>
         <br/>
 
-        <?php if(isset($this->checkInData) && !empty($this->checkInData)){?>
-            <?php foreach($this->checkInData as $key => $room){?>
+        <?php if(isset($this->checkOutData) && !empty($this->checkOutData)){?>
+            <?php foreach($this->checkOutData as $key => $room){?>
                 <div class = "row">
                     <div class = "col-md-offset-3 col-md-3">
                         Room Name
                     </div>
                     <div class = "col-md-3">
                         <?php echo $room['name'];?>
-                        <?php if($this->report[0]['lead_tenant_id'] == $_SESSION['UserCurrentUserID']){?>
-                            <a data-toggle="tooltip" title="Add More items" class="btn btn-effect-ripple btn-sm btn-success check-in-add-items" data-id="<?php echo $room['id']?>" data-role = "<?php echo $this->userRole?>" data-items = "0"><i class="fa fa-plus"></i></a>
-                        <?php } ?>
                     </div>
                 </div>
 
@@ -326,7 +323,7 @@
                                 </div>
                                 <div class = "col-md-3">
                                     <img src="/image.php?width=120&height=120&image=/assets/uploads/<?php echo $item['image']?>" alt="<?php echo $item['image']?>">
-                                    <a href="/reports/download/<?php echo $item['id'];?>/item" class="btn btn-primary">Download Item Image<i class="fa fa-cloud-download"></i></a>
+                                    <a href="/reports/download/<?php echo $item['id'];?>/checkoutItem" class="btn btn-primary">Download Item Image<i class="fa fa-cloud-download"></i></a>
                                 </div>
                             </div>
                         <?php } else {?>
@@ -406,8 +403,8 @@
             <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){?>
                 <input id = "other-tenant-sign" type="submit" name="save" class="btn btn-effect-ripple btn-primary loader" value="Sign">
             <?php } else {?>
-                <input id = "save-check-in" type="submit" name="save" class="btn btn-effect-ripple btn-primary loader" value="Save">
-            <?php }?>
+                <input id = "save-check-out" type="submit" name="save" class="btn btn-effect-ripple btn-primary loader" value="Save">
+            <?php } ?>
             <input type="submit" name="cancel" class="btn btn-effect-ripple btn-danger loader" value="Cancel">
         </div>
     </div>
