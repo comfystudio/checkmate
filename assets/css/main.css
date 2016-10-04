@@ -183,6 +183,12 @@ Header
 	margin: 15px 0;
 }
 
+.form-wrapper{
+background-color: white;
+overflow: hidden;
+padding: 70px 0;
+}
+
 /*************************************************************************
 Footer
 *************************************************************************/
@@ -407,7 +413,7 @@ Forms
 }
 .form-control{
     border: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #c1c1c1;
     box-shadow: none;
     border-radius: 0;
     font-size: 26px;
@@ -416,7 +422,6 @@ Forms
     height: auto;
     padding-bottom: 20px;
     padding-left: 0px;
-    background: #f2f2f2;
 }
 .welcome-message{
 	text-align: center;
@@ -436,14 +441,17 @@ Forms
     background: #f2f2f2;
 }
 .formbtn{
-	border-color: #fff;
     color: #fff;
-    width: 116px;
-    height: 50px;
-    border-radius: 0;
     font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    background: #2c3f83;
+    font-weight: bold;
+    background: #0c7edd;
+    font-size: 22px;
+    border: none;
+	padding: 17px 20px;
+}
+.formbtn:hover {
+    background-color: #0b72c7;
+    color:#fff;
 }
 .formintro{
 	padding-top: 80px;
@@ -493,6 +501,38 @@ Forms
 }
 .error input{
 	border:1px solid #ebccd1;
+}
+.back-to-dash{
+	font-size:24px;
+	font-weight: 300;
+	float:left;
+    font-family: 'Lato', sans-serif;
+    padding-left: 70px;
+    padding-top: 20px;
+}
+
+.back-to-dash img{
+	padding-bottom: 6px;
+	display: inline;
+}
+
+.back-to-dash a{
+	color:black;
+	text-decoration: none;
+}
+.right-border{
+	border-right:1px solid #c1c1c1;
+}
+
+.form-wrapper .form-group{
+	padding: 0 90px 15px;
+	margin-bottom: 0;
+}
+
+.form-wrapper .form-group select{
+	background-color: #0c7edd;
+	color:white;
+    padding: 15px 20px;
 }
 
 /*************************************************************************

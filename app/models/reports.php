@@ -183,7 +183,7 @@ class Reports extends Model{
      * @param int $property_id
      */
     public function getCheckInReportsByPropertyId($property_id){
-        $sql = "SELECT t1.*, t2.title as property_title, t2.id as property_id, t3.firstname as lord_firstname, t3.surname as lord_surname, t3.id as lord_id, t4.firstname as tenant_firstname, t4.surname as tenant_surname, t4.id as tenant_id, GROUP_CONCAT(DISTINCT t5.id separator ',') as check_in_room_ids, GROUP_CONCAT(DISTINCT t6.id separator ',') as check_out_room_ids
+        $sql = "SELECT t1.*, t2.title as property_title, t2.id as property_id, t3.firstname as lord_firstname, t3.surname as lord_surname, t3.id as lord_id, t3.email as lord_email, t4.firstname as tenant_firstname, t4.surname as tenant_surname, t4.email as tenant_email, t4.id as tenant_id, GROUP_CONCAT(DISTINCT t5.id separator ',') as check_in_room_ids, GROUP_CONCAT(DISTINCT t6.id separator ',') as check_out_room_ids
                 FROM reports t1
                     LEFT JOIN properties t2 ON t1.property_id = t2.id
                     LEFT JOIN users t3 ON t1.lord_id = t3.id
@@ -201,7 +201,7 @@ class Reports extends Model{
      * @param int $property_id
      */
     public function getCheckOutReportsByPropertyId($property_id){
-        $sql = "SELECT t1.*, t2.title as property_title, t2.id as property_id, t3.firstname as lord_firstname, t3.surname as lord_surname, t3.id as lord_id, t4.firstname as tenant_firstname, t4.surname as tenant_surname, t4.id as tenant_id, GROUP_CONCAT(DISTINCT t5.id separator ',') as check_in_room_ids, GROUP_CONCAT(DISTINCT t6.id separator ',') as check_out_room_ids
+        $sql = "SELECT t1.*, t2.title as property_title, t2.id as property_id, t3.firstname as lord_firstname, t3.surname as lord_surname, t3.id as lord_id, t3.email as lord_email, t4.firstname as tenant_firstname, t4.surname as tenant_surname, t4.email as tenant_email, t4.id as tenant_id, GROUP_CONCAT(DISTINCT t5.id separator ',') as check_in_room_ids, GROUP_CONCAT(DISTINCT t6.id separator ',') as check_out_room_ids
                 FROM reports t1
                     LEFT JOIN properties t2 ON t1.property_id = t2.id
                     LEFT JOIN users t3 ON t1.lord_id = t3.id
@@ -223,6 +223,61 @@ class Reports extends Model{
                 FROM user_reports t1
                 WHERE t1.report_id = :report_id";
         return $this->_db->select($sql, array(':report_id' => $report_id));
+    }
+
+
+    /**
+     * FUNCTION: getUpcomingCheckIns
+     * This function returns checkins that are within the time frame and not completed
+     */
+    public function getUpcomingCheckIns(){
+        $sql = "SELECT t1.id, t1.property_id, GROUP_CONCAT(DISTINCT t2.user_id separator ',') as user_ids, GROUP_CONCAT(t2.check_in_signature separator ',') as signatures
+                FROM reports t1
+                    LEFT JOIN user_reports t2 ON t1.id = t2.report_id
+                WHERE  NOW() BETWEEN DATE_ADD(t1.check_in, INTERVAL -7 DAY) AND DATE_ADD(t1.check_in, INTERVAL 7 DAY)
+                GROUP BY t1.id";
+
+        return $this->_db->select($sql);
+    }
+
+    /**
+     * FUNCTION: getUpcomingCheckOuts
+     * This function returns checkouts that are within the time frame and not completed
+     */
+    public function getUpcomingCheckOuts(){
+        $sql = "SELECT t1.id, t1.property_id, GROUP_CONCAT(DISTINCT t2.user_id separator ',') as user_ids, GROUP_CONCAT(t2.check_out_signature separator ',') as signatures
+                FROM reports t1
+                    LEFT JOIN user_reports t2 ON t1.id = t2.report_id
+                WHERE  NOW() BETWEEN DATE_ADD(t1.check_out, INTERVAL -7 DAY) AND DATE_ADD(t1.check_out, INTERVAL 7 DAY)
+                GROUP BY t1.id";
+
+        return $this->_db->select($sql);
+    }
+
+    /**
+     * FUNCTION: getExpiredCheckIns
+     * This function returns check ins that have just expired past the editable date and have not been approved by both parties.
+     */
+    public function getExpiredCheckIns(){
+        $sql = "SELECT t1.id, t1.property_id, GROUP_CONCAT(DISTINCT t2.user_id separator ',') as user_ids, GROUP_CONCAT(t2.check_in_signature separator ',') as signatures
+                FROM reports t1
+                    LEFT JOIN user_reports t2 ON t1.id = t2.report_id
+                WHERE (t1.tenant_approved_check_in = 0 OR t1.lord_approved_check_in = 0) AND DATE_ADD(t1.check_in, INTERVAL 8 DAY) = CURDATE()
+                GROUP BY t1.id";
+        return $this->_db->select($sql);
+    }
+
+    /**
+     * FUNCTION: getExpiredCheckOuts
+     * This function returns check outs that have just expired past the editable date and have not been approved by both parties.
+     */
+    public function getExpiredCheckOuts(){
+        $sql = "SELECT t1.id, t1.property_id, GROUP_CONCAT(DISTINCT t2.user_id separator ',') as user_ids, GROUP_CONCAT(t2.check_out_signature separator ',') as signatures
+                FROM reports t1
+                    LEFT JOIN user_reports t2 ON t1.id = t2.report_id
+                WHERE (t1.tenant_approved_check_out = 0 OR t1.lord_approved_check_out = 0) AND DATE_ADD(t1.check_out, INTERVAL 8 DAY) = CURDATE()
+                GROUP BY t1.id";
+        return $this->_db->select($sql);
     }
 
 

@@ -14,7 +14,12 @@
 						- <a href = "/payments/upgrade/">Upgrade Membership</a>
 					<?php } ?>
 				</p>
-				<p>Remaining Property Credits: <?php echo $this->user[0]['remaining_credits'] - $this->propertyCount?></p>
+				<?php if($this->user[0]['payment_type'] == 5){?>
+					<p>Remaining Property Credits: Unlimited</p>
+				<?php }else{ ?>
+					<p>Remaining Property Credits: <?php echo $this->user[0]['remaining_credits'] - $this->propertyCount?></p>
+				<?php } ?>
+				<a href = "/payments/cancel">Cancel Subscription</a>
 			<?php }?>
 		</div>
 

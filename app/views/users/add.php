@@ -45,29 +45,37 @@
         </div>
 
         <form class="full" action="" method="post" enctype="multipart/form-data">
-            <div class="col-sm-offset-2">
-                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('firstname', $this->missing)) { echo 'error'; }?>">
-                    <input type="name" class="form-control" id="firstname" placeholder="First name" name = "firstname" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['firstname']);} elseif(!empty($this->stored_data['firstname'])){echo $this->stored_data['firstname'];}?>">
-                </div>
-                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('surname', $this->missing)) { echo 'error'; }?>">
-                    <input type="name" class="form-control" id="name" placeholder="Last name" name = "surname" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['surname']);} elseif(!empty($this->stored_data['surname'])){echo $this->stored_data['surname'];}?>">
-                </div>
+            <div class = "form-wrapper">
+                <div class = "row">
+                    <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('firstname', $this->missing)) { echo 'error'; }?>">
+                        <input type="name" class="form-control" id="firstname" placeholder="First name" name = "firstname" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['firstname']);} elseif(!empty($this->stored_data['firstname'])){echo $this->stored_data['firstname'];}?>">
+                    </div>
 
-                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('email', $this->missing)) { echo 'error'; }?>">
-                    <input type="email" class="form-control" id="email" placeholder="Email Address" name="email" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['email']);} elseif(!empty($this->stored_data['email'])){echo $this->stored_data['email'];}?>">
-                </div>
-
-
-                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('password', $this->missing)) { echo 'error'; }?>">
-                    <input type="password" class="form-control" id="password" placeholder="Password" name="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''; ?>">
+                    <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('surname', $this->missing)) { echo 'error'; }?>">
+                        <input type="name" class="form-control" id="name" placeholder="Last name" name = "surname" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['surname']);} elseif(!empty($this->stored_data['surname'])){echo $this->stored_data['surname'];}?>">
+                    </div>
                 </div>
 
-                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('password_again', $this->missing)) { echo 'error'; }?>">
-                    <input type="password" class="form-control" id="password_again" placeholder="Confirm Password" name="password_again" value="<?php echo isset($_POST['password_again']) ? $_POST['password_again'] : ''; ?>">
+                <div class = "row">
+                    <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('email', $this->missing)) { echo 'error'; }?>">
+                        <input type="email" class="form-control" id="email" placeholder="Email Address" name="email" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['email']);} elseif(!empty($this->stored_data['email'])){echo $this->stored_data['email'];}?>">
+                    </div>
+
+
+                    <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('password', $this->missing)) { echo 'error'; }?>">
+                        <input type="password" class="form-control" id="password" placeholder="Password" name="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''; ?>">
+                    </div>
                 </div>
 
-                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('contact_num', $this->missing)) { echo 'error'; }?>">
-                    <input type="text" class="form-control" id="contact_num" placeholder="Contact Number" name="contact_num" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['contact_num']);} elseif(!empty($this->stored_data['contact_num'])){echo $this->stored_data['contact_num'];}?>">
+
+                <div class = "row">
+                    <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('password_again', $this->missing)) { echo 'error'; }?>">
+                        <input type="password" class="form-control" id="password_again" placeholder="Confirm Password" name="password_again" value="<?php echo isset($_POST['password_again']) ? $_POST['password_again'] : ''; ?>">
+                    </div>
+
+                    <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('contact_num', $this->missing)) { echo 'error'; }?>">
+                        <input type="text" class="form-control" id="contact_num" placeholder="Contact Number" name="contact_num" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['contact_num']);} elseif(!empty($this->stored_data['contact_num'])){echo $this->stored_data['contact_num'];}?>">
+                    </div>
                 </div>
 
                 <input type="hidden" name="is_active" value="1">

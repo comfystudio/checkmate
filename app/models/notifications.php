@@ -86,4 +86,16 @@ class Notifications extends Model{
             $this->_db->update($dbTable, $postData, $where);
     }
 
+
+    /**
+     * FUNCTION: deleteOld
+     * This function deletes notifications that are more than a year old.
+     */
+    public function deleteOld(){
+        $dbTable = 'notifications';
+        $where = " DATE_ADD(notifications.created, INTERVAL 1 YEAR) < NOW()";
+        $this->_db->delete($dbTable, $where);
+        return true;
+    }
+
 }?>

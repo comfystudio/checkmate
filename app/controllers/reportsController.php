@@ -551,6 +551,41 @@ class ReportsController extends BaseController {
                     unlink(ROOT . UPLOAD_DIR . '/' . $report[0]['tenant_agreement']);
                 }
 
+                //Need to email / notify either LL or lead tenant that update has taken place.
+                if($_SESSION['UserCurrentUserID'] != $report[0]['lord_id']){
+                    //notification creation
+                    $data['text'] = 'Lead Tenant has made changes to a check in. Please review at <a href = "'.SITE_URL.'reports/checkin/'.$report[0]['property_id'].'">Link</a>';
+                    $data['user_id'] = $report[0]['lord_id'];
+                    $this->_notificationModel->createData($data);
+
+                    //Email setup
+                    $this->_view->data['name'] = $report[0]['lord_firstname'].' '.$report[0]['lord_surname'];
+                    $this->_view->data['message'] = 'Lead Tenant has made changes to a check in';
+                    $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$report[0]['property_id'];
+                    $this->_view->data['button_text'] = 'Review Check In';
+
+                    // Need to create email
+                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                    Html::sendEmail($report[0]['lord_email'], 'Checkmate - Lead Tenant has updated a Check in', SITE_EMAIL, $message);
+
+                }else{
+                    //notification creation
+                    $data['text'] = 'Landlord / Letting Agent has made changes to a check in. Please review at <a href = "'.SITE_URL.'reports/checkin/'.$report[0]['property_id'].'">Link</a>';
+                    $data['user_id'] = $report[0]['tenant_id'];
+                    $this->_notificationModel->createData($data);
+
+                    //Email setup
+                    $this->_view->data['name'] = $report[0]['tenant_firstname'].' '.$report[0]['tenant_surname'];
+                    $this->_view->data['message'] = 'Landlord / Letting Agent has made changes to a check in';
+                    $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$report[0]['property_id'];
+                    $this->_view->data['button_text'] = 'Review Check In';
+
+                    // Need to create email
+                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                    Html::sendEmail($report[0]['tenant_email'], 'Checkmate - Landlord / Letting Agent has updated a Check in', SITE_EMAIL, $message);
+                }
+
+
                 $this->_view->flash[] = "Check In updated successfully.";
                 Session::set('backofficeFlash', array($this->_view->flash, 'success'));
                 Url::redirect('users/dashboard');
@@ -693,7 +728,7 @@ class ReportsController extends BaseController {
                 $status = 0;
             }
             $_POST['status'] = $status;
-            $_POST['tenant_approved_check_out'] = $report[0]['tenant_approved_check_out'];
+            $_POST['tenant_approved_check_in'] = $report[0]['tenant_approved_check_in'];
             $_POST['lord_approved_check_in'] = $report[0]['lord_approved_check_in'];
             $_POST['tenant_approved_check_out'] = $tenant_approved_check_out;
             $_POST['lord_approved_check_out'] = $lord_approved_check_out;
@@ -795,6 +830,40 @@ class ReportsController extends BaseController {
                 if (isset($_FILES['tenant_agreement']) && $_FILES['tenant_agreement']['name'] != null) {
                     //remove old file
                     unlink(ROOT . UPLOAD_DIR . '/' . $report[0]['tenant_agreement']);
+                }
+
+                //Need to email / notify either LL or lead tenant that update has taken place.
+                if($_SESSION['UserCurrentUserID'] != $report[0]['lord_id']){
+                    //notification creation
+                    $data['text'] = 'Lead Tenant has made changes to a check out. Please review at <a href = "'.SITE_URL.'reports/checkout/'.$report[0]['property_id'].'">Link</a>';
+                    $data['user_id'] = $report[0]['lord_id'];
+                    $this->_notificationModel->createData($data);
+
+                    //Email setup
+                    $this->_view->data['name'] = $report[0]['lord_firstname'].' '.$report[0]['lord_surname'];
+                    $this->_view->data['message'] = 'Lead Tenant has made changes to a check out';
+                    $this->_view->data['button_link'] = SITE_URL.'reports/checkout/'.$report[0]['property_id'];
+                    $this->_view->data['button_text'] = 'Review Check Out';
+
+                    // Need to create email
+                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                    Html::sendEmail($report[0]['lord_email'], 'Checkmate - Lead Tenant has updated a Check Out', SITE_EMAIL, $message);
+
+                }else{
+                    //notification creation
+                    $data['text'] = 'Landlord / Letting Agent has made changes to a check out. Please review at <a href = "'.SITE_URL.'reports/checkout/'.$report[0]['property_id'].'">Link</a>';
+                    $data['user_id'] = $report[0]['tenant_id'];
+                    $this->_notificationModel->createData($data);
+
+                    //Email setup
+                    $this->_view->data['name'] = $report[0]['tenant_firstname'].' '.$report[0]['tenant_surname'];
+                    $this->_view->data['message'] = 'Landlord / Letting Agent has made changes to a check out';
+                    $this->_view->data['button_link'] = SITE_URL.'reports/checkout/'.$report[0]['property_id'];
+                    $this->_view->data['button_text'] = 'Review Check Out';
+
+                    // Need to create email
+                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                    Html::sendEmail($report[0]['tenant_email'], 'Checkmate - Landlord / Letting Agent has updated a Check out', SITE_EMAIL, $message);
                 }
 
                 $this->_view->flash[] = "Checkout updated successfully.";
@@ -1338,202 +1407,299 @@ class ReportsController extends BaseController {
             foreach($this->_view->checkInData as $key => $room){
                 $mpdf->WriteHTML('<pagebreak />');
 
-
                 $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-main color-offset">'.$room['name'].'</div>');
 
                 $mpdf->WriteHTML('<table style = "width:100%;">');
+                    $mpdf->WriteHTML('<tr>');
+                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                            $mpdf->WriteHTML('Clean Status');
+                        $mpdf->WriteHTML('</th>');
+
+                        $mpdf->WriteHTML('<td class = "align-right">');
+                            $mpdf->WriteHTML($this->_view->clean_status[$room['clean']]);
+                        $mpdf->WriteHTML('</td>');
+                    $mpdf->WriteHTML('</tr>');
+
+                    $mpdf->WriteHTML('<tr>');
+                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                            $mpdf->WriteHTML('Tenant Comment');
+                        $mpdf->WriteHTML('</th>');
+
+                        $mpdf->WriteHTML('<td class = "align-right">');
+                            $mpdf->WriteHTML($room['tenant_comment']);
+                        $mpdf->WriteHTML('</td>');
+                    $mpdf->WriteHTML('</tr>');
+
+                    $mpdf->WriteHTML('<tr>');
+                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                            $mpdf->WriteHTML('LandLord Comment');
+                        $mpdf->WriteHTML('</th>');
+
+                        $mpdf->WriteHTML('<td class = "align-right">');
+                            $mpdf->WriteHTML($room['lord_comment']);
+                        $mpdf->WriteHTML('</td>');
+                    $mpdf->WriteHTML('</tr>');
+                $mpdf->WriteHTML('</table>');
+
+                $mpdf->WriteHTML('<div class = "underline" style="padding:25px; clear:both;"></div>');
+
+
+                if(isset($room['items']) && !empty($room['items'])){
+                    foreach($room['items'] as $key2 => $item){
+                        $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-secondary color-offset">'.$item['name'].'</div>');
+
+                        $mpdf->WriteHTML('<table style = "width:100%; padding-bottom:20px">');
+                            $mpdf->WriteHTML('<tr>');
+                                $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
+                                    $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="160px;">');
+                                $mpdf->WriteHTML('</th>');
+
+                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                                    $mpdf->WriteHTML('Item Status');
+                                $mpdf->WriteHTML('</td>');
+
+
+                                $mpdf->WriteHTML('<td class = "align-right">');
+                                        $mpdf->WriteHTML($this->_view->status[$item['tenant_approved'] + $item['lord_approved']]);
+                                $mpdf->WriteHTML('</td>');
+                            $mpdf->WriteHTML('</tr>');
+
+                            $mpdf->WriteHTML('<tr>');
+                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                                    $mpdf->WriteHTML('Tenant Comment');
+                                $mpdf->WriteHTML('</td>');
+
+
+                                $mpdf->WriteHTML('<td class = "align-right">');
+                                        $mpdf->WriteHTML($item['tenant_comment']);
+                                $mpdf->WriteHTML('</td>');
+                            $mpdf->WriteHTML('</tr>');
+
+                             $mpdf->WriteHTML('<tr>');
+                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                                    $mpdf->WriteHTML('Landlord Comment');
+                                $mpdf->WriteHTML('</td>');
+
+
+                                $mpdf->WriteHTML('<td class = "align-right">');
+                                        $mpdf->WriteHTML($item['lord_comment']);
+                                $mpdf->WriteHTML('</td>');
+                            $mpdf->WriteHTML('</tr>');
+                        $mpdf->WriteHTML('</table>');
+
+                    }
+                }
+            }
+        }
+
+       $mpdf->WriteHTML('<pagebreak />');
+
+        if(isset($this->_view->checkOutData) && !empty($this->_view->checkOutData)){
+            $mpdf->WriteHTML('<div>');
+                $mpdf->WriteHTML('<h3 class = "center blue" style ="padding-top:30px; padding-bottom:30px;">Check Out Report</h3>');
+            $mpdf->WriteHTML('</div>');
+
+            $mpdf->WriteHTML('<table style = "width:100%;">');
                 $mpdf->WriteHTML('<tr>');
                     $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Clean Status');
+                        $mpdf->WriteHTML('Check Out Status:');
                     $mpdf->WriteHTML('</th>');
 
                     $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->clean_status[$room['clean']]);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Tenant Comment');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($room['tenant_comment']);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('LandLord Comment');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($room['lord_comment']);
+                        $mpdf->WriteHTML($this->_view->status[$this->_view->stored_data['tenant_approved_check_out'] + $this->_view->stored_data['lord_approved_check_out']]);
                     $mpdf->WriteHTML('</td>');
                 $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('</table>');
 
-             $mpdf->WriteHTML('<div class = "underline" style="padding:25px; clear:both;"></div>');
+            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+            $mpdf->WriteHTML('<table style = "width:100%;">');
+                $mpdf->WriteHTML('<tr>');
+                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                        $mpdf->WriteHTML('Check Out Date:');
+                    $mpdf->WriteHTML('</th>');
+
+                    $mpdf->WriteHTML('<td class = "align-right">');
+                        $mpdf->WriteHTML(date("F j, Y", strtotime($this->_view->stored_data['check_out'])));
+                    $mpdf->WriteHTML('</td>');
+                $mpdf->WriteHTML('</tr>');
+            $mpdf->WriteHTML('</table>');
+
+            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+            $mpdf->WriteHTML('<table style = "width:100%;">');
+                $mpdf->WriteHTML('<tr>');
+                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                        $mpdf->WriteHTML('Lead Tenant Approval');
+                    $mpdf->WriteHTML('</th>');
+
+                     $mpdf->WriteHTML('<td class = "align-right">');
+                        if($this->_view->stored_data['tenant_approved_check_out'] == 1){
+                            $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$this->_view->stored_data['lead_tenant_id']]['check_out_signature'].'" width="160px;">');
+                        }
+                    $mpdf->WriteHTML('</td>');
+
+                    $mpdf->WriteHTML('<td class = "align-right">');
+                        if($this->_view->stored_data['tenant_approved_check_out'] == 1){
+                            $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lead_tenant_id']]['check_out_time'])));
+                        }else{
+                            $mpdf->WriteHTML('No approval / signature given');
+                        }
+                    $mpdf->WriteHTML('</td>');
+
+                $mpdf->WriteHTML('</tr>');
+            $mpdf->WriteHTML('</table>');
+
+            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+            $mpdf->WriteHTML('<table style = "width:100%;">');
+                $mpdf->WriteHTML('<tr>');
+                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                        $mpdf->WriteHTML('Landlord / Letting Agent Approval:');
+                    $mpdf->WriteHTML('</th>');
+
+                    $mpdf->WriteHTML('<td class = "align-right">');
+                        if($this->_view->stored_data['lord_approved_check_out'] == 1){
+                            $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$this->_view->stored_data['lord_id']]['check_out_signature'].'" width="160px;">');
+                        }else{
+                        }
+                    $mpdf->WriteHTML('</td>');
 
 
-            if(isset($room['items']) && !empty($room['items'])){
-                foreach($room['items'] as $key2 => $item){
-                    $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-secondary color-offset">'.$item['name'].'</div>');
+                    $mpdf->WriteHTML('<td class = "align-right">');
+                        if($this->_view->stored_data['lord_approved_check_out'] == 1){
+                            $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lord_id']]['check_out_time'])));
+                        }else{
+                            $mpdf->WriteHTML('No approval / signature given');
+                        }
+                    $mpdf->WriteHTML('</td>');
 
+                $mpdf->WriteHTML('</tr>');
+            $mpdf->WriteHTML('</table>');
+
+            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+            foreach ($users as $key => $user) {
+                if($user['id'] != $this->_view->stored_data['lord_id'] && $user['id'] != $this->_view->stored_data['lead_tenant_id']){
                     $mpdf->WriteHTML('<table style = "width:100%;">');
                         $mpdf->WriteHTML('<tr>');
-                            $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
-                                $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="160px;">');
+                            $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                                $mpdf->WriteHTML('Other Tenant '.$user['firstname'].' '.$user['surname']);
                             $mpdf->WriteHTML('</th>');
 
-                            $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                                $mpdf->WriteHTML('Item Status');
+                            $mpdf->WriteHTML('<td class = "align-right">');
+                                if(isset($user['check_out_signature']) && !empty($user['check_out_signature'])){
+                                    $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$user['id']]['check_out_signature'].'" width="160px;">');
+                                }else{
+                                }
                             $mpdf->WriteHTML('</td>');
 
 
                             $mpdf->WriteHTML('<td class = "align-right">');
-                                    $mpdf->WriteHTML($this->_view->status[$item['tenant_approved'] + $item['lord_approved']]);
+                                if(isset($user['check_out_signature']) && !empty($user['check_out_signature'])){
+                                    $mpdf->WriteHTML(date("F j, Y", strtotime($users[$user['id']]['check_out_time'])));
+                                }else{
+                                    $mpdf->WriteHTML('No approval / signature given');
+                                }
                             $mpdf->WriteHTML('</td>');
+
                         $mpdf->WriteHTML('</tr>');
-
-                        $mpdf->WriteHTML('<tr>');
-                            $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                                $mpdf->WriteHTML('Tenant Comment');
-                            $mpdf->WriteHTML('</td>');
-
-
-                            $mpdf->WriteHTML('<td class = "align-right">');
-                                    $mpdf->WriteHTML($item['tenant_comment']);
-                            $mpdf->WriteHTML('</td>');
-                        $mpdf->WriteHTML('</tr>');
-
-                         $mpdf->WriteHTML('<tr>');
-                            $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                                $mpdf->WriteHTML('Landlord Comment');
-                            $mpdf->WriteHTML('</td>');
-
-
-                            $mpdf->WriteHTML('<td class = "align-right">');
-                                    $mpdf->WriteHTML($item['lord_comment']);
-                            $mpdf->WriteHTML('</td>');
-                        $mpdf->WriteHTML('</tr>');
-
-
                     $mpdf->WriteHTML('</table>');
 
+                    $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
                 }
             }
-            }
-        }
 
-        if(isset($this->_view->checkOutData) && !empty($this->_view->checkOutData)){
-            $mpdf->WriteHTML('<h1>Check Out Details</h1>');
             foreach($this->_view->checkOutData as $key => $room){
-                $mpdf->WriteHTML('<div>');
-                    $mpdf->WriteHTML('<div>');
-                        $mpdf->WriteHTML('<h3>'.$room['name'].'</h3>');
-                    $mpdf->WriteHTML('</div>');
+                $mpdf->WriteHTML('<pagebreak />');
 
-                    $mpdf->WriteHTML('<div>');
-                        $mpdf->WriteHTML('<table>');
+                $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-main color-offset">'.$room['name'].'</div>');
 
+                $mpdf->WriteHTML('<table style = "width:100%;">');
+                    $mpdf->WriteHTML('<tr>');
+                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                            $mpdf->WriteHTML('Clean Status');
+                        $mpdf->WriteHTML('</th>');
+
+                        $mpdf->WriteHTML('<td class = "align-right">');
+                            $mpdf->WriteHTML($this->_view->clean_status[$room['clean']]);
+                        $mpdf->WriteHTML('</td>');
+                    $mpdf->WriteHTML('</tr>');
+
+                    $mpdf->WriteHTML('<tr>');
+                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                            $mpdf->WriteHTML('Tenant Comment');
+                        $mpdf->WriteHTML('</th>');
+
+                        $mpdf->WriteHTML('<td class = "align-right">');
+                            $mpdf->WriteHTML($room['tenant_comment']);
+                        $mpdf->WriteHTML('</td>');
+                    $mpdf->WriteHTML('</tr>');
+
+                    $mpdf->WriteHTML('<tr>');
+                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                            $mpdf->WriteHTML('LandLord Comment');
+                        $mpdf->WriteHTML('</th>');
+
+                        $mpdf->WriteHTML('<td class = "align-right">');
+                            $mpdf->WriteHTML($room['lord_comment']);
+                        $mpdf->WriteHTML('</td>');
+                    $mpdf->WriteHTML('</tr>');
+                $mpdf->WriteHTML('</table>');
+
+                $mpdf->WriteHTML('<div class = "underline" style="padding:25px; clear:both;"></div>');
+
+
+                if(isset($room['items']) && !empty($room['items'])){
+                    foreach($room['items'] as $key2 => $item){
+                        $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-secondary color-offset">'.$item['name'].'</div>');
+
+                        $mpdf->WriteHTML('<table style = "width:100%; padding-bottom:20px">');
                             $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<th>');
-                                    $mpdf->WriteHTML('Clean Status');
+                                $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
+                                    if(isset($item['image']) && !empty($item['image'])){
+                                        $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="160px;">');
+                                    }
                                 $mpdf->WriteHTML('</th>');
 
-                                $mpdf->WriteHTML('<td>');
-                                    $mpdf->WriteHTML($this->_view->clean_status[$room['clean']]);
+                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                                    $mpdf->WriteHTML('Item Status');
+                                $mpdf->WriteHTML('</td>');
+
+
+                                $mpdf->WriteHTML('<td class = "align-right">');
+                                        $mpdf->WriteHTML($this->_view->status[$item['tenant_approved'] + $item['lord_approved']]);
                                 $mpdf->WriteHTML('</td>');
                             $mpdf->WriteHTML('</tr>');
 
                             $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<th>');
+                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
                                     $mpdf->WriteHTML('Tenant Comment');
-                                $mpdf->WriteHTML('</th>');
+                                $mpdf->WriteHTML('</td>');
 
-                                $mpdf->WriteHTML('<td>');
-                                    $mpdf->WriteHTML($room['tenant_comment']);
+
+                                $mpdf->WriteHTML('<td class = "align-right">');
+                                        $mpdf->WriteHTML($item['tenant_comment']);
                                 $mpdf->WriteHTML('</td>');
                             $mpdf->WriteHTML('</tr>');
 
-                            $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<th>');
-                                    $mpdf->WriteHTML('LandLord / Letting Agent Comment');
-                                $mpdf->WriteHTML('</th>');
+                             $mpdf->WriteHTML('<tr>');
+                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                                    $mpdf->WriteHTML('Landlord Comment');
+                                $mpdf->WriteHTML('</td>');
 
-                                $mpdf->WriteHTML('<td>');
-                                    $mpdf->WriteHTML($room['lord_comment']);
+
+                                $mpdf->WriteHTML('<td class = "align-right">');
+                                        $mpdf->WriteHTML($item['lord_comment']);
                                 $mpdf->WriteHTML('</td>');
                             $mpdf->WriteHTML('</tr>');
-
-                            if(isset($room['items']) && !empty($room['items'])){
-                                foreach($room['items'] as $key2 => $item){
-                                    $mpdf->WriteHTML('<tr>');
-                                        $mpdf->WriteHTML('<th colspan = "2" style="text-align:center;">');
-                                            $mpdf->WriteHTML($item['name']);
-                                        $mpdf->WriteHTML('</th>');
-                                    $mpdf->WriteHTML('</tr>');
-
-                                    $mpdf->WriteHTML('<tr>');
-                                        $mpdf->WriteHTML('<th>');
-                                            $mpdf->WriteHTML('Item Status');
-                                        $mpdf->WriteHTML('</th>');
-
-                                        $mpdf->WriteHTML('<td>');
-                                            $mpdf->WriteHTML($this->_view->status[$item['status']]);
-                                        $mpdf->WriteHTML('</td>');
-                                    $mpdf->WriteHTML('</tr>');
-
-                                    $mpdf->WriteHTML('<tr>');
-                                        $mpdf->WriteHTML('<th>');
-                                            $mpdf->WriteHTML('Item Image');
-                                        $mpdf->WriteHTML('</th>');
-
-                                        $mpdf->WriteHTML('<td>');
-                                            if(isset($item['image']) && !empty($item['image'])){
-                                                $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="120px;" height="120px">');
-                                            }else{
-                                                $mpdf->WriteHTML('No Image Supplied');
-                                            }
-                                        $mpdf->WriteHTML('</td>');
-                                    $mpdf->WriteHTML('</tr>');
-
-                                    $mpdf->WriteHTML('<tr>');
-                                        $mpdf->WriteHTML('<th>');
-                                            $mpdf->WriteHTML('Tenant Comment');
-                                        $mpdf->WriteHTML('</th>');
-
-                                        $mpdf->WriteHTML('<td>');
-                                            $mpdf->WriteHTML($item['tenant_comment']);
-                                        $mpdf->WriteHTML('</td>');
-                                    $mpdf->WriteHTML('</tr>');
-
-                                    $mpdf->WriteHTML('<tr>');
-                                        $mpdf->WriteHTML('<th>');
-                                            $mpdf->WriteHTML('LandLord / Letting Agent Comment');
-                                        $mpdf->WriteHTML('</th>');
-
-                                        $mpdf->WriteHTML('<td>');
-                                            $mpdf->WriteHTML($item['lord_comment']);
-                                        $mpdf->WriteHTML('</td>');
-                                    $mpdf->WriteHTML('</tr>');
-
-                                    $mpdf->WriteHTML('<tr>');
-                                        $mpdf->WriteHTML('<td colspan = "2">');
-                                            $mpdf->WriteHTML('&nbsp;');
-                                        $mpdf->WriteHTML('</td>');
-                                    $mpdf->WriteHTML('</tr>');
-                                }
-                            }
                         $mpdf->WriteHTML('</table>');
-                    $mpdf->WriteHTML('</div>');
-                $mpdf->WriteHTML('</div>');
+
+                    }
+                }
             }
         }
-
-        $mpdf->debug = true; 
-
+        // $mpdf->debug = true; 
         $mpdf->Output();
         exit;
     }

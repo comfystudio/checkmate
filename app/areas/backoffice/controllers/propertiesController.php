@@ -121,7 +121,7 @@ class PropertiesController extends BaseController {
         if(!empty($id)){
             $selectDataByID = $this->_model->selectDataByID($id);
             $this->_view->selectedData = $selectDataByID;
-
+            
             // We need to work out if its safe to delete this user.
             $this->_reportsModel = $this->loadModel('reportsBackoffice', 'backoffice');
             $currentDate = date("Y-m-d");
@@ -135,12 +135,30 @@ class PropertiesController extends BaseController {
                         //Check we have deleted Properties
                         if (!empty($deleteAttempt)) {
 
+                            // Need to create notification for property owner
+                            $this->_notificationModel = $this->loadModel('notificationsBackoffice', 'backoffice');
+                            $notificationData['user_id'] = $selectDataByID[0]['created_by'];
+                            $notificationData['text'] = 'Administrator has deleted your property.';
+                            $this->_notificationModel->createData($notificationData);
+
+                            $this->_view->data = $selectDataByID[0];
+
+                            //Email setup
+                            $this->_view->data['name'] = $selectDataByID[0]['firstname'].' '.$selectDataByID[0]['surname'];
+                            $this->_view->data['message'] = 'Administrator has deleted to your property. If this was not intended please contact admins at '.SITE_EMAIL;
+                            $this->_view->data['button_link'] = SITE_URL.'users/dashboard/';
+                            $this->_view->data['button_text'] = 'Checkmate Site';
+
+                            // Need to create email for property owner
+                            $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                            Html::sendEmail($selectDataByID[0]['email'], 'Property Deleted by Administrator', SITE_EMAIL, $message);
+
                             // Redirect to next page
                             $this->_view->flash[] = "Properties deleted successfully.";
                             Session::set('backofficeFlash', array($this->_view->flash, 'success'));
                             Url::redirect('backoffice/properties/index');
                         } else {
-                            $this->_view->error[] = 'A problem has occurred when trying to delete this award.';
+                            $this->_view->error[] = 'A problem has occurred when trying to delete this property.';
                         }
                     } elseif (!empty($_POST['cancel'])) {
                         Url::redirect('backoffice/properties/index');
@@ -237,13 +255,16 @@ class PropertiesController extends BaseController {
                 $this->_notificationModel->createData($notificationData);
 
                 $this->_view->data = $selectDataByID[0];
+
+                //Email setup
+                $this->_view->data['name'] = $selectDataByID[0]['firstname'].' '.$selectDataByID[0]['surname'];
                 $this->_view->data['message'] = 'Administrator has made changes to your property please review at the following link.';
+                $this->_view->data['button_link'] = SITE_URL.'properties/edit/'.$selectDataByID[0]['id'];
+                $this->_view->data['button_text'] = 'View Property';
 
                 // Need to create email for property owner
                 $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
-                Html::sendEmail('will_byrne56@hotmail.com', 'Property Updated by Administrator', SITE_EMAIL, $message);
-                Html::sendEmail('william@websiteni.com', 'Property Updated by Administrator', SITE_EMAIL, $message);
-
+                Html::sendEmail($selectDataByID[0]['email'], 'Property Updated by Administrator', SITE_EMAIL, $message);
 
                 $this->_view->flash[] = "Properties updated successfully.";
                 Session::set('backofficeFlash', array($this->_view->flash, 'success'));

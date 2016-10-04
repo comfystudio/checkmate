@@ -1,0 +1,74 @@
+[14-Sep-2016 10:56:39 Europe/London] PHP Fatal error:  Call to undefined function renderDefaultHeadJSBundle() in /home/checkmatedeposit/public_html/app/views/layout.php on line 19
+[14-Sep-2016 10:56:43 Europe/London] PHP Fatal error:  Call to undefined function renderDefaultHeadJSBundle() in /home/checkmatedeposit/public_html/app/views/layout.php on line 19
+[14-Sep-2016 10:58:29 Europe/London] PHP Fatal error:  Call to undefined function renderDefaultHeadJSBundle() in /home/checkmatedeposit/public_html/app/views/layout.php on line 19
+[14-Sep-2016 10:58:29 Europe/London] PHP Fatal error:  Call to undefined function renderDefaultHeadJSBundle() in /home/checkmatedeposit/public_html/app/views/layout.php on line 19
+[14-Sep-2016 10:58:44 Europe/London] PHP Fatal error:  Call to undefined function renderDefaultHeadJSBundle() in /home/checkmatedeposit/public_html/app/views/layout.php on line 19
+[14-Sep-2016 10:58:45 Europe/London] PHP Fatal error:  Call to undefined function renderDefaultHeadJSBundle() in /home/checkmatedeposit/public_html/app/views/layout.php on line 19
+[14-Sep-2016 10:59:45 Europe/London] PHP Fatal error:  Call to undefined function renderDefaultHeadJSBundle() in /home/checkmatedeposit/public_html/app/views/layout.php on line 19
+[14-Sep-2016 11:00:28 Europe/London] PHP Fatal error:  Call to undefined function renderDefaultHeadJSBundle() in /home/checkmatedeposit/public_html/app/views/layout.php on line 19
+[14-Sep-2016 11:00:32 Europe/London] PHP Fatal error:  Call to undefined function renderDefaultHeadJSBundle() in /home/checkmatedeposit/public_html/app/views/layout.php on line 19
+[15-Sep-2016 12:14:14 Europe/London] PHP Fatal error:  Class 'HomeController' not found in /home/checkmatedeposit/public_html/system/core/Bootstrap.php on line 313
+[26-Sep-2016 08:58:48 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 08:58:51 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 08:58:54 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 09:00:22 Europe/London] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+				GROUP BY t1.id' at line 4' in /home/checkmatedeposit/public_html/system/core/Database.php:27
+Stack trace:
+#0 /home/checkmatedeposit/public_html/system/core/Database.php(27): PDOStatement->execute()
+#1 /home/checkmatedeposit/public_html/app/models/users.php(623): Database->select('SELECT t1.*, t2...')
+#2 /home/checkmatedeposit/public_html/app/controllers/reportsController.php(930): Users->getAllByArray(NULL, '5')
+#3 /home/checkmatedeposit/public_html/system/core/Bootstrap.php(262): ReportsController->reportDownload('5', false, false, false)
+#4 /home/checkmatedeposit/public_html/index.php(38): Bootstrap->__construct()
+#5 {main}
+  thrown in /home/checkmatedeposit/public_html/system/core/Database.php on line 27
+[26-Sep-2016 09:00:25 Europe/London] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+				GROUP BY t1.id' at line 4' in /home/checkmatedeposit/public_html/system/core/Database.php:27
+Stack trace:
+#0 /home/checkmatedeposit/public_html/system/core/Database.php(27): PDOStatement->execute()
+#1 /home/checkmatedeposit/public_html/app/models/users.php(623): Database->select('SELECT t1.*, t2...')
+#2 /home/checkmatedeposit/public_html/app/controllers/reportsController.php(930): Users->getAllByArray(NULL, '5')
+#3 /home/checkmatedeposit/public_html/system/core/Bootstrap.php(262): ReportsController->reportDownload('5', false, false, false)
+#4 /home/checkmatedeposit/public_html/index.php(38): Bootstrap->__construct()
+#5 {main}
+  thrown in /home/checkmatedeposit/public_html/system/core/Database.php on line 27
+[26-Sep-2016 09:00:58 Europe/London] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+				GROUP BY t1.id' at line 4' in /home/checkmatedeposit/public_html/system/core/Database.php:27
+Stack trace:
+#0 /home/checkmatedeposit/public_html/system/core/Database.php(27): PDOStatement->execute()
+#1 /home/checkmatedeposit/public_html/app/models/users.php(623): Database->select('SELECT t1.*, t2...')
+#2 /home/checkmatedeposit/public_html/app/controllers/reportsController.php(930): Users->getAllByArray(NULL, '5')
+#3 /home/checkmatedeposit/public_html/system/core/Bootstrap.php(262): ReportsController->reportDownload('5', false, false, false)
+#4 /home/checkmatedeposit/public_html/index.php(38): Bootstrap->__construct()
+#5 {main}
+  thrown in /home/checkmatedeposit/public_html/system/core/Database.php on line 27
+[26-Sep-2016 09:06:02 Europe/London] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+				GROUP BY t1.id' at line 4' in /home/checkmatedeposit/public_html/system/core/Database.php:27
+Stack trace:
+#0 /home/checkmatedeposit/public_html/system/core/Database.php(27): PDOStatement->execute()
+#1 /home/checkmatedeposit/public_html/app/models/users.php(623): Database->select('SELECT t1.*, t2...')
+#2 /home/checkmatedeposit/public_html/app/controllers/reportsController.php(930): Users->getAllByArray(NULL, '5')
+#3 /home/checkmatedeposit/public_html/system/core/Bootstrap.php(262): ReportsController->reportDownload('5', false, false, false)
+#4 /home/checkmatedeposit/public_html/index.php(38): Bootstrap->__construct()
+#5 {main}
+  thrown in /home/checkmatedeposit/public_html/system/core/Database.php on line 27
+[26-Sep-2016 09:06:04 Europe/London] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')
+				GROUP BY t1.id' at line 4' in /home/checkmatedeposit/public_html/system/core/Database.php:27
+Stack trace:
+#0 /home/checkmatedeposit/public_html/system/core/Database.php(27): PDOStatement->execute()
+#1 /home/checkmatedeposit/public_html/app/models/users.php(623): Database->select('SELECT t1.*, t2...')
+#2 /home/checkmatedeposit/public_html/app/controllers/reportsController.php(930): Users->getAllByArray(NULL, '5')
+#3 /home/checkmatedeposit/public_html/system/core/Bootstrap.php(262): ReportsController->reportDownload('5', false, false, false)
+#4 /home/checkmatedeposit/public_html/index.php(38): Bootstrap->__construct()
+#5 {main}
+  thrown in /home/checkmatedeposit/public_html/system/core/Database.php on line 27
+[26-Sep-2016 09:06:32 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 09:06:56 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 09:07:21 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 09:10:27 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 09:14:17 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 09:14:39 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 09:14:45 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 09:14:48 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 09:14:50 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 09:14:51 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17
+[26-Sep-2016 09:15:49 Europe/London] PHP Fatal error:  Call to a member function getAllData() on null in /home/checkmatedeposit/public_html/app/controllers/aboutUsController.php on line 17

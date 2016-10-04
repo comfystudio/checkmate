@@ -5,7 +5,7 @@ class AboutUsController extends BaseController {
 	public function __construct(){
 		parent::__construct();
 
-        $this->_model = $this->loadModel('AboutUs');
+        $this->_model = $this->loadModel('aboutUs');
 	}
 
 	/**

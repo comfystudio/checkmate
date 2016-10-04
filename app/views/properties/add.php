@@ -37,7 +37,7 @@
                     <?php if(isset($this->stored_data) && !empty($this->stored_data)){?>
                         Edit Property
                     <?php }else {?>
-                        Add Property
+                        Create Property
                     <?php } ?>
                 </div>
             </div>
@@ -48,56 +48,68 @@
             </div>
         </div>
 
-        <form class="full" action="" method="post" enctype="multipart/form-data">
-            <div class="col-sm-offset-2">
-                
-                <?php if(isset($this->templates) && !empty($this->templates)){?>
-                    <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('template_id', $this->missing)) { echo 'error'; }?>">
-                        <select id="template_id" name="template_id" class="form-control">
-                            <?php foreach($this->templates as $key => $template){?>
-                                <option value="<?php echo $template['id'] ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['template_id'] == $template['id'])) {echo 'selected="selected"';} elseif(!empty($this->stored_data['template_id']) && $this->stored_data['template_id'] == $key){echo 'selected="selected"';}?> > <?php echo $template['title']?></option>
-                            <?php } ?>
-                        </select>                
+        <form class="full" action="" method="post" enctype="multipart/form-data">                
+                <div class = "form-wrapper">
+
+                    <div class = "row">
+                        <?php if(isset($this->templates) && !empty($this->templates)){?>
+                            <div class="form-group col-sm-6 right-border <?php if ((!empty($this->missing)) && in_array('template_id', $this->missing)) { echo 'error'; }?>">
+                                <select id="template_id" name="template_id" class="form-control">
+                                    <?php foreach($this->templates as $key => $template){?>
+                                        <option value="<?php echo $template['id'] ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['template_id'] == $template['id'])) {echo 'selected="selected"';} elseif(!empty($this->stored_data['template_id']) && $this->stored_data['template_id'] == $key){echo 'selected="selected"';}?> > <?php echo $template['title']?></option>
+                                    <?php } ?>
+                                </select>                
+                            </div>
+                        <?php } ?>
+
+                        <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('title', $this->error)) { echo 'has-error'; }?>">
+                            <input type="name" class="form-control" id="title" placeholder="Title" name = "title" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['title']);} elseif(!empty($this->stored_data['title'])){echo $this->stored_data['title'];}?>">
+                        </div>
                     </div>
-                <?php } ?>
 
-                <div class="form-group col-sm-5 <?php if ((!empty($this->error)) && array_key_exists('title', $this->error)) { echo 'has-error'; }?>">
-                    <input type="name" class="form-control" id="title" placeholder="Title" name = "title" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['title']);} elseif(!empty($this->stored_data['title'])){echo $this->stored_data['title'];}?>">
+                    <div class = "row">
+                        <div class="form-group col-sm-6 right-border <?php if ((!empty($this->error)) && array_key_exists('house_number', $this->error)) { echo 'has-error'; }?>">
+                            <input type="name" class="form-control" id="house_number" placeholder="House Number" name = "house_number" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['house_number']);} elseif(!empty($this->stored_data['house_number'])){echo $this->stored_data['house_number'];}?>">
+                        </div>
+                    
+                        <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('address_1', $this->error)) { echo 'has-error'; }?>">
+                            <input type="name" class="form-control" id="address_1" placeholder="Address Line 1" name = "address_1" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_1']);} elseif(!empty($this->stored_data['address_1'])){echo $this->stored_data['address_1'];}?>">
+                        </div>
+                    </div>
+
+                    <div class = "row">
+                        <div class="form-group col-sm-6  right-border <?php if ((!empty($this->error)) && array_key_exists('address_2', $this->error)) { echo 'has-error'; }?>">
+                            <input type="name" class="form-control" id="address_2" placeholder="Address Line 2" name = "address_2" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_2']);} elseif(!empty($this->stored_data['address_2'])){echo $this->stored_data['address_2'];}?>">
+                        </div>
+
+                    
+                        <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('address_3', $this->error)) { echo 'has-error'; }?>">
+                            <input type="name" class="form-control" id="address_3" placeholder="Address Line 3" name = "address_3" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_3']);} elseif(!empty($this->stored_data['address_3'])){echo $this->stored_data['address_3'];}?>">
+                        </div>
+                    </div>
+
+                    <div class = "row">
+                        <div class="form-group col-sm-6 right-border <?php if ((!empty($this->error)) && array_key_exists('address_4', $this->error)) { echo 'has-error'; }?>">
+                            <input type="name" class="form-control" id="address_4" placeholder="Address Line 4" name = "address_4" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_4']);} elseif(!empty($this->stored_data['address_4'])){echo $this->stored_data['address_4'];}?>">
+                        </div>
+
+                        <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('postcode', $this->error)) { echo 'has-error'; }?>">
+                            <input type="name" class="form-control" id="postcode" placeholder="Postcode" name = "postcode" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['postcode']);} elseif(!empty($this->stored_data['postcode'])){echo $this->stored_data['postcode'];}?>">
+                        </div>
+                    </div>
+                    
+                    <div class = "row">
+                        <div class="form-group col-sm-6 right-border">
+                            <input type="file" class="form-control" name="image" id="image">
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group col-sm-5 <?php if ((!empty($this->error)) && array_key_exists('house_number', $this->error)) { echo 'has-error'; }?>">
-                    <input type="name" class="form-control" id="house_number" placeholder="House Number" name = "house_number" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['house_number']);} elseif(!empty($this->stored_data['house_number'])){echo $this->stored_data['house_number'];}?>">
-                </div>
-
-                <div class="form-group col-sm-5 <?php if ((!empty($this->error)) && array_key_exists('address_1', $this->error)) { echo 'has-error'; }?>">
-                    <input type="name" class="form-control" id="address_1" placeholder="Address Line 1" name = "address_1" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_1']);} elseif(!empty($this->stored_data['address_1'])){echo $this->stored_data['address_1'];}?>">
-                </div>
-
-                <div class="form-group col-sm-5 <?php if ((!empty($this->error)) && array_key_exists('address_2', $this->error)) { echo 'has-error'; }?>">
-                    <input type="name" class="form-control" id="address_2" placeholder="Address Line 2" name = "address_2" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_2']);} elseif(!empty($this->stored_data['address_2'])){echo $this->stored_data['address_2'];}?>">
-                </div>
-
-                <div class="form-group col-sm-5 <?php if ((!empty($this->error)) && array_key_exists('address_3', $this->error)) { echo 'has-error'; }?>">
-                    <input type="name" class="form-control" id="address_3" placeholder="Address Line 3" name = "address_3" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_3']);} elseif(!empty($this->stored_data['address_3'])){echo $this->stored_data['address_3'];}?>">
-                </div>
-
-                <div class="form-group col-sm-5 <?php if ((!empty($this->error)) && array_key_exists('address_4', $this->error)) { echo 'has-error'; }?>">
-                    <input type="name" class="form-control" id="address_4" placeholder="Address Line 4" name = "address_4" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_4']);} elseif(!empty($this->stored_data['address_4'])){echo $this->stored_data['address_4'];}?>">
-                </div>
-
-                <div class="form-group col-sm-5 <?php if ((!empty($this->error)) && array_key_exists('postcode', $this->error)) { echo 'has-error'; }?>">
-                    <input type="name" class="form-control" id="postcode" placeholder="Postcode" name = "postcode" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['postcode']);} elseif(!empty($this->stored_data['postcode'])){echo $this->stored_data['postcode'];}?>">
-                </div>
-
-                <div class="form-group col-sm-5">
-                    <input type="file" class="form-control" name="image" id="image">
-                </div>
-                  
-            </div>
-             <div class="col-sm-12 form-spacing" style="text-align:center">
-                <button type="submit" class="formbtn btn-default" name="save" value = "save">Add</button>
-                <button type="submit" class="formbtn btn-default" name="cancel" value = "Cancel">Cancel</button>
-            </div>
+            <div class="col-sm-12 form-spacing" style="text-align:center">
+                <div class = "back-to-dash"><a href = "/users/dashboard/"><img src = "/assets/images/back-to-dash.png"/> <span>Back to dashboard</span></a></div>
+                <button type="submit" class="formbtn btn-default" name="save" value = "save">Save Property</button>
+<!--                 <button type="submit" class="formbtn btn-default" name="cancel" value = "Cancel">Cancel</button>
+ -->            </div>
         </form>
     </div>
 </div>

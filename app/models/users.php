@@ -169,7 +169,7 @@ class Users extends Model{
 	public function selectDataByID($user_id, $is_active = 'active'){
         $optActive = "";
         if(isset($is_active) && $is_active != null){if($is_active == 'active'){$optActive = "AND t1.is_active = 1";}else{$optActive = "AND t1.is_active = 0";}}else{$optActive = "";}
-		$sql = "SELECT t1.*, t2.id as payment_id, t2.type as payment_type, t2.last_payment, t2.remaining_credits
+		$sql = "SELECT t1.*, t2.id as payment_id, t2.type as payment_type, t2.last_payment, t2.remaining_credits, t2.active_until, t2.stripe_cus_id, t2.stripe_sub_id
 				FROM users t1
 					LEFT JOIN payments t2 ON t1.id = t2.user_id
 				WHERE t1.id = :id ".$optActive."
@@ -621,5 +621,20 @@ class Users extends Model{
 				GROUP BY t1.id";
 				
 		return $this->_db->select($sql);	
+	}
+
+	/**
+	 * FUNCTION: getUserReport
+	 * This function returns a user report of a specific user based on user_id and report_id
+     * @param int $report_id int $user_id
+	 */
+	public function getUserReport($report_id, $user_id){
+		$sql = "SELECT t1.*, t2.firstname, t2.surname, t2.email
+				FROM user_reports t1
+					LEFT JOIN users t2 ON t1.user_id = t2.id
+				WHERE t1.report_id = :report_id AND t1.user_id = :user_id
+				GROUP BY t1.user_id
+				";
+		return $this->_db->select($sql, array(':report_id' => $report_id, ':user_id' => $user_id));
 	}
 }?>

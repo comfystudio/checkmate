@@ -28,13 +28,14 @@ class ReportsBackoffice extends Model{
 	 * @param int $id
 	 */
 	public function selectDataByID($id){
-        $sql = "SELECT t1.*, t2.title as property_title, t2.id as property_id, t3.firstname as lord_firstname, t3.surname as lord_surname, t3.id as lord_id, t4.firstname as tenant_firstname, t4.surname as tenant_surname, t4.id as tenant_id, GROUP_CONCAT(DISTINCT t5.id separator ',') as check_in_room_ids, GROUP_CONCAT(DISTINCT t6.id separator ',') as check_out_room_ids
+        $sql = "SELECT t1.*, t2.title as property_title, t2.id as property_id, t2.house_number as property_number, t2.address_1 as property_address_1, t2.address_2 as property_address_2, t2.address_3 as property_address_3, t2.address_4 as property_address_4, t2.postcode as property_postcode, t2.image as property_image, t3.firstname as lord_firstname, t3.surname as lord_surname, t3.id as lord_id, t3.email as lord_email, t4.firstname as tenant_firstname, t4.surname as tenant_surname, t4.id as tenant_id, t4.email as tenant_email, GROUP_CONCAT(DISTINCT t5.id separator ',') as check_in_room_ids, GROUP_CONCAT(DISTINCT t6.id separator ',') as check_out_room_ids, GROUP_CONCAT(DISTINCT t7.user_id separator ',') as user_ids
 				FROM reports t1
                     LEFT JOIN properties t2 ON t1.property_id = t2.id
                     LEFT JOIN users t3 ON t1.lord_id = t3.id
                     LEFT JOIN users t4 ON t1.lead_tenant_id = t4.id
                     LEFT JOIN check_in_rooms t5 ON t1.id = t5.report_id
                     LEFT JOIN check_out_rooms t6 ON t1.id = t6.report_id
+                    LEFT JOIN user_reports t7 ON t1.id = t7.report_id
                 WHERE t1.id = :id
 				GROUP BY t1.id";
 
