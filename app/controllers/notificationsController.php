@@ -12,7 +12,7 @@ class NotificationsController extends BaseController {
 
     /**
 	 * PAGE: Notifications view
-	 * GET: /backoffice/notifications/view:id
+	 * GET: /notifications/view:id
 	 * This method handles the view awards page
 	 *@param $int id
 	 **/
@@ -58,5 +58,44 @@ class NotificationsController extends BaseController {
 		// Render the view ($renderBody, $layout, $area)
 		$this->_view->render('notifications/view', 'layout');
 	}
+
+    /**
+     * PAGE: Notifications delete
+     * GET: /notifications/delete:id
+     * This method handles the delete notification
+     *@param $int id
+     **/
+    public function delete($id = null){
+        if(!isset($id) || $id == null){
+            $this->_view->flash[] = "No ID was provided";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/');
+        }
+
+        $selectDataByID = $this->_model->selectDataByID($id);
+
+        if(!isset($selectDataByID) || empty($selectDataByID)){
+            $this->_view->flash[] = "No data matches this ID";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/');
+        }
+
+        if($selectDataByID[0]['user_id'] != $_SESSION['UserCurrentUserID']){
+            $this->_view->flash[] = "This notification does not belong to you.";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/');
+        }
+
+        $deleteAttempt = $this->_model->deleteData($id);
+
+        if (!empty($deleteAttempt)) {
+            // Redirect to next page
+            $this->_view->flash[] = "Notification deleted";
+            Session::set('backofficeFlash', array($this->_view->flash, 'success'));
+            Url::redirect('users/dashboard/');
+        } else {
+            $this->_view->error[] = 'A problem has occurred when trying to delete this notification.';
+        }
+    }
 }
 ?>

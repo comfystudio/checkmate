@@ -152,11 +152,11 @@ class Reports extends Model{
      * This function returns the details for reports based on user_id = tenant_id
      * @param int $user_id
      */
-    public function getAlldataByTenantId($user_id){
-        $sql = "SELECT t1.*, t2.title, t2.image
+    public function getAlldataByUserId($user_id){
+        $sql = "SELECT t1.*, t2.title, t2.image, t2.address_1, t2.address_2
                 FROM reports t1
                     LEFT JOIN properties t2 ON t1.property_id = t2.id
-                WHERE t1.lead_tenant_id = 10 AND NOW() BETWEEN (t1.check_in - INTERVAL 7 DAY) AND (t1.check_out + INTERVAL 4 DAY)                
+                WHERE (t1.lead_tenant_id = :user_id OR t1.lord_id = :user_id) AND NOW() BETWEEN (t1.check_in - INTERVAL 7 DAY) AND (t1.check_out + INTERVAL 7 DAY)
                 GROUP BY t1.id
                 ORDER BY t1.id
                 ";
@@ -278,6 +278,24 @@ class Reports extends Model{
                 WHERE (t1.tenant_approved_check_out = 0 OR t1.lord_approved_check_out = 0) AND DATE_ADD(t1.check_out, INTERVAL 8 DAY) = CURDATE()
                 GROUP BY t1.id";
         return $this->_db->select($sql);
+    }
+
+    /**
+     * FUNCTION: getCompletedReportsByUserId
+     * This function returns reports that are complete by user_id
+     * @param int $user_id
+     */
+    public function getCompletedReportsByUserId($user_id){
+        $sql = "SELECT t1.*, t2.image, t2.title as property_title, t2.id as property_id, t3.firstname as lord_firstname, t3.surname as lord_surname, t3.id as lord_id, t4.firstname as tenant_firstname, t4.surname as tenant_surname, t4.id as tenant_id
+                FROM reports t1
+                    LEFT JOIN properties t2 ON t1.property_id = t2.id
+                    LEFT JOIN users t3 ON t1.lord_id = t3.id
+                    LEFT JOIN users t4 ON t1.lead_tenant_id = t4.id
+                WHERE (t1.lead_tenant_id = :user_id OR t1.lord_id = :user_id) AND NOW() > (t1.check_out + INTERVAL 7 DAY)
+                GROUP BY t1.id
+                ORDER BY t1.id
+                ";
+        return $this->_db->select($sql, array(':user_id' => $user_id));
     }
 
 

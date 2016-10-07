@@ -794,7 +794,7 @@ class UsersController extends BaseController {
 		$this->_view->propertyCount = count($this->_view->properties);
 		// Need to get reports with tenant ID of user_id
 		$this->_reportsModel = $this->loadModel('reports');
-		$this->_view->reports = $this->_reportsModel->getAlldataByTenantId($user_id);
+		$this->_view->reports = $this->_reportsModel->getAlldataByUserId($user_id);
 
 		$this->_view->userTypes = explode(',', USERS);
 

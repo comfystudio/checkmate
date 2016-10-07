@@ -1766,5 +1766,36 @@ class ReportsController extends BaseController {
         Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
         Url::redirect('users/dashboard');
     }
+
+    /**
+     * PAGE: Report completed
+     * GET: /reports/completed
+     * This method handles shows completed reports for the current user
+     */
+    public function completed(){
+        Auth::checkUserLogin();
+        // Set the Page Title ('pageName', 'pageSection', 'areaName')
+        $this->_view->pageTitle = array('Reports');
+        // Set Page Description
+        $this->_view->pageDescription = 'Checkmate completed reports';
+        // Set Page Section
+        $this->_view->pageSection = 'Reports';
+        // Set Page Sub Section
+        $this->_view->pageSubSection = 'Reports';
+
+        if(!isset($_SESSION['UserCurrentUserID']) || empty($_SESSION['UserCurrentUserID'])){
+            $this->_view->flash[] = "No user id provided";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/login');
+        }
+
+        //getting completed reports for current user
+        $this->_view->getAllData = $this->_model->getCompletedReportsByUserId($_SESSION['UserCurrentUserID']);
+
+        // Render the view ($renderBody, $layout, $area)
+        $this->_view->render('reports/completed', 'layout');
+
+
+    }
 }
 ?>

@@ -5,7 +5,7 @@ function renderDefaultCssBundle(){
     echo '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">';
     echo '<link rel="stylesheet" href="/assets/css/plugins.css?v=1.0">';
     echo '<link rel="stylesheet" href="/assets/css/main.css?v=1.0">';
-
+    echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i">';
 }
 
 function renderDefaultJSBundle(){

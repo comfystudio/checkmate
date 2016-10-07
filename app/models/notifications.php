@@ -98,4 +98,16 @@ class Notifications extends Model{
         return true;
     }
 
+    /**
+     * FUNCTION: deleteData
+     * This function deletes a notification
+     * @param Int $id of an prices
+     */
+    public function deleteData($id){
+        $dbTable = 'notifications';
+        $where = "`id` = $id";
+        $this->_db->delete($dbTable, $where);
+        return true;
+    }
+
 }?>
