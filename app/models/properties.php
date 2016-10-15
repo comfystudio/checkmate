@@ -88,7 +88,9 @@ class Properties extends Model{
      * This function returns the details for properties based on user_id
      * @param int $user_id
      */
-    public function getAlldataByUserId($user_id){
+    public function getAlldataByUserId($user_id, $keywords = false){
+        $optKeywords = $keywords != false ? " AND CONCAT(IF(isnull(t1.title),' ',CONCAT(LOWER(t1.title),' ')), IF(isnull(t1.house_number),' ',CONCAT(LOWER(t1.house_number),' ')), IF(isnull(t1.address_1),' ',CONCAT(LOWER(t1.address_1),' ')), IF(isnull(t1.address_2),' ',CONCAT(LOWER(t1.address_2),' ')), IF(isnull(t1.address_3),' ',CONCAT(LOWER(t1.address_3),' ')), IF(isnull(t1.address_4),' ',CONCAT(LOWER(t1.address_4),' ')), IF(isnull(t1.postcode),' ',CONCAT(LOWER(t1.postcode),' '))) LIKE '%$keywords%'" : "";
+
         $sql = "SELECT t1.*, max(t2.check_in) as check_in, max(t2.check_out) as check_out, max(t2.id)  as report_id
                 FROM properties t1
                     LEFT JOIN reports t2 ON t1.id = t2.property_id
@@ -98,7 +100,7 @@ class Properties extends Model{
                     --                                      ORDER BY reports.id ASC
                     --                                      LIMIT 1
                     --                                    )
-                WHERE t1.created_by = :user_id
+                WHERE t1.created_by = :user_id ".$optKeywords."
                 GROUP BY t1.id
                 ORDER BY t2.check_in DESC
                 ";

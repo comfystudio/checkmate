@@ -25,25 +25,31 @@
         <div id="container">
             <!--IF Flash Message then display it-->
             <?php if (!empty($this->flash)) { ?>
-                <div class="alert-<?php echo $this->flash[1];?> alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><strong><?php echo ucfirst($this->flash[1]);?></strong></h4>
-                    <?php echo Html::formatSuccess($this->flash[0]); ?>
+                <div class="container">
+                    <div class = "row">
+                        <div class = "col-md-12">
+                            <div class="alert-<?php echo $this->flash[1];?> alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h4><strong><?php echo ucfirst($this->flash[1]);?></strong></h4>
+                                <?php echo Html::formatSuccess($this->flash[0]); ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <?php Session::destroy('backofficeFlash');?>
             <?php } ?>
 
 
             <!--IF Error Message then display it-->
-<!--             <?php if (!empty($this->error)) { ?>
-                <div class="alert-danger alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><strong>Error</strong></h4>
-                    <?php
-                        echo Html::formatErrors($this->error);
-                    ?>
-                </div>
-            <?php } ?> -->
+<!--            --><?php //if (!empty($this->error)) { ?>
+<!--                <div class="alert-danger alert-dismissable">-->
+<!--                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>-->
+<!--                    <h4><strong>Error</strong></h4>-->
+<!--                    --><?php
+//                        echo Html::formatErrors($this->error);
+//                    ?>
+<!--                </div>-->
+<!--            --><?php //} ?>
 
             <?php require $pathToViewsFolder . $renderBody . '.php'; ?>
         </div>

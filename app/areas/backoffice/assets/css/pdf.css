@@ -64,7 +64,8 @@ h3{
 }
 
 .logo{
-    width: 100%; 
+    width: 80%;
+    display: block;
     margin: 0 auto; 
     text-align: center;
 }
@@ -95,4 +96,22 @@ h3{
 
 .color-offset{
     color:black;
+}
+
+.green{
+    color: green;
+}
+
+.amber{
+    color:orange;
+}
+
+.red{
+    color: red;
+}
+
+.colour-key{
+    border:2px solid black;
+    padding:20px;
+    margin-top: 70px;
 }

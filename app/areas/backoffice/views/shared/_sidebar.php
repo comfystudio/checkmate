@@ -2,7 +2,7 @@
     <!-- Sidebar Brand -->
 
     <div id="sidebar-brand" class="themed-background">
-        <a href="/backoffice/users/" class="sidebar-title">
+        <a href="/" class="sidebar-title">
 	        <i class="fa fa-cube"></i><span class="sidebar-nav-mini-hide"><?php echo SITE_NAME; ?></span>
 	    </a>
     </div><!-- END Sidebar Brand -->
@@ -68,11 +68,12 @@
                         <span class="sidebar-nav-mini-hide">General Pages</span>
                     </a>
                     <ul>
-                        <li><a href="/backoffice/queries/" <?php echo isset($this->pageSubSection) && $this->pageSubSection == 'Queries' ? ' class="active"' : ''; ?>>Contacts</a></li>
+                        <li><a href="/backoffice/queries/" <?php echo isset($this->pageSubSection) && $this->pageSubSection == 'Queries' ? ' class="active"' : ''; ?>>Queries</a></li>
                         <li><a href="/backoffice/faqs/" <?php echo isset($this->pageSubSection) && $this->pageSubSection == 'Faqs' ? ' class="active"' : ''; ?>>Faqs</a></li>
                         <li><a href="/backoffice/about-us/" <?php echo isset($this->pageSubSection) && $this->pageSubSection == 'AboutUs' ? ' class="active"' : ''; ?>>About</a></li>
                         <li><a href="/backoffice/prices/" <?php echo isset($this->pageSubSection) && $this->pageSubSection == 'Prices' ? ' class="active"' : ''; ?>>Price</a></li>
                         <li><a href="/backoffice/news/" <?php echo isset($this->pageSubSection) && $this->pageSubSection == 'News' ? ' class="active"' : ''; ?>>News</a></li>
+                        <li><a href="/backoffice/contact-us/" <?php echo isset($this->pageSubSection) && $this->pageSubSection == 'Contact Us' ? ' class="active"' : ''; ?>>Contact Us</a></li>
                     </ul>
                 </li>
 

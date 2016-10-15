@@ -17,10 +17,17 @@ class HomeController extends BaseController {
 			Url::redirect('home/holding');
 		}
 
+        //if already logged in bouce to dashboard
+        if(isset($_SESSION['UserCurrentUserID']) && !empty($_SESSION['UserCurrentUserID'])){
+//            $this->_view->flash[] = "Already logged in";
+//            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard/');
+        }
+
 		// Set the Page Title ('pageName', 'pageSection', 'areaName')
-		$this->_view->pageTitle = array();
+		$this->_view->pageTitle = array('Checkmate');
 		// Set Page Description
-		$this->_view->pageDescription = '';
+		$this->_view->pageDescription = 'Checkmate Deposit';
 		// Set Page Section
 		$this->_view->pageSection = 'Home';
 		// Set Page Sub Section
@@ -28,8 +35,45 @@ class HomeController extends BaseController {
 
 		// Render the view ($renderBody, $layout, $area)
 		$this->_view->render('home/index');
-
 	}
+
+    /**
+     * PAGE: terms
+     * GET: /home/index
+     * This method handles the sites terms page
+    */
+    public function terms(){
+        // Set the Page Title ('pageName', 'pageSection', 'areaName')
+        $this->_view->pageTitle = array('Terms and Conditions');
+        // Set Page Description
+        $this->_view->pageDescription = 'Terms and Conditions';
+        // Set Page Section
+        $this->_view->pageSection = 'Terms';
+        // Set Page Sub Section
+        $this->_view->pageSubSection = '';
+
+        // Render the view ($renderBody, $layout, $area)
+        $this->_view->render('home/terms');
+    }
+
+    /**
+     * PAGE: policy
+     * GET: /home/policy
+     * This method handles the sites policy page
+     */
+    public function policy(){
+        // Set the Page Title ('pageName', 'pageSection', 'areaName')
+        $this->_view->pageTitle = array('Policy');
+        // Set Page Description
+        $this->_view->pageDescription = 'Policy';
+        // Set Page Section
+        $this->_view->pageSection = 'Policy';
+        // Set Page Sub Section
+        $this->_view->pageSubSection = '';
+
+        // Render the view ($renderBody, $layout, $area)
+        $this->_view->render('home/policy');
+    }
 
 	/**
 	 * PAGE: Index

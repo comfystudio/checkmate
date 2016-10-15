@@ -35,11 +35,11 @@ class TemplatesController extends BaseController {
             $_GET['keywords'] = false;
         }
 
-        $totalTemplates = $this->_model->countAllData($_GET['keywords']);
+        $totalItems = $this->_model->countAllData($_GET['keywords']);
         if(!isset($totalItems) || empty($totalItems)){
             $totalItems = 0;
         }
-        $pages = new Pagination(20,'keywords='.$_GET['keywords'].'&page', $totalTemplates[0]['total']);
+        $pages = new Pagination(20,'keywords='.$_GET['keywords'].'&page', $totalItems[0]['total']);
         $this->_view->getAllData = $this->_model->getAllData($pages->get_limit(), $_GET['keywords']);
 
 		// Create the pagination nav menu

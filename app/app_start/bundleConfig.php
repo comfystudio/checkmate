@@ -13,6 +13,7 @@ function renderDefaultJSBundle(){
     echo '<script src="/assets/js/bootstrap.min.js"></script>';
     echo '<script src="/assets/js/plugins.js"></script>';
     echo '<script src="/assets/js/general.js"></script>';
+    echo '<script src="/assets/js/bootstrap-filestyle.min.js"></script>';
 }
 
 function renderDefaultHeadJSBundle(){

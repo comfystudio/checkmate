@@ -2,28 +2,29 @@
     <div class ="container">
         <div class="formintro">
             <div class="single_notification">
-                    <?php if (!empty($this->error)) { ?>
-                         <div class="alert alert-info alert-labeled formerror">
-                            <button type="button" class="close" data-dismiss="alert">
-                                <span aria-hidden="true">×</span><span class="sr-only">Close</span>
-                            </button>
-                            <div class="alert-labeled-row">
-                                <span class="alert-label alert-label-left alert-labelled-cell">
-                                    <i class="glyphicon glyphicon-info-sign"></i>
-                                </span>
-                                <p class="alert-body alert-body-right alert-labelled-cell">
-                                    <?php
-                                        foreach($this->error as $error){
-                                            echo $error.'<br/>';
-                                        }
-                                    ?>
-                                </p>
-                            </div>
+                <?php if (!empty($this->error)) { ?>
+                    <div class="alert alert-info alert-labeled formerror">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                        </button>
+                        <div class="alert-labeled-row">
+                            <span class="alert-label alert-label-left alert-labelled-cell">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </span>
+                            <h4>
+                                <strong>Failure</strong>
+                            </h4>
+                            <p class="alert-body alert-body-right alert-labelled-cell">
+                                <?php
+                                foreach($this->error as $error){
+                                    echo $error.'<br/>';
+                                }
+                                ?>
+                            </p>
                         </div>
-                    <?php } ?>
- 
-
-                </div>
+                    </div>
+                <?php } ?>
+            </div>
             <div class = "row front-content">
                 <div class = "col-md-offset-4 col-md-4 ">
                     <img src="/assets/images/logo-small.png" alt ="Check mate small logo" class = "logo-small">
@@ -50,7 +51,6 @@
 
         <form class="full" action="" method="post" enctype="multipart/form-data">                
                 <div class = "form-wrapper">
-
                     <div class = "row">
                         <?php if(isset($this->templates) && !empty($this->templates)){?>
                             <div class="form-group col-sm-6 right-border <?php if ((!empty($this->missing)) && in_array('template_id', $this->missing)) { echo 'error'; }?>">

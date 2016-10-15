@@ -159,7 +159,7 @@ class PaymentsController extends BaseController {
                             $data['remaining_credits'] = 200;
                             break;
                         case 5:
-                            $data['remaining_credits'] = 9999;
+                            $data['remaining_credits'] = 400;
                             break;
                         default:
                             # code...
@@ -344,7 +344,7 @@ class PaymentsController extends BaseController {
                             $data['remaining_credits'] = 200;
                             break;
                         case 5:
-                            $data['remaining_credits'] = 9999;
+                            $data['remaining_credits'] = 400;
                             break;
                         default:
                             # code...
@@ -357,6 +357,9 @@ class PaymentsController extends BaseController {
                     $data['type'] = $_POST['type'];
                     $data['last_payment'] = date('Y-m-d H:i:s', $customer->subscriptions->data[0]['current_period_start']);
                     $data['active_until'] = date('Y-m-d H:i:s', $customer->subscriptions->data[0]['current_period_end']);
+
+                    //Need to remove previous payments if they exist
+                    $this->_model->deleteByUserId($data['user_id']);
 
                     //creating our payments
                     $createData = $this->_model->createData($data);
@@ -402,21 +405,21 @@ class PaymentsController extends BaseController {
         $input = file_get_contents("php://input");
         $event_json = json_decode($input);
 
-        ob_start();
-        Debug::printr($event_json);
-        //Debug::printr($event_json->id);
-        Debug::printr($event_json->data->object->period_end);
-        $data = ob_get_clean();
-        $fp = fopen(date('g:i:s-')."hook.txt", "w");
-        fwrite($fp, $data);
-        fclose($fp);
+//        ob_start();
+//        Debug::printr($event_json);
+//        //Debug::printr($event_json->id);
+//        Debug::printr($event_json->data->object->period_end);
+//        $data = ob_get_clean();
+//        $fp = fopen(date('g:i:s-')."hook.txt", "w");
+//        fwrite($fp, $data);
+//        fclose($fp);
 
         // If invoice payment is successful then update payment table.
         if(isset($event_json->type) && $event_json->type == 'invoice.payment_succeeded'){
             //trying to find payment with stripe customer id.
             $payment = $this->_model->getPaymentByStripeCusId($event_json->data->object->customer);
             if(isset($payment) && !empty($payment)){
-                $data['last_payment'] = date('Y-m-d H:i:s', $eveÚnt_json->data->object->period_start);
+                $data['last_payment'] = date('Y-m-d H:i:s', $event_json->data->object->period_start);
                 $data['active_until'] = date('Y-m-d H:i:s', $event_json->data->object->period_end);
                 $data['id'] = $payment[0]['id'];
                 //updating payment with new times.
@@ -435,7 +438,7 @@ class PaymentsController extends BaseController {
 
                 // Need to create email
                 $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
-                Html::sendEmail($payment[0]['email'], 'Checkmate - Payment recieved', SITE_EMAIL, $message);
+                Html::sendEmail($payment[0]['email'], 'Checkmate - Payment received', SITE_EMAIL, $message);
 
             }
 

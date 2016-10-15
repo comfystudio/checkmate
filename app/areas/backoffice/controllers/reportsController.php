@@ -440,663 +440,712 @@ class ReportsController extends BaseController {
             }
         }
 
-        require_once(ROOT.'system/helpers/mpdf/mpdf.php');
-        $mpdf = new mPDF();
-        $mpdf->showImageErrors = true;
-        $mpdf->defaultfooterline = 0;
-        $mpdf->setFooter('<img class = "left" src = "'.ROOT.'assets/images/logo-small.png" width="30px;" height="30px"> <p style = "color:grey;">Page {PAGENO} of {nb}</p>');
-        $stylesheet = file_get_contents(ROOT.'/app/areas/backoffice/assets/css/pdf.css');
-        $mpdf->WriteHTML($stylesheet,1);
-
-        $mpdf->WriteHTML('<div>');
-            $mpdf->WriteHTML('<div');
-                $mpdf->WriteHTML('<img class = "logo" src = "'.ROOT.'assets/images/logo2.png" >');
-                $mpdf->WriteHTML('<p class = "center" style ="padding-top:12px">'.SITE_URL.'</p>');
-            $mpdf->WriteHTML('</div>');
-
-            $mpdf->WriteHTML('<div>');
-                $mpdf->WriteHTML('<h3 class = "center blue" style ="padding-top:30px; padding-bottom:30px;">Report for property '.$this->_view->stored_data['property_title'].'</h3>');
-            $mpdf->WriteHTML('</div>');
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Date:');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML(date('d/m/Y'));
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Property Image:');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML('<img src = "'.ROOT.'assets/images/'.$this->_view->stored_data['property_image'].'" width="240px;">');
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Address:');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->stored_data['property_number']);
-                        $mpdf->WriteHTML('<br/>');
-                        $mpdf->WriteHTML($this->_view->stored_data['property_address_1']);
-                        $mpdf->WriteHTML('<br/>');
-                        $mpdf->WriteHTML($this->_view->stored_data['property_address_2']);
-                        $mpdf->WriteHTML('<br/>');
-                        $mpdf->WriteHTML($this->_view->stored_data['property_address_3']);
-                        $mpdf->WriteHTML('<br/>');
-                        $mpdf->WriteHTML($this->_view->stored_data['property_address_4']);
-                        $mpdf->WriteHTML('<br/>');
-                        $mpdf->WriteHTML($this->_view->stored_data['property_postcode']);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Land Lord / Letting Agent:');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->stored_data['lord_firstname'].' '.$this->_view->stored_data['lord_surname'].' ('.$this->_view->stored_data['lord_email'].')');
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Lead Tenant');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->stored_data['tenant_firstname'].' '.$this->_view->stored_data['tenant_surname'].' ('.$this->_view->stored_data['tenant_email'].')');
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+         require_once(ROOT.'system/helpers/mpdf/mpdf.php');
+         $mpdf = new mPDF();
+         $mpdf->showImageErrors = true;
+         $mpdf->defaultfooterline = 0;
+         $mpdf->setFooter('<img class = "left" src = "'.ROOT.'assets/images/logo-small.png" width="30px;" height="30px"> <p style = "color:grey;">Page {PAGENO} of {nb}</p>');
+         $stylesheet = file_get_contents(ROOT.'/app/areas/backoffice/assets/css/pdf.css');
+         $mpdf->WriteHTML($stylesheet,1);
+
+         $mpdf->WriteHTML('<div>');
+         $mpdf->WriteHTML('<div');
+         $mpdf->WriteHTML('<img class = "logo" src = "'.ROOT.'assets/images/logo2.png">');
+         $mpdf->WriteHTML('<p class = "center" style ="padding-top:12px">'.SITE_URL.'</p>');
+         $mpdf->WriteHTML('</div>');
+
+         $mpdf->WriteHTML('<div>');
+         $mpdf->WriteHTML('<h3 class = "center blue" style ="padding-top:30px; padding-bottom:30px;">Report for property '.$this->_view->stored_data['property_title'].'</h3>');
+         $mpdf->WriteHTML('</div>');
+
+         $mpdf->WriteHTML('<table style = "width:100%;">');
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Date:');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML(date('d/m/Y'));
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+         $mpdf->WriteHTML('</table>');
+
+         $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+
+         $mpdf->WriteHTML('<table style = "width:100%;">');
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Property Image:');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         if(isset($this->_view->stored_data['property_image']) && !empty($this->_view->stored_data['property_image'])) {
+             $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $this->_view->stored_data['property_image'] . '" width="240px;">');
+         }
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+         $mpdf->WriteHTML('</table>');
+
+         $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+
+         $mpdf->WriteHTML('<table style = "width:100%;">');
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Address:');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['property_number']);
+         $mpdf->WriteHTML('<br/>');
+         $mpdf->WriteHTML($this->_view->stored_data['property_address_1']);
+         $mpdf->WriteHTML('<br/>');
+         $mpdf->WriteHTML($this->_view->stored_data['property_address_2']);
+         $mpdf->WriteHTML('<br/>');
+         $mpdf->WriteHTML($this->_view->stored_data['property_address_3']);
+         $mpdf->WriteHTML('<br/>');
+         $mpdf->WriteHTML($this->_view->stored_data['property_address_4']);
+         $mpdf->WriteHTML('<br/>');
+         $mpdf->WriteHTML($this->_view->stored_data['property_postcode']);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+         $mpdf->WriteHTML('</table>');
+
+         $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+
+         $mpdf->WriteHTML('<table style = "width:100%;">');
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Land Lord / Letting Agent:');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['lord_firstname'].' '.$this->_view->stored_data['lord_surname'].' ('.$this->_view->stored_data['lord_email'].')');
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+         $mpdf->WriteHTML('</table>');
+
+         $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+
+         $mpdf->WriteHTML('<table style = "width:100%;">');
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Lead Tenant');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['tenant_firstname'].' '.$this->_view->stored_data['tenant_surname'].' ('.$this->_view->stored_data['tenant_email'].')');
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+         $mpdf->WriteHTML('</table>');
 
+         $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
 
-            foreach ($users as $key => $user) {
-                //If the user is not the lead tenant AND the lland lord
-                if($user['id'] != $this->_view->stored_data['lord_id'] && $user['id'] != $this->_view->stored_data['lead_tenant_id']){
-                    $mpdf->WriteHTML('<table style = "width:100%;">');
-                        $mpdf->WriteHTML('<tr>');
-                            $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                                $mpdf->WriteHTML('Other Tenant');
-                            $mpdf->WriteHTML('</th>');
 
-                            $mpdf->WriteHTML('<td class = "align-right">');
-                                $mpdf->WriteHTML($user['firstname'].' '.$user['surname'].' ('.$user['email'].')');
-                            $mpdf->WriteHTML('</td>');
-                        $mpdf->WriteHTML('</tr>');
-                    $mpdf->WriteHTML('</table>');
-
-                    $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+         foreach ($users as $key => $user) {
+             //If the user is not the lead tenant AND the lland lord
+             if($user['id'] != $this->_view->stored_data['lord_id'] && $user['id'] != $this->_view->stored_data['lead_tenant_id']){
+                 $mpdf->WriteHTML('<table style = "width:100%;">');
+                 $mpdf->WriteHTML('<tr>');
+                 $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                 $mpdf->WriteHTML('Other Tenant');
+                 $mpdf->WriteHTML('</th>');
 
-                }
-            }
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Check In');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML(date("F j, Y", strtotime($this->_view->stored_data['check_in'])));
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Check Out');
-                    $mpdf->WriteHTML('</th>');
+                 $mpdf->WriteHTML('<td class = "align-right">');
+                 $mpdf->WriteHTML($user['firstname'].' '.$user['surname'].' ('.$user['email'].')');
+                 $mpdf->WriteHTML('</td>');
+                 $mpdf->WriteHTML('</tr>');
+                 $mpdf->WriteHTML('</table>');
 
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML(date("F j, Y", strtotime($this->_view->stored_data['check_out'])));
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-
-            $mpdf->WriteHTML('<pagebreak />');
-
-            $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-main color-offset">Meter</div>');
-
-            $mpdf->WriteHTML('<table style = "width:100%; margin-bottom:25px;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:30%;" rowspan = "2">');
-                        $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$this->_view->stored_data['meter_image'].'" width="160px;">');
-                    $mpdf->WriteHTML('</td>');
-
-                    $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:40%;">');
-                        $mpdf->WriteHTML('Meter Type');
-                    $mpdf->WriteHTML('</td>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->meter_type[$this->_view->stored_data['meter_type']]);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:40%;">');
-                        $mpdf->WriteHTML('Meter Reading');
-                    $mpdf->WriteHTML('</td>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->stored_data['meter_reading'].' '.$this->_view->stored_data['meter_measurement']);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-
-            $mpdf->WriteHTML('</table>');
-
-            // $mpdf->WriteHTML('<div class = "underline" style="padding:25px 0; clear:both;"></div>');
-
-            $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-main color-offset">Other</div>');
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Oil Level');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->stored_data['oil_level']);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Key Status');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->key_status[$this->_view->stored_data['keys_acquired']]);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Fire Extinguishers');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->stored_data['fire_extin']);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Fire Blankets');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->stored_data['fire_blanket']);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Smoke Alarms');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->stored_data['smoke_alarm']);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-        $mpdf->WriteHTML('<pagebreak />');
-
-
-        if(isset($this->_view->checkInData) && !empty($this->_view->checkInData)){
-            $mpdf->WriteHTML('<div>');
-                $mpdf->WriteHTML('<h3 class = "center blue" style ="padding-top:30px; padding-bottom:30px;">Check In Report</h3>');
-            $mpdf->WriteHTML('</div>');
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Check In Status:');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->status[$this->_view->stored_data['tenant_approved_check_in'] + $this->_view->stored_data['lord_approved_check_in']]);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Check In Date:');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML(date("F j, Y", strtotime($this->_view->stored_data['check_in'])));
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Lead Tenant Approval');
-                    $mpdf->WriteHTML('</th>');
+                 $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+             }
+         }
+
+         $mpdf->WriteHTML('<table style = "width:100%;">');
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Check In');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML(date("F j, Y", strtotime($this->_view->stored_data['check_in'])));
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+         $mpdf->WriteHTML('</table>');
+
+         $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+
+         $mpdf->WriteHTML('<table style = "width:100%;">');
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Check Out');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML(date("F j, Y", strtotime($this->_view->stored_data['check_out'])));
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+         $mpdf->WriteHTML('</table>');
+
+         $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+
+         $mpdf->WriteHTML('<pagebreak />');
+
+         $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-main color-offset">Meter</div>');
+
+         $mpdf->WriteHTML('<table style = "width:100%; margin-bottom:25px;">');
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:30%;" rowspan = "2">');
+         if(isset($this->_view->stored_data['meter_image']) && !empty($this->_view->stored_data['meter_image'])) {
+             $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $this->_view->stored_data['meter_image'] . '" width="160px;">');
+         }
+         $mpdf->WriteHTML('</td>');
+
+         $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:40%;">');
+         $mpdf->WriteHTML('Meter Type');
+         $mpdf->WriteHTML('</td>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->meter_type[$this->_view->stored_data['meter_type']]);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:40%;">');
+         $mpdf->WriteHTML('Meter Reading');
+         $mpdf->WriteHTML('</td>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['meter_reading'].' '.$this->_view->stored_data['meter_measurement']);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+
+         $mpdf->WriteHTML('</table>');
+
+         // $mpdf->WriteHTML('<div class = "underline" style="padding:25px 0; clear:both;"></div>');
+
+         $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-main color-offset">Other</div>');
+
+         $mpdf->WriteHTML('<table style = "width:100%;">');
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Oil Level');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['oil_level']);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Key Status');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->key_status[$this->_view->stored_data['keys_acquired']]);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Fire Extinguishers');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['fire_extin']);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Fire Blankets');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['fire_blanket']);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Smoke Alarms');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['smoke_alarm']);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+         $mpdf->WriteHTML('</table>');
+
+         //New colour key section
+         $mpdf->WriteHTML('<table class = "colour-key">');
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<td class = "red">');
+         $mpdf->WriteHTML('Red');
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('<td class = "red">');
+         $mpdf->WriteHTML('Red means neither the Landlord nor Lead Tenant have approved.');
+         $mpdf->WriteHTML('</td>');
+
+         $mpdf->WriteHTML('<tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<td class = "amber">');
+         $mpdf->WriteHTML('Amber');
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('<td class = "amber">');
+         $mpdf->WriteHTML('Amber means either the Landlord or Lead Tenant have approved.');
+         $mpdf->WriteHTML('</td>');
+
+         $mpdf->WriteHTML('<tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<td class = "green">');
+         $mpdf->WriteHTML('Green');
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('<td class = "green">');
+         $mpdf->WriteHTML('Green means both the Landlord and Lead Tenant have approved.');
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('</table>');
+         //END OF NEW KEY COLOUR SECTION
+
+         $mpdf->WriteHTML('<pagebreak />');
+
+
+         if(isset($this->_view->checkInData) && !empty($this->_view->checkInData)){
+             $mpdf->WriteHTML('<div>');
+             $mpdf->WriteHTML('<h3 class = "center blue" style ="padding-top:30px; padding-bottom:30px;">Check In Report</h3>');
+             $mpdf->WriteHTML('</div>');
+
+             $mpdf->WriteHTML('<table style = "width:100%;">');
+             $mpdf->WriteHTML('<tr>');
+             $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+             $mpdf->WriteHTML('Check In Status:');
+             $mpdf->WriteHTML('</th>');
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             $mpdf->WriteHTML($this->_view->status[$this->_view->stored_data['tenant_approved_check_in'] + $this->_view->stored_data['lord_approved_check_in']]);
+             $mpdf->WriteHTML('</td>');
+             $mpdf->WriteHTML('</tr>');
+             $mpdf->WriteHTML('</table>');
+
+             $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+             $mpdf->WriteHTML('<table style = "width:100%;">');
+             $mpdf->WriteHTML('<tr>');
+             $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+             $mpdf->WriteHTML('Check In Date:');
+             $mpdf->WriteHTML('</th>');
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             $mpdf->WriteHTML(date("F j, Y", strtotime($this->_view->stored_data['check_in'])));
+             $mpdf->WriteHTML('</td>');
+             $mpdf->WriteHTML('</tr>');
+             $mpdf->WriteHTML('</table>');
+
+             $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+             $mpdf->WriteHTML('<table style = "width:100%;">');
+             $mpdf->WriteHTML('<tr>');
+             $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+             $mpdf->WriteHTML('Lead Tenant Approval');
+             $mpdf->WriteHTML('</th>');
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             if($this->_view->stored_data['tenant_approved_check_in'] == 1){
+                 if(isset($users[$this->_view->stored_data['lead_tenant_id']]['check_in_signature']) && !empty($users[$this->_view->stored_data['lead_tenant_id']]['check_in_signature'])) {
+                     $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$this->_view->stored_data['lead_tenant_id']]['check_in_signature'] . '" width="160px;">');
+                 }
+             }
+             $mpdf->WriteHTML('</td>');
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             if($this->_view->stored_data['tenant_approved_check_in'] == 1){
+                 $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lead_tenant_id']]['check_in_time'])));
+             }else{
+                 $mpdf->WriteHTML('No approval / signature given');
+             }
+             $mpdf->WriteHTML('</td>');
+
+             $mpdf->WriteHTML('</tr>');
+             $mpdf->WriteHTML('</table>');
+
+             $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+             $mpdf->WriteHTML('<table style = "width:100%;">');
+             $mpdf->WriteHTML('<tr>');
+             $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+             $mpdf->WriteHTML('Landlord / Letting Agent Approval:');
+             $mpdf->WriteHTML('</th>');
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             if($this->_view->stored_data['lord_approved_check_in'] == 1){
+                 if(isset($users[$this->_view->stored_data['lord_id']]['check_in_signature']) && !empty($users[$this->_view->stored_data['lord_id']]['check_in_signature'])) {
+                     $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$this->_view->stored_data['lord_id']]['check_in_signature'] . '" width="160px;">');
+                 }
+             }else{
+             }
+             $mpdf->WriteHTML('</td>');
+
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             if($this->_view->stored_data['lord_approved_check_in'] == 1){
+                 $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lord_id']]['check_in_time'])));
+             }else{
+                 $mpdf->WriteHTML('No approval / signature given');
+             }
+             $mpdf->WriteHTML('</td>');
+
+             $mpdf->WriteHTML('</tr>');
+             $mpdf->WriteHTML('</table>');
+
+             $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+             foreach ($users as $key => $user) {
+                 if($user['id'] != $this->_view->stored_data['lord_id'] && $user['id'] != $this->_view->stored_data['lead_tenant_id']){
+                     $mpdf->WriteHTML('<table style = "width:100%;">');
+                     $mpdf->WriteHTML('<tr>');
+                     $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                     $mpdf->WriteHTML('Other Tenant '.$user['firstname'].' '.$user['surname']);
+                     $mpdf->WriteHTML('</th>');
 
                      $mpdf->WriteHTML('<td class = "align-right">');
-                        if($this->_view->stored_data['tenant_approved_check_in'] == 1){
-                            $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$this->_view->stored_data['lead_tenant_id']]['check_in_signature'].'" width="160px;">');
-                        }
-                    $mpdf->WriteHTML('</td>');
+                     if(isset($user['check_in_signature']) && !empty($user['check_in_signature'])){
+                         if(isset($users[$user['id']]['check_in_signature']) && !empty($users[$user['id']]['check_in_signature'])) {
+                             $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$user['id']]['check_in_signature'] . '" width="160px;">');
+                         }
+                     }else{
+                     }
+                     $mpdf->WriteHTML('</td>');
 
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        if($this->_view->stored_data['tenant_approved_check_in'] == 1){
-                            $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lead_tenant_id']]['check_in_time'])));
-                        }else{
-                            $mpdf->WriteHTML('No approval / signature given');
-                        }
-                    $mpdf->WriteHTML('</td>');
-
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Landlord / Letting Agent Approval:');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        if($this->_view->stored_data['lord_approved_check_in'] == 1){
-                            $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$this->_view->stored_data['lord_id']]['check_in_signature'].'" width="160px;">');
-                        }else{
-                        }
-                    $mpdf->WriteHTML('</td>');
-
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        if($this->_view->stored_data['lord_approved_check_in'] == 1){
-                            $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lord_id']]['check_in_time'])));
-                        }else{
-                            $mpdf->WriteHTML('No approval / signature given');
-                        }
-                    $mpdf->WriteHTML('</td>');
-
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-            foreach ($users as $key => $user) {
-                if($user['id'] != $this->_view->stored_data['lord_id'] && $user['id'] != $this->_view->stored_data['lead_tenant_id']){
-                    $mpdf->WriteHTML('<table style = "width:100%;">');
-                        $mpdf->WriteHTML('<tr>');
-                            $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                                $mpdf->WriteHTML('Other Tenant '.$user['firstname'].' '.$user['surname']);
-                            $mpdf->WriteHTML('</th>');
-
-                            $mpdf->WriteHTML('<td class = "align-right">');
-                                if(isset($user['check_in_signature']) && !empty($user['check_in_signature'])){
-                                    $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$user['id']]['check_in_signature'].'" width="160px;">');
-                                }else{
-                                }
-                            $mpdf->WriteHTML('</td>');
-
-
-                            $mpdf->WriteHTML('<td class = "align-right">');
-                                if(isset($user['check_in_signature']) && !empty($user['check_in_signature'])){
-                                    $mpdf->WriteHTML(date("F j, Y", strtotime($users[$user['id']]['check_in_time'])));
-                                }else{
-                                    $mpdf->WriteHTML('No approval / signature given');
-                                }
-                            $mpdf->WriteHTML('</td>');
-
-                        $mpdf->WriteHTML('</tr>');
-                    $mpdf->WriteHTML('</table>');
-
-                    $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-                }
-            }
-
-            foreach($this->_view->checkInData as $key => $room){
-                $mpdf->WriteHTML('<pagebreak />');
-
-                $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-main color-offset">'.$room['name'].'</div>');
-
-                $mpdf->WriteHTML('<table style = "width:100%;">');
-                    $mpdf->WriteHTML('<tr>');
-                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                            $mpdf->WriteHTML('Clean Status');
-                        $mpdf->WriteHTML('</th>');
-
-                        $mpdf->WriteHTML('<td class = "align-right">');
-                            $mpdf->WriteHTML($this->_view->clean_status[$room['clean']]);
-                        $mpdf->WriteHTML('</td>');
-                    $mpdf->WriteHTML('</tr>');
-
-                    $mpdf->WriteHTML('<tr>');
-                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                            $mpdf->WriteHTML('Tenant Comment');
-                        $mpdf->WriteHTML('</th>');
-
-                        $mpdf->WriteHTML('<td class = "align-right">');
-                            $mpdf->WriteHTML($room['tenant_comment']);
-                        $mpdf->WriteHTML('</td>');
-                    $mpdf->WriteHTML('</tr>');
-
-                    $mpdf->WriteHTML('<tr>');
-                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                            $mpdf->WriteHTML('LandLord Comment');
-                        $mpdf->WriteHTML('</th>');
-
-                        $mpdf->WriteHTML('<td class = "align-right">');
-                            $mpdf->WriteHTML($room['lord_comment']);
-                        $mpdf->WriteHTML('</td>');
-                    $mpdf->WriteHTML('</tr>');
-                $mpdf->WriteHTML('</table>');
-
-                $mpdf->WriteHTML('<div class = "underline" style="padding:25px; clear:both;"></div>');
-
-
-                if(isset($room['items']) && !empty($room['items'])){
-                    foreach($room['items'] as $key2 => $item){
-                        $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-secondary color-offset">'.$item['name'].'</div>');
-
-                        $mpdf->WriteHTML('<table style = "width:100%; padding-bottom:20px">');
-                            $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
-                                    $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="160px;">');
-                                $mpdf->WriteHTML('</th>');
-
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                                    $mpdf->WriteHTML('Item Status');
-                                $mpdf->WriteHTML('</td>');
-
-
-                                $mpdf->WriteHTML('<td class = "align-right">');
-                                        $mpdf->WriteHTML($this->_view->status[$item['tenant_approved'] + $item['lord_approved']]);
-                                $mpdf->WriteHTML('</td>');
-                            $mpdf->WriteHTML('</tr>');
-
-                            $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                                    $mpdf->WriteHTML('Tenant Comment');
-                                $mpdf->WriteHTML('</td>');
-
-
-                                $mpdf->WriteHTML('<td class = "align-right">');
-                                        $mpdf->WriteHTML($item['tenant_comment']);
-                                $mpdf->WriteHTML('</td>');
-                            $mpdf->WriteHTML('</tr>');
-
-                             $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                                    $mpdf->WriteHTML('Landlord Comment');
-                                $mpdf->WriteHTML('</td>');
-
-
-                                $mpdf->WriteHTML('<td class = "align-right">');
-                                        $mpdf->WriteHTML($item['lord_comment']);
-                                $mpdf->WriteHTML('</td>');
-                            $mpdf->WriteHTML('</tr>');
-                        $mpdf->WriteHTML('</table>');
-
-                    }
-                }
-            }
-        }
-
-       $mpdf->WriteHTML('<pagebreak />');
-
-        if(isset($this->_view->checkOutData) && !empty($this->_view->checkOutData)){
-            $mpdf->WriteHTML('<div>');
-                $mpdf->WriteHTML('<h3 class = "center blue" style ="padding-top:30px; padding-bottom:30px;">Check Out Report</h3>');
-            $mpdf->WriteHTML('</div>');
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Check Out Status:');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->status[$this->_view->stored_data['tenant_approved_check_out'] + $this->_view->stored_data['lord_approved_check_out']]);
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Check Out Date:');
-                    $mpdf->WriteHTML('</th>');
-
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML(date("F j, Y", strtotime($this->_view->stored_data['check_out'])));
-                    $mpdf->WriteHTML('</td>');
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
-
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Lead Tenant Approval');
-                    $mpdf->WriteHTML('</th>');
 
                      $mpdf->WriteHTML('<td class = "align-right">');
-                        if($this->_view->stored_data['tenant_approved_check_out'] == 1){
-                            $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$this->_view->stored_data['lead_tenant_id']]['check_out_signature'].'" width="160px;">');
-                        }
-                    $mpdf->WriteHTML('</td>');
+                     if(isset($user['check_in_signature']) && !empty($user['check_in_signature'])){
+                         $mpdf->WriteHTML(date("F j, Y", strtotime($users[$user['id']]['check_in_time'])));
+                     }else{
+                         $mpdf->WriteHTML('No approval / signature given');
+                     }
+                     $mpdf->WriteHTML('</td>');
 
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        if($this->_view->stored_data['tenant_approved_check_out'] == 1){
-                            $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lead_tenant_id']]['check_out_time'])));
-                        }else{
-                            $mpdf->WriteHTML('No approval / signature given');
-                        }
-                    $mpdf->WriteHTML('</td>');
+                     $mpdf->WriteHTML('</tr>');
+                     $mpdf->WriteHTML('</table>');
 
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
+                     $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+                 }
+             }
 
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+             foreach($this->_view->checkInData as $key => $room){
+                 $mpdf->WriteHTML('<pagebreak />');
 
-            $mpdf->WriteHTML('<table style = "width:100%;">');
-                $mpdf->WriteHTML('<tr>');
-                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Landlord / Letting Agent Approval:');
-                    $mpdf->WriteHTML('</th>');
+                 $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-main color-offset">'.$room['name'].'</div>');
 
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        if($this->_view->stored_data['lord_approved_check_out'] == 1){
-                            $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$this->_view->stored_data['lord_id']]['check_out_signature'].'" width="160px;">');
-                        }else{
-                        }
-                    $mpdf->WriteHTML('</td>');
+                 $mpdf->WriteHTML('<table style = "width:100%;">');
+                 $mpdf->WriteHTML('<tr>');
+                 $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                 $mpdf->WriteHTML('Clean Status');
+                 $mpdf->WriteHTML('</th>');
 
+                 $mpdf->WriteHTML('<td class = "align-right">');
+                 $mpdf->WriteHTML($this->_view->clean_status[$room['clean']]);
+                 $mpdf->WriteHTML('</td>');
+                 $mpdf->WriteHTML('</tr>');
 
-                    $mpdf->WriteHTML('<td class = "align-right">');
-                        if($this->_view->stored_data['lord_approved_check_out'] == 1){
-                            $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lord_id']]['check_out_time'])));
-                        }else{
-                            $mpdf->WriteHTML('No approval / signature given');
-                        }
-                    $mpdf->WriteHTML('</td>');
+                 $mpdf->WriteHTML('<tr>');
+                 $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                 $mpdf->WriteHTML('Tenant Comment');
+                 $mpdf->WriteHTML('</th>');
 
-                $mpdf->WriteHTML('</tr>');
-            $mpdf->WriteHTML('</table>');
+                 $mpdf->WriteHTML('<td class = "align-right">');
+                 $mpdf->WriteHTML($room['tenant_comment']);
+                 $mpdf->WriteHTML('</td>');
+                 $mpdf->WriteHTML('</tr>');
 
-            $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+                 $mpdf->WriteHTML('<tr>');
+                 $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                 $mpdf->WriteHTML('LandLord Comment');
+                 $mpdf->WriteHTML('</th>');
 
-            foreach ($users as $key => $user) {
-                if($user['id'] != $this->_view->stored_data['lord_id'] && $user['id'] != $this->_view->stored_data['lead_tenant_id']){
-                    $mpdf->WriteHTML('<table style = "width:100%;">');
-                        $mpdf->WriteHTML('<tr>');
-                            $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                                $mpdf->WriteHTML('Other Tenant '.$user['firstname'].' '.$user['surname']);
-                            $mpdf->WriteHTML('</th>');
+                 $mpdf->WriteHTML('<td class = "align-right">');
+                 $mpdf->WriteHTML($room['lord_comment']);
+                 $mpdf->WriteHTML('</td>');
+                 $mpdf->WriteHTML('</tr>');
+                 $mpdf->WriteHTML('</table>');
 
-                            $mpdf->WriteHTML('<td class = "align-right">');
-                                if(isset($user['check_out_signature']) && !empty($user['check_out_signature'])){
-                                    $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$user['id']]['check_out_signature'].'" width="160px;">');
-                                }else{
-                                }
-                            $mpdf->WriteHTML('</td>');
+                 $mpdf->WriteHTML('<div class = "underline" style="padding:25px; clear:both;"></div>');
 
 
-                            $mpdf->WriteHTML('<td class = "align-right">');
-                                if(isset($user['check_out_signature']) && !empty($user['check_out_signature'])){
-                                    $mpdf->WriteHTML(date("F j, Y", strtotime($users[$user['id']]['check_out_time'])));
-                                }else{
-                                    $mpdf->WriteHTML('No approval / signature given');
-                                }
-                            $mpdf->WriteHTML('</td>');
+                 if(isset($room['items']) && !empty($room['items'])){
+                     foreach($room['items'] as $key2 => $item){
+                         $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-secondary color-offset">'.$item['name'].'</div>');
 
-                        $mpdf->WriteHTML('</tr>');
-                    $mpdf->WriteHTML('</table>');
+                         $mpdf->WriteHTML('<table style = "width:100%; padding-bottom:20px">');
+                         $mpdf->WriteHTML('<tr>');
+                         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
+                         if(isset($item['image']) && !empty($item['image'])) {
+                             $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $item['image'] . '" width="160px;">');
+                         }
+                         $mpdf->WriteHTML('</th>');
 
-                    $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
-                }
-            }
-
-            foreach($this->_view->checkOutData as $key => $room){
-                $mpdf->WriteHTML('<pagebreak />');
-
-                $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-main color-offset">'.$room['name'].'</div>');
-
-                $mpdf->WriteHTML('<table style = "width:100%;">');
-                    $mpdf->WriteHTML('<tr>');
-                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                            $mpdf->WriteHTML('Clean Status');
-                        $mpdf->WriteHTML('</th>');
-
-                        $mpdf->WriteHTML('<td class = "align-right">');
-                            $mpdf->WriteHTML($this->_view->clean_status[$room['clean']]);
-                        $mpdf->WriteHTML('</td>');
-                    $mpdf->WriteHTML('</tr>');
-
-                    $mpdf->WriteHTML('<tr>');
-                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                            $mpdf->WriteHTML('Tenant Comment');
-                        $mpdf->WriteHTML('</th>');
-
-                        $mpdf->WriteHTML('<td class = "align-right">');
-                            $mpdf->WriteHTML($room['tenant_comment']);
-                        $mpdf->WriteHTML('</td>');
-                    $mpdf->WriteHTML('</tr>');
-
-                    $mpdf->WriteHTML('<tr>');
-                        $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                            $mpdf->WriteHTML('LandLord Comment');
-                        $mpdf->WriteHTML('</th>');
-
-                        $mpdf->WriteHTML('<td class = "align-right">');
-                            $mpdf->WriteHTML($room['lord_comment']);
-                        $mpdf->WriteHTML('</td>');
-                    $mpdf->WriteHTML('</tr>');
-                $mpdf->WriteHTML('</table>');
-
-                $mpdf->WriteHTML('<div class = "underline" style="padding:25px; clear:both;"></div>');
+                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                         $mpdf->WriteHTML('Item Status');
+                         $mpdf->WriteHTML('</td>');
 
 
-                if(isset($room['items']) && !empty($room['items'])){
-                    foreach($room['items'] as $key2 => $item){
-                        $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-secondary color-offset">'.$item['name'].'</div>');
+                         $mpdf->WriteHTML('<td class = "align-right">');
+                         $mpdf->WriteHTML($this->_view->status[$item['tenant_approved'] + $item['lord_approved']]);
+                         $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('</tr>');
 
-                        $mpdf->WriteHTML('<table style = "width:100%; padding-bottom:20px">');
-                            $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
-                                    if(isset($item['image']) && !empty($item['image'])){
-                                        $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="160px;">');
-                                    }
-                                $mpdf->WriteHTML('</th>');
-
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                                    $mpdf->WriteHTML('Item Status');
-                                $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('<tr>');
+                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                         $mpdf->WriteHTML('Tenant Comment');
+                         $mpdf->WriteHTML('</td>');
 
 
-                                $mpdf->WriteHTML('<td class = "align-right">');
-                                        $mpdf->WriteHTML($this->_view->status[$item['tenant_approved'] + $item['lord_approved']]);
-                                $mpdf->WriteHTML('</td>');
-                            $mpdf->WriteHTML('</tr>');
+                         $mpdf->WriteHTML('<td class = "align-right">');
+                         $mpdf->WriteHTML($item['tenant_comment']);
+                         $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('</tr>');
 
-                            $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                                    $mpdf->WriteHTML('Tenant Comment');
-                                $mpdf->WriteHTML('</td>');
-
-
-                                $mpdf->WriteHTML('<td class = "align-right">');
-                                        $mpdf->WriteHTML($item['tenant_comment']);
-                                $mpdf->WriteHTML('</td>');
-                            $mpdf->WriteHTML('</tr>');
-
-                             $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                                    $mpdf->WriteHTML('Landlord Comment');
-                                $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('<tr>');
+                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                         $mpdf->WriteHTML('Landlord Comment');
+                         $mpdf->WriteHTML('</td>');
 
 
-                                $mpdf->WriteHTML('<td class = "align-right">');
-                                        $mpdf->WriteHTML($item['lord_comment']);
-                                $mpdf->WriteHTML('</td>');
-                            $mpdf->WriteHTML('</tr>');
-                        $mpdf->WriteHTML('</table>');
+                         $mpdf->WriteHTML('<td class = "align-right">');
+                         $mpdf->WriteHTML($item['lord_comment']);
+                         $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('</tr>');
+                         $mpdf->WriteHTML('</table>');
 
-                    }
-                }
-            }
-        }
-        // $mpdf->debug = true; 
-        $mpdf->Output();
-        exit;
+                     }
+                 }
+             }
+         }
+
+         $mpdf->WriteHTML('<pagebreak />');
+
+         if(isset($this->_view->checkOutData) && !empty($this->_view->checkOutData)){
+             $mpdf->WriteHTML('<div>');
+             $mpdf->WriteHTML('<h3 class = "center blue" style ="padding-top:30px; padding-bottom:30px;">Check Out Report</h3>');
+             $mpdf->WriteHTML('</div>');
+
+             $mpdf->WriteHTML('<table style = "width:100%;">');
+             $mpdf->WriteHTML('<tr>');
+             $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+             $mpdf->WriteHTML('Check Out Status:');
+             $mpdf->WriteHTML('</th>');
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             $mpdf->WriteHTML($this->_view->status[$this->_view->stored_data['tenant_approved_check_out'] + $this->_view->stored_data['lord_approved_check_out']]);
+             $mpdf->WriteHTML('</td>');
+             $mpdf->WriteHTML('</tr>');
+             $mpdf->WriteHTML('</table>');
+
+             $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+             $mpdf->WriteHTML('<table style = "width:100%;">');
+             $mpdf->WriteHTML('<tr>');
+             $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+             $mpdf->WriteHTML('Check Out Date:');
+             $mpdf->WriteHTML('</th>');
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             $mpdf->WriteHTML(date("F j, Y", strtotime($this->_view->stored_data['check_out'])));
+             $mpdf->WriteHTML('</td>');
+             $mpdf->WriteHTML('</tr>');
+             $mpdf->WriteHTML('</table>');
+
+             $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+             $mpdf->WriteHTML('<table style = "width:100%;">');
+             $mpdf->WriteHTML('<tr>');
+             $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+             $mpdf->WriteHTML('Lead Tenant Approval');
+             $mpdf->WriteHTML('</th>');
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             if($this->_view->stored_data['tenant_approved_check_out'] == 1){
+                 if(isset($users[$this->_view->stored_data['lead_tenant_id']]['check_out_signature']) && !empty($users[$this->_view->stored_data['lead_tenant_id']]['check_out_signature'])) {
+                     $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$this->_view->stored_data['lead_tenant_id']]['check_out_signature'] . '" width="160px;">');
+                 }
+             }
+             $mpdf->WriteHTML('</td>');
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             if($this->_view->stored_data['tenant_approved_check_out'] == 1){
+                 $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lead_tenant_id']]['check_out_time'])));
+             }else{
+                 $mpdf->WriteHTML('No approval / signature given');
+             }
+             $mpdf->WriteHTML('</td>');
+
+             $mpdf->WriteHTML('</tr>');
+             $mpdf->WriteHTML('</table>');
+
+             $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+             $mpdf->WriteHTML('<table style = "width:100%;">');
+             $mpdf->WriteHTML('<tr>');
+             $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+             $mpdf->WriteHTML('Landlord / Letting Agent Approval:');
+             $mpdf->WriteHTML('</th>');
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             if($this->_view->stored_data['lord_approved_check_out'] == 1){
+                 if(isset($users[$this->_view->stored_data['lord_id']]['check_out_signature']) && !empty($users[$this->_view->stored_data['lord_id']]['check_out_signature'])) {
+                     $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$this->_view->stored_data['lord_id']]['check_out_signature'] . '" width="160px;">');
+                 }
+             }
+             $mpdf->WriteHTML('</td>');
+
+
+             $mpdf->WriteHTML('<td class = "align-right">');
+             if($this->_view->stored_data['lord_approved_check_out'] == 1){
+                 $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lord_id']]['check_out_time'])));
+             }else{
+                 $mpdf->WriteHTML('No approval / signature given');
+             }
+             $mpdf->WriteHTML('</td>');
+
+             $mpdf->WriteHTML('</tr>');
+             $mpdf->WriteHTML('</table>');
+
+             $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+
+             foreach ($users as $key => $user) {
+                 if($user['id'] != $this->_view->stored_data['lord_id'] && $user['id'] != $this->_view->stored_data['lead_tenant_id']){
+                     $mpdf->WriteHTML('<table style = "width:100%;">');
+                     $mpdf->WriteHTML('<tr>');
+                     $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                     $mpdf->WriteHTML('Other Tenant '.$user['firstname'].' '.$user['surname']);
+                     $mpdf->WriteHTML('</th>');
+
+                     $mpdf->WriteHTML('<td class = "align-right">');
+                     if(isset($user['check_out_signature']) && !empty($user['check_out_signature'])){
+                         if(isset($users[$user['id']]['check_out_signature']) && !empty($users[$user['id']]['check_out_signature'])) {
+                             $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$user['id']]['check_out_signature'] . '" width="160px;">');
+                         }
+                     }
+                     $mpdf->WriteHTML('</td>');
+
+
+                     $mpdf->WriteHTML('<td class = "align-right">');
+                     if(isset($user['check_out_signature']) && !empty($user['check_out_signature'])){
+                         $mpdf->WriteHTML(date("F j, Y", strtotime($users[$user['id']]['check_out_time'])));
+                     }else{
+                         $mpdf->WriteHTML('No approval / signature given');
+                     }
+                     $mpdf->WriteHTML('</td>');
+
+                     $mpdf->WriteHTML('</tr>');
+                     $mpdf->WriteHTML('</table>');
+
+                     $mpdf->WriteHTML('<div class = "underline" style="padding-bottom:25px; clear:both;"></div>');
+                 }
+             }
+
+             foreach($this->_view->checkOutData as $key => $room){
+                 $mpdf->WriteHTML('<pagebreak />');
+
+                 $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-main color-offset">'.$room['name'].'</div>');
+
+                 $mpdf->WriteHTML('<table style = "width:100%;">');
+                 $mpdf->WriteHTML('<tr>');
+                 $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                 $mpdf->WriteHTML('Clean Status');
+                 $mpdf->WriteHTML('</th>');
+
+                 $mpdf->WriteHTML('<td class = "align-right">');
+                 $mpdf->WriteHTML($this->_view->clean_status[$room['clean']]);
+                 $mpdf->WriteHTML('</td>');
+                 $mpdf->WriteHTML('</tr>');
+
+                 $mpdf->WriteHTML('<tr>');
+                 $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                 $mpdf->WriteHTML('Tenant Comment');
+                 $mpdf->WriteHTML('</th>');
+
+                 $mpdf->WriteHTML('<td class = "align-right">');
+                 $mpdf->WriteHTML($room['tenant_comment']);
+                 $mpdf->WriteHTML('</td>');
+                 $mpdf->WriteHTML('</tr>');
+
+                 $mpdf->WriteHTML('<tr>');
+                 $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                 $mpdf->WriteHTML('LandLord Comment');
+                 $mpdf->WriteHTML('</th>');
+
+                 $mpdf->WriteHTML('<td class = "align-right">');
+                 $mpdf->WriteHTML($room['lord_comment']);
+                 $mpdf->WriteHTML('</td>');
+                 $mpdf->WriteHTML('</tr>');
+                 $mpdf->WriteHTML('</table>');
+
+                 $mpdf->WriteHTML('<div class = "underline" style="padding:25px; clear:both;"></div>');
+
+
+                 if(isset($room['items']) && !empty($room['items'])){
+                     foreach($room['items'] as $key2 => $item){
+                         $mpdf->WriteHTML('<div style="margin-bottom:25px; padding:4px 12px" class = "background-secondary color-offset">'.$item['name'].'</div>');
+
+                         $mpdf->WriteHTML('<table style = "width:100%; padding-bottom:20px">');
+                         $mpdf->WriteHTML('<tr>');
+                         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
+                         if(isset($item['image']) && !empty($item['image'])){
+                             $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="160px;">');
+                         }
+                         $mpdf->WriteHTML('</th>');
+
+                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                         $mpdf->WriteHTML('Item Status');
+                         $mpdf->WriteHTML('</td>');
+
+
+                         $mpdf->WriteHTML('<td class = "align-right">');
+                         $mpdf->WriteHTML($this->_view->status[$item['tenant_approved'] + $item['lord_approved']]);
+                         $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('</tr>');
+
+                         $mpdf->WriteHTML('<tr>');
+                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                         $mpdf->WriteHTML('Tenant Comment');
+                         $mpdf->WriteHTML('</td>');
+
+
+                         $mpdf->WriteHTML('<td class = "align-right">');
+                         $mpdf->WriteHTML($item['tenant_comment']);
+                         $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('</tr>');
+
+                         $mpdf->WriteHTML('<tr>');
+                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                         $mpdf->WriteHTML('Landlord Comment');
+                         $mpdf->WriteHTML('</td>');
+
+
+                         $mpdf->WriteHTML('<td class = "align-right">');
+                         $mpdf->WriteHTML($item['lord_comment']);
+                         $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('</tr>');
+                         $mpdf->WriteHTML('</table>');
+
+                     }
+                 }
+             }
+         }
+         // $mpdf->debug = true;
+         $mpdf->Output();
+         exit;
     }
 }
 ?>

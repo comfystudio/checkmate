@@ -1,4 +1,4 @@
-<div class="greyback">
+<div class="">
     <div class ="container">
         <div class="formintro">
             <div class = "row front-content">
@@ -14,16 +14,23 @@
                     <?php echo $this->data[0]['title'];?>
                 </div>
             </div>
-            <div class = "row">
-                <div class ="col-xs-12 welcome-message">
-                    <img src = "/assets/uploads/<?php echo $this->data[0]['image']?>" alt = "<?php echo $this->data[0]['image']?>"/>
+
+            <div class = "form-wrapper pages-padding">
+                <div class = "row">
+                    <div class ="col-xs-12 welcome-message">
+                        <img src = "/assets/uploads/<?php echo $this->data[0]['image']?>" alt = "<?php echo $this->data[0]['image']?>"/>
+                    </div>
+                </div>
+
+                <div class = "row">
+                    <div class ="col-xs-12 welcome-message">
+                        <p><?php echo $this->data[0]['text']?></p>
+                    </div>
                 </div>
             </div>
 
-            <div class = "row">
-                <div class ="col-xs-12 welcome-message">
-                    <?php echo $this->data[0]['text']?>
-                </div>
+            <div class="col-sm-12 form-spacing" style="text-align:center">
+                <div class = "back-to-dash"><a href = "/"><img src = "/assets/images/back-to-dash.png"/> <span>Back</span></a></div>
             </div>
         </div>
     </div>

@@ -16,20 +16,29 @@
 	       		<h1>contact details</h1>
 		       	<div class="contactdetails">
 		       		<h3>CheckMate Deposit</h3>
-		       		<p>Priory House West, 14 Main Street, Benburb, Dungannon Co. Tyrone, BT71 7LA</p>
-		       		<p class="phonenumber"><a href="tel:07568322383">07568322383</a><span>|</span><a href="tel:07753137475">07753137475</a></p>
+		       		<p><?php if(isset($this->contactInfo[0]['location']) && !empty($this->contactInfo[0]['location'])){ echo $this->contactInfo[0]['location'];}else{ echo 'Glengorm Avenue Coleraine Bt52 1tf';}?></p>
+
+                    <?php if(isset($this->contactInfo[0]['phone']) && !empty($this->contactInfo[0]['phone'])){ $phone = $this->contactInfo[0]['phone'];}else{ $phone = '07522635219';}?>
+                    <?php if(isset($this->contactInfo[0]['phone_2']) && !empty($this->contactInfo[0]['phone_2'])){ $phone2 = $this->contactInfo[0]['phone_2'];}else{ $phone2 = '07522635220';}?>
+
+                    <p class="phonenumber"><a href="tel:<?php echo $phone?>"><?php echo $phone?></a><span>|</span><a href="tel:<?php echo $phone2?>"><?php echo $phone2?></a></p>
 		       		<img src="/assets/images/footer-phone.png" alt ="Phone Us"/>
 		       	</div>
 		       	<div class="social-icon">
-		       			<img class="fbicon"src="/assets/images/facebook-icon.png" alt ="Facebook"/>
-		       			<img class ="instaicon"src="/assets/images/instagram-icon.png" alt ="Instagram"/>
-		       	</div>
+		       			<a href = "<?php if(isset($this->contactInfo[0]['facebook']) && !empty($this->contactInfo[0]['facebook'])){ echo $this->contactInfo[0]['facebook'];}else{ echo 'https://www.facebook.com/checkmatedeposit';}?>" target="_blank"><img class="fbicon"src="/assets/images/facebook-icon.png" alt ="Facebook"/></a>
+		       			<a href = "<?php if(isset($this->contactInfo[0]['instagram']) && !empty($this->contactInfo[0]['instagram'])){ echo $this->contactInfo[0]['instagram'];}else{ echo 'https://www.instagram.com/checkmate_deposit/';}?>" target="_blank"><img class ="instaicon"src="/assets/images/instagram-icon.png" alt ="Instagram"/></a>
+                        <a href = "<?php if(isset($this->contactInfo[0]['twitter']) && !empty($this->contactInfo[0]['twitter'])){ echo $this->contactInfo[0]['twitter'];}else{ echo 'https://twitter.com/checkm8_deposit';}?>" target="_blank"><img class ="twittericon"src="/assets/images/twitter.png" alt ="Twitter"/></a>
+                </div>
 		       	<div class="websiteni">
 		       		<a href="http://websiteni.com/" target="_blank" title="Web Design Belfast" class="websiteni">
 						<img src="/assets/images/websiteni-icon.png" alt="" />
 						<p>Website by WebsiteNI</p>
 					</a>
 		       	</div>
+               <div class = "terms">
+                   <a href = "/terms/">Terms and Conditions</a>
+                   <a href = "/policy/">Policy</a>
+               </div>
 	       </div>
 	    </div>
 	</footer>

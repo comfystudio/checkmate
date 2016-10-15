@@ -4,8 +4,8 @@
 				<?php if (isset($this->pageSection) && $this->pageSection != 'Holding'){?>
 					<ul class = "header-nav">
 						<a href = "/about-us/"><li>About</li></a>
-						<a href = "/faqs/"><li>FAQ'S</li></a>
-						<a href = "/contact/"><li>Contact</li></a>
+						<a href = "/faqs/"><li>Faqs</li></a>
+						<a href = "/contact-us/"><li>Contact</li></a>
 						<a href = "/prices/"><li>Prices</li></a>
 						<?php if(!isset($_SESSION['UserCurrentUserID'])){?>
 							<a href = "/users/login/"><li>Login/Register</li></a>
@@ -18,7 +18,7 @@
 
 			<div class = "col-sm-offset-4 col-sm-4 col-md-offset-0 col-xs-9 col-md-4">
 				<div class = "logo">
-					<img src="/assets/images/logo.png" alt ="Checkmate Logo">
+					<a href = "/"><img src="/assets/images/logo.png" alt ="Checkmate Logo"></a>
 				</div>
 			</div>
 
@@ -28,8 +28,8 @@
 						<div id="mySidenav" class="sidenav">
 							<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 							<a href="/about-us/">About</a>
-					  		<a href="/faqs/">FAQ'S</a>
-					  		<a href="/contact/">Contact</a>
+					  		<a href="/faqs/">Faqs</a>
+					  		<a href="/contact-us/">Contact</a>
 					  		<a href="/prices/">Prices</a>
   							<?php if(!isset($_SESSION['UserCurrentUserID'])){?>
 					  			<a href="/users/login/">Login/Register</a>
@@ -42,17 +42,23 @@
 					</div>
 				</div>
 
-				<div class="col-sm-4">				
-					<div class = "mobile-search search">
-						<a href="#" title="Search site" id="searchshow">
-							<img src="/assets/images/search.png" alt="Search site" />
-						</a>
-					</div>
+                <?php if(isset($this->contactInfo[0]['phone']) && !empty($this->contactInfo[0]['phone'])){ $phone = $this->contactInfo[0]['phone'];}else{ $phone = '07522635219';}?>
+                <?php if(isset($this->contactInfo[0]['phone_2']) && !empty($this->contactInfo[0]['phone_2'])){ $phone2 = $this->contactInfo[0]['phone_2'];}else{ $phone2 = '07522635220';}?>
+
+
+                <div class="col-sm-4">
+                    <?php if(isset($_SESSION['UserCurrentUserID']) && !empty($_SESSION['UserCurrentUserID'])){?>
+                        <div class = "mobile-search search">
+                            <a href="#" title="Search site" id="searchshow">
+                                <img src="/assets/images/search.png" alt="Search site" />
+                            </a>
+                        </div>
+                    <?php } ?>
 					<div class="mobile-list">
 						<ul>	
 							<a href="/about-us/"><li>About</li></a>
-							<a href="/faqs/"><li>FAQ'S</li></a>
-							<a href="/contact/"><li>Contact</li></a>
+							<a href="/faqs/"><li>Faqs</li></a>
+							<a href="/contact-us/"><li>Contact</li></a>
 							<a href="/prices/"><li>Prices</li></a>
 							<?php if(!isset($_SESSION['UserCurrentUserID'])){?>
 								<a href="/users/login/"><li>Login/Register</li></a>
@@ -60,7 +66,7 @@
 								<a href = "/users/logout/"><li>Logout</li></a>
 							<?php } ?>
 							<li><div class = "mobile-header-phone header-phone">
-									07568322383 / 07753137475
+                                    <a href="tel:<?php echo $phone?>"><?php echo $phone?></a> / <a href="tel:<?php echo $phone2?>"><?php echo $phone2?></a>
 								</div>
 							</li>
 						</ul>
@@ -69,16 +75,18 @@
 
 				<div class = "col-md-3">
 					<div class = "header-phone">
-						07568322383 / 07753137475
+                        <a href="tel:<?php echo $phone?>"><?php echo $phone?></a> / <a href="tel:<?php echo $phone2?>"><?php echo $phone2?></a>
 					</div>
 				</div>
 
 				<div class = "col-md-1">
-					<div class = "search">
-						<a href="#" title="Search site" id="searchshow">
-							<img src="/assets/images/search.png" alt="Search site" />
-						</a>
-					</div>
+                    <?php if(isset($_SESSION['UserCurrentUserID']) && !empty($_SESSION['UserCurrentUserID'])){?>
+                        <div class = "search">
+                            <a href="#" title="Search site" id="searchshow">
+                                <img src="/assets/images/search.png" alt="Search site" />
+                            </a>
+                        </div>
+                    <?php } ?>
 				</div>
 			<?php }?>
 		</div>
@@ -90,13 +98,16 @@
 			</div>
 		</div>
 	</div>
-		<div class="searchformholder">
-			<div id="custom-search-input">
-                <div class="input-group col-xs-12">
-                    <input type="text" class="form-control input-lg" placeholder="Search" />
+    <div class="searchformholder">
+        <div id="custom-search-input">
+            <div class="input-group col-xs-12">
+                <form class="form-wrap" method='get' action='/users/dashboard'>
+                    <input type="text" class="form-control input-lg" placeholder="Search Your properties" name="keywords" id="search_term" <?php if (isset($_GET["keywords"])) {echo 'value="'.htmlentities($_GET["keywords"]).'"';}?>/>
+                    <a id = "search-close"><i class="fa fa-times"></i></a>
                     <span class="input-group-btn">
-                    </span>
-                </div>
+                        </span>
+                </form>
             </div>
-		</div>
-		<div class="searchback"></div>
+        </div>
+    </div>
+    <div class="searchback"></div>

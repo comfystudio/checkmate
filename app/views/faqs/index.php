@@ -1,4 +1,4 @@
-<div class="greyback">
+<div class="">
     <div class ="container">
         <div class="formintro">
             <div class = "row front-content">
@@ -14,24 +14,23 @@
                     FAQS
                 </div>
             </div>
-            <div class = "row">
-                <div class ="col-xs-12 welcome-message">
+
+            <div class = "form-wrapper pages-padding">
+                <div class = "row">
+                    <div class ="col-xs-12 welcome-message" style="padding-bottom: 0;">
+                        <?php foreach($this->data as $data){?>
+                            <div class = "row">
+                                <p class = "faq-question"><strong><?php echo $this->data[0]['question']?></strong></p>
+                                <p class = "faq-answer"><?php echo $this->data[0]['answer']?></p>
+                            </div>
+                        <?php } ?>
+                    </div>
                 </div>
             </div>
 
-            <?php foreach($this->data as $data){?>
-                <div class = "row">
-                    <div class ="col-sm-offset-2">
-                        <?php echo $this->data[0]['question']?>
-                    </div>
-                    <div class ="col-sm-offset-2">
-                        <?php echo $this->data[0]['answer']?>
-                    </div>
-                    <br/>
-                    <br/>
-                </div>
-            <?php } ?>
+            <div class="col-sm-12 form-spacing" style="text-align:center">
+                <div class = "back-to-dash"><a href = "/"><img src = "/assets/images/back-to-dash.png"/> <span>Back</span></a></div>
+            </div>
         </div>
-
     </div>
 </div>

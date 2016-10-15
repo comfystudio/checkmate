@@ -74,6 +74,18 @@ class Payments extends Model{
     }
 
     /**
+     * FUNCTION: deleteByUserId
+     * This function deletes an payments bu user id
+     * @param Int $user_id of an payments
+     */
+    public function deleteByUserId($user_id){
+        $dbTable = 'payments';
+        $where = "`user_id` = $user_id";
+        $this->_db->delete($dbTable, $where);
+        return true;
+    }
+
+    /**
 	 * FUNCTION: getPaymentByStripeCusId
 	 * This function gets payments infomation based on the strip customer id.
 	 * @param int $id

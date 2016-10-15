@@ -19,6 +19,13 @@ class ReportsController extends BaseController {
      */
     public function start($property_id){
         Auth::checkUserLogin();
+
+        if(!$this->checkMembership()){
+            $this->_view->flash[] = "Your membership has expired. Please cancel and renew membership";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard');
+        }
+
         // Set the Page Title ('pageName', 'pageSection', 'areaName')
         $this->_view->pageTitle = array('Reports');
         // Set Page Description
@@ -1055,7 +1062,7 @@ class ReportsController extends BaseController {
 
         $mpdf->WriteHTML('<div>');
             $mpdf->WriteHTML('<div');
-                $mpdf->WriteHTML('<img class = "logo" src = "'.ROOT.'assets/images/logo2.png" >');
+                $mpdf->WriteHTML('<img class = "logo" src = "'.ROOT.'assets/images/logo2.png">');
                 $mpdf->WriteHTML('<p class = "center" style ="padding-top:12px">'.SITE_URL.'</p>');
             $mpdf->WriteHTML('</div>');
 
@@ -1085,7 +1092,9 @@ class ReportsController extends BaseController {
                     $mpdf->WriteHTML('</th>');
 
                     $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML('<img src = "'.ROOT.'assets/images/'.$this->_view->stored_data['property_image'].'" width="240px;">');
+                        if(isset($this->_view->stored_data['property_image']) && !empty($this->_view->stored_data['property_image'])) {
+                            $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $this->_view->stored_data['property_image'] . '" width="240px;">');
+                        }
                     $mpdf->WriteHTML('</td>');
                 $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('</table>');
@@ -1205,7 +1214,9 @@ class ReportsController extends BaseController {
             $mpdf->WriteHTML('<table style = "width:100%; margin-bottom:25px;">');
                 $mpdf->WriteHTML('<tr>');
                     $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:30%;" rowspan = "2">');
-                        $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$this->_view->stored_data['meter_image'].'" width="160px;">');
+                        if(isset($this->_view->stored_data['meter_image']) && !empty($this->_view->stored_data['meter_image'])) {
+                            $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $this->_view->stored_data['meter_image'] . '" width="160px;">');
+                        }
                     $mpdf->WriteHTML('</td>');
 
                     $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:40%;">');
@@ -1285,6 +1296,39 @@ class ReportsController extends BaseController {
                 $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('</table>');
 
+            //New colour key section
+            $mpdf->WriteHTML('<table class = "colour-key">');
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('<td class = "red">');
+            $mpdf->WriteHTML('Red');
+            $mpdf->WriteHTML('</td>');
+            $mpdf->WriteHTML('<td class = "red">');
+            $mpdf->WriteHTML('Red means neither the Landlord nor Lead Tenant have approved.');
+            $mpdf->WriteHTML('</td>');
+
+            $mpdf->WriteHTML('<tr>');
+
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('<td class = "amber">');
+            $mpdf->WriteHTML('Amber');
+            $mpdf->WriteHTML('</td>');
+            $mpdf->WriteHTML('<td class = "amber">');
+            $mpdf->WriteHTML('Amber means either the Landlord or Lead Tenant have approved.');
+            $mpdf->WriteHTML('</td>');
+
+            $mpdf->WriteHTML('<tr>');
+
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('<td class = "green">');
+            $mpdf->WriteHTML('Green');
+            $mpdf->WriteHTML('</td>');
+            $mpdf->WriteHTML('<td class = "green">');
+            $mpdf->WriteHTML('Green means both the Landlord and Lead Tenant have approved.');
+            $mpdf->WriteHTML('</td>');
+            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('</table>');
+            //END OF NEW KEY COLOUR SECTION
+
         $mpdf->WriteHTML('<pagebreak />');
 
 
@@ -1329,7 +1373,9 @@ class ReportsController extends BaseController {
 
                      $mpdf->WriteHTML('<td class = "align-right">');
                         if($this->_view->stored_data['tenant_approved_check_in'] == 1){
-                            $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$this->_view->stored_data['lead_tenant_id']]['check_in_signature'].'" width="160px;">');
+                            if(isset($users[$this->_view->stored_data['lead_tenant_id']]['check_in_signature']) && !empty($users[$this->_view->stored_data['lead_tenant_id']]['check_in_signature'])) {
+                                $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$this->_view->stored_data['lead_tenant_id']]['check_in_signature'] . '" width="160px;">');
+                            }
                         }
                     $mpdf->WriteHTML('</td>');
 
@@ -1354,7 +1400,9 @@ class ReportsController extends BaseController {
 
                     $mpdf->WriteHTML('<td class = "align-right">');
                         if($this->_view->stored_data['lord_approved_check_in'] == 1){
-                            $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$this->_view->stored_data['lord_id']]['check_in_signature'].'" width="160px;">');
+                            if(isset($users[$this->_view->stored_data['lord_id']]['check_in_signature']) && !empty($users[$this->_view->stored_data['lord_id']]['check_in_signature'])) {
+                                $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$this->_view->stored_data['lord_id']]['check_in_signature'] . '" width="160px;">');
+                            }
                         }else{
                         }
                     $mpdf->WriteHTML('</td>');
@@ -1383,7 +1431,9 @@ class ReportsController extends BaseController {
 
                             $mpdf->WriteHTML('<td class = "align-right">');
                                 if(isset($user['check_in_signature']) && !empty($user['check_in_signature'])){
-                                    $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$user['id']]['check_in_signature'].'" width="160px;">');
+                                    if(isset($users[$user['id']]['check_in_signature']) && !empty($users[$user['id']]['check_in_signature'])) {
+                                        $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$user['id']]['check_in_signature'] . '" width="160px;">');
+                                    }
                                 }else{
                                 }
                             $mpdf->WriteHTML('</td>');
@@ -1451,7 +1501,9 @@ class ReportsController extends BaseController {
                         $mpdf->WriteHTML('<table style = "width:100%; padding-bottom:20px">');
                             $mpdf->WriteHTML('<tr>');
                                 $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
-                                    $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="160px;">');
+                                    if(isset($item['image']) && !empty($item['image'])) {
+                                        $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $item['image'] . '" width="160px;">');
+                                    }
                                 $mpdf->WriteHTML('</th>');
 
                                 $mpdf->WriteHTML('<td class = "blue bold align-right">');
@@ -1535,7 +1587,9 @@ class ReportsController extends BaseController {
 
                      $mpdf->WriteHTML('<td class = "align-right">');
                         if($this->_view->stored_data['tenant_approved_check_out'] == 1){
-                            $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$this->_view->stored_data['lead_tenant_id']]['check_out_signature'].'" width="160px;">');
+                            if(isset($users[$this->_view->stored_data['lead_tenant_id']]['check_out_signature']) && !empty($users[$this->_view->stored_data['lead_tenant_id']]['check_out_signature'])) {
+                                $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$this->_view->stored_data['lead_tenant_id']]['check_out_signature'] . '" width="160px;">');
+                            }
                         }
                     $mpdf->WriteHTML('</td>');
 
@@ -1560,8 +1614,9 @@ class ReportsController extends BaseController {
 
                     $mpdf->WriteHTML('<td class = "align-right">');
                         if($this->_view->stored_data['lord_approved_check_out'] == 1){
-                            $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$this->_view->stored_data['lord_id']]['check_out_signature'].'" width="160px;">');
-                        }else{
+                            if(isset($users[$this->_view->stored_data['lord_id']]['check_out_signature']) && !empty($users[$this->_view->stored_data['lord_id']]['check_out_signature'])) {
+                                $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$this->_view->stored_data['lord_id']]['check_out_signature'] . '" width="160px;">');
+                            }
                         }
                     $mpdf->WriteHTML('</td>');
 
@@ -1589,8 +1644,9 @@ class ReportsController extends BaseController {
 
                             $mpdf->WriteHTML('<td class = "align-right">');
                                 if(isset($user['check_out_signature']) && !empty($user['check_out_signature'])){
-                                    $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$users[$user['id']]['check_out_signature'].'" width="160px;">');
-                                }else{
+                                    if(isset($users[$user['id']]['check_out_signature']) && !empty($users[$user['id']]['check_out_signature'])) {
+                                        $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $users[$user['id']]['check_out_signature'] . '" width="160px;">');
+                                    }
                                 }
                             $mpdf->WriteHTML('</td>');
 

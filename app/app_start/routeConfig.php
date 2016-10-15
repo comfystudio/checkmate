@@ -40,3 +40,24 @@ $routeArray[] = Route::addRoute("Login",
                  "logout"
 );
 
+$routeArray[] = Route::addRoute("Terms",
+    "/terms",
+    NULL,
+    "home",
+    "terms"
+);
+
+$routeArray[] = Route::addRoute("Policy",
+    "/policy",
+    NULL,
+    "home",
+    "policy"
+);
+
+$routeArray[] = Route::addRoute("Contact",
+    "/contact-us",
+    NULL,
+    "contact-us",
+    "index"
+);
+

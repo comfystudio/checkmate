@@ -1,14 +1,26 @@
+<div class="greyback">
+    <div class ="container">
+        <div class="formintro">
+            <div class = "row front-content">
+                <div class = "col-md-offset-4 col-md-4 ">
+                    <img src="/assets/images/logo-small.png" alt ="Check mate small logo" class = "logo-small">
+                </div>
+                <div class = "col-md-offset-4">
+                </div>
+            </div>
 
-<form action="" method="post" id="payment-form" class="form-horizontal form-bordered">
-	<div class="form-group">
-        <div class="col-md-9">
-            <p class="form-control-static">Are you sure you wish to cancel you're subscription?</strong></p>
+            <div class = "form-wrapper">
+                <div class = "row">
+                    <div class ="col-xs-12 form-group form-text">
+                        <p class="form-control-static">Are you sure you wish to cancel you're subscription?</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 form-spacing" style="text-align:center">
+                <div class = "back-to-dash"><a href = "/users/dashboard/"><img src = "/assets/images/back-to-dash.png"/> <span>Back to dashboard</span></a></div>
+                <button type="submit" class="formbtn btn-default" name="cancel" value = "Cancel">Delete</button>
+            </div>
         </div>
     </div>
-	<div class="form-group form-actions">
-        <div class="col-md-5">
-            <input type="submit" name="delete" class="btn btn-effect-ripple btn-primary loader" value="Delete">
-            <input type="submit" name="cancel" class="btn btn-effect-ripple btn-danger loader" value="Cancel">
-        </div>
-    </div>
-</form>
+</div>

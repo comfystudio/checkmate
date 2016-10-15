@@ -113,7 +113,7 @@ class NewsController extends BaseController {
             } else {
                 if (isset($_FILES) && $_FILES['image']['name'] != null) {
                     //remove old file
-                    unlink(ROOT . UPLOAD_DIR . '/news/' . $this->_view->stored_data['image']);
+                    unlink(ROOT . UPLOAD_DIR . $this->_view->stored_data['image']);
                 }
 
                 $this->_view->flash[] = "News updated successfully.";
@@ -159,7 +159,7 @@ class NewsController extends BaseController {
                         $deleteAttempt = $this->_model->deleteData($id);
                         //Check we have deleted News
                         if (!empty($deleteAttempt)) {
-                            unlink(ROOT.UPLOAD_DIR.'/news/'.$selectDataByID[0]['image']);
+                            unlink(ROOT.UPLOAD_DIR.$selectDataByID[0]['image']);
 
                             // Redirect to next page
                             $this->_view->flash[] = "News deleted successfully.";

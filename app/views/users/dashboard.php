@@ -27,11 +27,11 @@
                             - <a href = "/payments/upgrade/" class = "red">Upgrade Membership</a>
                         <?php } ?>
                     </p>
-                    <?php if($this->user[0]['payment_type'] == 5){?>
-                        <p>Remaining Property Credits: Unlimited - <a href = "/payments/cancel" class = "red">Cancel Subscription</a></p>
-                    <?php }else{ ?>
+                    <?php //if($this->user[0]['payment_type'] == 5){?>
+<!--                        <p>Remaining Property Credits: Unlimited - <a href = "/payments/cancel" class = "red">Cancel Subscription</a></p>-->
+                    <?php //}else{ ?>
                         <p>Property Credits: <?php echo $this->user[0]['remaining_credits'] - $this->propertyCount?> - <a href = "/payments/cancel" class = "red">Cancel Membership</a></p>
-                    <?php } ?>
+                    <?php //} ?>
                 <?php }else{?>
                     <p><a href = "/payments/create/" class = 'red'>Become a Member</a></p>
                 <?php } ?>
@@ -82,9 +82,8 @@
 
     <div class = "row current-properties">
         <div class="col-md-12">
-            <h1>Current Properties</h1>
-            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi quis magna ut justo mollis consequat eu non massa.
-                Morbi malesuada mollis ligula, in consectetur dui porta a.</h3>
+            <h1>Current Properties <?php if(isset($_GET['keywords']) && !empty($_GET['keywords'])){echo '- <a href = "/users/dashboard/#current-properties" alt = "Clear Search">Clear Search</a>';}?></h1>
+            <a name = "current-properties"></a>
         </div>
     </div>
 
@@ -108,11 +107,11 @@
                             <a href = "/reports/checkout/<?php echo $property['id']?>">Check Out</a>
                         <?php }elseif($differenceCheckIn <= $sevenDay){ ?>
                             <img src="/assets/images/blue-map.png">
-                            <a href = "/reports/checkin/<?php echo $property['id']?>">Check in</a>
+                            <a href = "/reports/checkin/<?php echo $property['id']?>">Check In</a>
                         <?php } ?>
                     <?php } else {?>
                         <img src="/assets/images/blue-map.png">
-                        <a href = "/reports/start/<?php echo $property['id']?>">Start Check in</a>
+                        <a href = "/reports/start/<?php echo $property['id']?>">Start Check In</a>
                     <?php } ?>
                     <img src="/assets/images/edit.png">
                     <a href = "/properties/edit/<?php echo $property['id']?>">Edit Property</a>
@@ -127,8 +126,7 @@
     <div class = "row current-properties">
         <div class="col-md-12">
             <h1>Ongoing Check In / Check Out</h1>
-            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi quis magna ut justo mollis consequat eu non massa.
-                Morbi malesuada mollis ligula, in consectetur dui porta a.</h3>
+            <h3></h3>
         </div>
     </div>
 
@@ -147,7 +145,7 @@
                         <a href = "/reports/checkout/<?php echo $report['property_id']?>">Check Out</a>
                     <?php }elseif($differenceCheckIn <= $sevenDay){ ?>
                         <img src="/assets/images/blue-map.png">
-                        <a href = "/reports/checkin/<?php echo $report['property_id']?>">Check in</a>
+                        <a href = "/reports/checkin/<?php echo $report['property_id']?>">Check In</a>
                     <?php } ?>
                     <img src="/assets/images/download.png">
                     <a href = "/reports/report-download/<?php echo $report['id']?>">Download PDF</a>

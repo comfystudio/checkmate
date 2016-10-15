@@ -30,6 +30,13 @@ class UsersController extends BaseController {
 		$this->_view->error = array();
 		$this->_view->postData = array();
 
+        //if already logged in bouce to dashboard
+        if(isset($_SESSION['UserCurrentUserID']) && !empty($_SESSION['UserCurrentUserID'])){
+            $this->_view->flash[] = "Already logged in";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard/');
+        }
+
         // If Form has been submitted process it
 		if(!empty($_POST)){
 
@@ -252,21 +259,21 @@ class UsersController extends BaseController {
 			}else{
 				$this->_view->keysMatch = FALSE;
 			}
-			
+
 			// Define expected and required
 			$this->_view->expected = array('password', 'confirm_password');
 			$this->_view->required = array('password', 'confirm_password');
-	
+
 			// Set default variables
 			$this->_view->missing = array();
 			$this->_view->error = array();
 			$this->_view->postData = array();
 
 			// If Form has been submitted process it
-			if(!empty($_POST)){				
+			if(!empty($_POST)){
 				// Send $_POST to validate function
 				$post = Form::ValidatePost($_POST, $this->_view->expected, $this->_view->required);
-	
+
 				// If true return array of formatted $_POST data
 				if($post[0] == true){
 					$this->_view->postData = $post[1];
@@ -275,7 +282,7 @@ class UsersController extends BaseController {
 				else{
 					$this->_view->missing = $post[1];
 				}
-	
+
 				if(empty($this->_view->missing)){
 					$password = $this->_view->postData['password'];
 				    $confirm_password = $this->_view->postData['confirm_password'];
@@ -302,23 +309,23 @@ class UsersController extends BaseController {
 							}
 						}
 					}
-					
+
 					// If no errors yet continue
 					if(empty($this->_view->error)){
-						
+
 						// Create array of data to post to the model
 						$data['id'] = $user_id;
 						$data['password'] = $new_password;
 						$data['salt'] = $salt;
-						
+
 						// Update user password
 						$updateUserPassword = $this->_model->updateUserPassword($data);
-						
+
 						if(!empty($updateUserPassword)){
-							
+
 							// If user password has been updated then delete their password recovery security key
 							$deletePasswordRecovery = $this->_model->deletePasswordRecovery($user_id);
-							
+
 							// Get User Details
 							$userData = $this->_model->selectDataByID($user_id);
 
@@ -505,6 +512,7 @@ class UsersController extends BaseController {
             $_POST['salt'] = $selectDataByID[0]['salt'];
             $_POST['user_pass'] = $selectDataByID[0]['password'];
             $_POST['stored_user_email'] = $selectDataByID[0]['email'];
+            $_POST['email_verified'] = 1;
 
             if(!isset($_FILES) || $_FILES['logo_image']['name'] == null) {
                 $_POST['image'][0] = $this->_view->stored_data['logo_image'];
@@ -599,6 +607,13 @@ class UsersController extends BaseController {
 		$this->_view->error = array();
 		$this->_view->postData = array();
 
+        //if already logged in bouce to dashboard
+        if(isset($_SESSION['UserCurrentUserID']) && !empty($_SESSION['UserCurrentUserID'])){
+            $this->_view->flash[] = "Already logged in";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard/');
+        }
+
 		if(!empty($_SESSION['error'])){
 			$this->_view->error = $_SESSION['error'];
 			Session::destroy('error');
@@ -614,6 +629,9 @@ class UsersController extends BaseController {
 
         // If Form has been submitted process it
 		if(!empty($_POST)){
+            if(isset($_POST['type']) && !empty($_POST['type'])) {
+                $this->_view->userType = $_POST['type'];
+            }
 
 			// Send $_POST to validate function
 			$post = Form::ValidatePost($_POST, $this->_view->expected, $this->_view->required);
@@ -780,17 +798,20 @@ class UsersController extends BaseController {
 			Url::redirect('users/login');
 		}
 
-		// Debug::printr($this->_view->user);
+        //sanitise or set keywords to false
+        if(isset($_GET['keywords']) && !empty($_GET['keywords'])){
+            $_GET['keywords'] = FormInput::checkKeywords($_GET['keywords']);
+        }else{
+            $_GET['keywords'] = false;
+        }
 
 		// Need to get user notifications
 		$this->_notificationModel = $this->loadModel('notifications');
 		$this->_view->notifications = $this->_notificationModel->getAlldataByUserId($user_id);
 
-		// Debug::printr($this->_view->notifications);
-
 		// Need to get properties and reports by user_id
 		$this->_propertyModel = $this->loadModel('properties');
-		$this->_view->properties = $this->_propertyModel->getAlldataByUserId($user_id);
+		$this->_view->properties = $this->_propertyModel->getAlldataByUserId($user_id, $_GET['keywords']);
 		$this->_view->propertyCount = count($this->_view->properties);
 		// Need to get reports with tenant ID of user_id
 		$this->_reportsModel = $this->loadModel('reports');

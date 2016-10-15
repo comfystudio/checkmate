@@ -1,97 +1,91 @@
-<!-- Page content -->
-<div id="page-content">
-    <!-- Header -->
-    <div class="content-header">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="header-section">
-                    <h1>Check In</h1>
+<div class="greyback">
+    <div class ="container">
+        <div class="formintro">
+            <div class="single_notification">
+                <?php if (!empty($this->error)) { ?>
+                    <div class="alert alert-info alert-labeled formerror">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                        </button>
+                        <div class="alert-labeled-row">
+                            <span class="alert-label alert-label-left alert-labelled-cell">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </span>
+                            <h4>
+                                <strong>Failure</strong>
+                            </h4>
+                            <p class="alert-body alert-body-right alert-labelled-cell">
+                                <?php
+                                foreach($this->error as $error){
+                                    echo $error.'<br/>';
+                                }
+                                ?>
+                            </p>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class = "row front-content">
+                <div class = "col-md-offset-4 col-md-4 ">
+                    <img src="/assets/images/logo-small.png" alt ="Check mate small logo" class = "logo-small">
+                </div>
+                <div class = "col-md-offset-4">
+                </div>
+            </div>
+
+            <div class = "row">
+                <div class = "col-md-offset-4 col-md-4 strapline-header">
+                    Start Check In
+                </div>
+            </div>
+            <div class = "row">
+                <div class ="col-xs-12 welcome-message">
+                    Enter the emails of tenants / Landlord, and check in / check out date below to begin process.
                 </div>
             </div>
         </div>
-    </div>
-    <!-- END Header -->
-    <!-- General Elements Block -->
-    <div class="block">
-        <!-- General Elements Title -->
-        <div class="block-title">
-            <h2>
-                <?php echo $this->property[0]['title'].'<br/>';?>
-                <?php echo $this->property[0]['house_number'].'<br/>';?>
-                <?php echo $this->property[0]['address_1'].'<br/>';?>
-                <?php echo $this->property[0]['address_2'].'<br/>';?>
-                <?php echo $this->property[0]['address_3'].'<br/>';?>
-                <?php echo $this->property[0]['address_4'].'<br/>';?>
-                <?php echo $this->property[0]['postcode'];?>
 
-            </h2>
-        </div>
-        <!-- END General Elements Title -->
-        <?php if (!empty($this->error)) { ?>
-            <div class="alert alert-danger alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <h4><strong>Error</strong></h4>
-                <?php
-                    echo Html::formatBackofficeSuccess($this->error);
-                ?>
-            </div>
-        <?php } ?>
-        <!-- General Elements Content -->
-        <form id="form" action="" method="post" class="form-horizontal form-bordered" enctype="multipart/form-data">
+        <form class="full" action="" method="post" enctype="multipart/form-data">
+            <div class = "form-wrapper create-property">
+                <div class = "row">
+                    <?php if (!isset($this->leadTenantId) || empty($this->leadTenantId)){?>
+                        <div class="form-group col-sm-6 right-border <?php if ((!empty($this->error)) && array_key_exists('lead_tenant_id', $this->error)) { echo 'has-error'; }?>">
+                            <input type="name" class="form-control" id="lead_tenant_id" placeholder="Leading Tenant Email" name = "lead_tenant_id" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['lead_tenant_id']);} elseif(!empty($this->stored_data['lead_tenant_id'])){echo $this->stored_data['lead_tenant_id'];}?>">
+                        </div>
+                    <?php } ?>
 
+                    <?php if (!isset($this->lordId) || empty($this->lordId)){?>
+                        <div class="form-group col-sm-6 right-border <?php if ((!empty($this->error)) && array_key_exists('lord_id', $this->error)) { echo 'has-error'; }?>">
+                            <input type="name" class="form-control" id="lord_id" placeholder="LandLord Email" name = "lord_id" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['lord_id']);} elseif(!empty($this->stored_data['lord_id'])){echo $this->stored_data['lord_id'];}?>">
+                        </div>
+                    <?php } ?>
 
-            <?php if (!isset($this->leadTenantId) || empty($this->leadTenantId)){?>
-                 <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('lead_tenant_id', $this->error)) { echo 'has-error'; }?>">
-                    <label class="col-md-2 control-label" for="property_title">Leading Tenants Email</label>
-                    <div class="col-md-5">
-                        <input type="email" id="lead_tenant_id" name="lead_tenant_id" class="form-control" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['lead_tenant_id']);} elseif(!empty($this->stored_data['lead_tenant_id'])){echo $this->stored_data['lead_tenant_id'];}?>">
+                    <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('users[]', $this->error)) { echo 'has-error'; }?>" id = "add-tenants_1">
+                        <input type="email" class="form-control" id="users_1" placeholder="Add Other Tenant Email" name = "users[]" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['users[1]']);} elseif(!empty($this->stored_data['users[1]'])){echo $this->stored_data['users[1]'];}?>">
                     </div>
                 </div>
-            <?php } ?>
 
-            <?php if (!isset($this->lordId) || empty($this->leadTenantId)){?>
-                 <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('lord_id', $this->error)) { echo 'has-error'; }?>">
-                    <label class="col-md-2 control-label" for="property_title">LandLords Email</label>
-                    <div class="col-md-5">
-                        <input type="email" id="lord_id" name="lord_id" class="form-control" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['lord_id']);} elseif(!empty($this->stored_data['lord_id'])){echo $this->stored_data['lord_id'];}?>">
+                <div class = "row">
+                    <div class="form-group col-sm-6 right-border <?php if ((!empty($this->error)) && array_key_exists('check_in', $this->error)){echo 'has-error';}?>">
+                        <input type="text" class="form-control input-datepicker" id="check_in" placeholder="Check In Date" name="check_in" data-date-format="yyyy-mm-dd" data-date-view-mode="days" data-date-min-view-mode="days" value="<?php if ((!empty($this->missing)) || (!empty($this->error))) { echo Formatting::utf8_htmlentities(date('Y-m-d', strtotime($_POST['check_in'])));}elseif(!empty($this->stored_data['check_in'])){echo date('Y-m-d', strtotime($this->stored_data['check_in']));}?>">
+                        <img src ="/assets/images/calendar.png" class = "calendar-image" alt = "calender-image">
+                    </div>
+
+
+                    <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('check_out', $this->error)){echo 'has-error';}?>">
+                        <input type="text" id="check_out" name="check_out" class="form-control input-datepicker" data-date-format="yyyy-mm-dd" data-date-view-mode="days" data-date-min-view-mode="days" placeholder="Check Out Date" value="<?php if ((!empty($this->missing)) || (!empty($this->error))) { echo Formatting::utf8_htmlentities(date('Y-m-d', strtotime($_POST['check_out'])));}elseif(!empty($this->stored_data['check_out'])){echo date('Y-m-d', strtotime($this->stored_data['check_out']));}?>">
+                        <img src ="/assets/images/calendar.png" class = "calendar-image" alt = "calender-image">
                     </div>
                 </div>
-            <?php } ?>
 
-            <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('users[]', $this->error)) { echo 'has-error'; }?>" id = "add-tenants_1">
-                <label class="col-md-2 control-label" for="property_title">Add Other Tenants</label>
-                <div class="col-md-5">
-                    <input type="email" id="users_1" name="users[]" class="form-control" placeholder = "email" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['users[1]']);} elseif(!empty($this->stored_data['users[1]'])){echo $this->stored_data['users[1]'];}?>">
-                </div>
-                <a data-toggle="tooltip" id= "add-tenants_1" title="Add More Tenants" class="btn btn-effect-ripple btn-sm btn-success add-tenants" data-id="1"><i class="fa fa-plus"></i></a>
-            </div>
-
-
-            <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('check_in', $this->error)){echo 'has-error';}?>">
-                <label class="col-md-2 control-label" for="date">Check In Date</label>
-                <div class="col-md-5">
-                    <input type="text" id="check_in" name="check_in" class="form-control input-datepicker" data-date-format="yyyy-mm-dd" data-date-view-mode="days" data-date-min-view-mode="days" placeholder="yyyy-mm-dd" value="<?php if ((!empty($this->missing)) || (!empty($this->error))) { echo Formatting::utf8_htmlentities(date('Y-m-d', strtotime($_POST['check_in'])));}elseif(!empty($this->stored_data['check_in'])){echo date('Y-m-d', strtotime($this->stored_data['check_in']));}?>">
+                <div class="col-md-12" style = "padding:50px 90px 0;">
+                    <a class="formbtn btn-default add-tenants" id="add-tenants_1" title="Add More Tenants" data-id="1"></i> Add Another Tenant</a>
                 </div>
             </div>
-
-
-            <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('check_out', $this->error)){echo 'has-error';}?>">
-                <label class="col-md-2 control-label" for="date">Check Out Date</label>
-                <div class="col-md-5">
-                    <input type="text" id="check_out" name="check_out" class="form-control input-datepicker" data-date-format="yyyy-mm-dd" data-date-view-mode="days" data-date-min-view-mode="days" placeholder="yyyy-mm-dd" value="<?php if ((!empty($this->missing)) || (!empty($this->error))) { echo Formatting::utf8_htmlentities(date('Y-m-d', strtotime($_POST['check_out'])));}elseif(!empty($this->stored_data['check_out'])){echo date('Y-m-d', strtotime($this->stored_data['check_out']));}?>">
-                </div>
+            <div class="col-sm-12 form-spacing" style="text-align:center">
+                <div class = "back-to-dash"><a href = "/users/dashboard/"><img src = "/assets/images/back-to-dash.png"/> <span>Back to dashboard</span></a></div>
+                <button type="submit" class="formbtn btn-default" name="save" value = "save">Start</button>
             </div>
-
-            <div class="form-group form-actions">
-                <div class="col-md-5 col-md-offset-2">
-                    <input id = "save" type="submit" name="save" class="btn btn-effect-ripple btn-primary loader" value="Save">
-                    <input type="submit" name="cancel" class="btn btn-effect-ripple btn-danger loader" value="Cancel">
-                </div>
-            </div>
-
         </form>
-        <!-- END General Elements Content -->
     </div>
-    <!-- END General Elements Block -->
 </div>
-<!-- END Page Content -->

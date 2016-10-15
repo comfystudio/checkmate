@@ -23,7 +23,7 @@ define('REPORT_ITEMS', 'Green,Amber,Red');
 define('REPORT', 'Red,Amber,Green');
 define('METER', 'Oil,Gas,Economy 7,Other');
 define('KEYS', 'No,Front Door,Bedroom Door,Block Door,Back Door,Garage Door,Other Door');
-define('PAYMENTS', 'No Payment,Pay&Go,Basic,Medium,Heavy,Unlimited');
+define('PAYMENTS', 'No Payment,Pay&Go,Bronze,Silver,Gold,Platinum');
 define('NOTIFICATIONS', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15');
 
 

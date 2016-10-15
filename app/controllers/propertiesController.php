@@ -108,6 +108,13 @@ class PropertiesController extends BaseController {
      */
     public function delete($id){
         Auth::checkUserLogin();
+
+        if(!$this->checkMembership()){
+            $this->_view->flash[] = "Your membership has expired. Please cancel and renew membership";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard');
+        }
+
         // Set the Page Title ('pageName', 'pageSection', 'areaName')
         $this->_view->pageTitle = array('Properties');
         // Set Page Description
@@ -174,6 +181,12 @@ class PropertiesController extends BaseController {
      */
     public function edit($id = false){
         Auth::checkUserLogin();
+
+        if(!$this->checkMembership()){
+            $this->_view->flash[] = "Your membership has expired. Please cancel and renew membership";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard');
+        }
 
         if(!empty($id)){
             $selectDataByID = $this->_model->selectDataByID($id);
@@ -343,7 +356,13 @@ class PropertiesController extends BaseController {
                 Url::redirect('payments/upgrade');
             }
             //Debug::printr($properties);die;
-        }   
+        }
+
+        if(!$this->checkMembership()){
+            $this->_view->flash[] = "Your membership has expired. Please cancel and renew membership";
+            Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
+            Url::redirect('users/dashboard');
+        }
 
 
         // Set the Page Title ('pageName', 'pageSection', 'areaName')

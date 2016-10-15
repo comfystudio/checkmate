@@ -1,15 +1,30 @@
 <div class="greyback">
     <div class ="container">
         <div class="formintro">
-            <?php if (!empty($this->error)) { ?>
-                <div class="alert-danger alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><strong>Error</strong></h4>
-                    <?php
-                        echo Html::formatErrors($this->error);
-                    ?>
-                </div>
-            <?php } ?>
+            <div class="single_notification">
+                <?php if (!empty($this->error)) { ?>
+                    <div class="alert alert-info alert-labeled formerror">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                        </button>
+                        <div class="alert-labeled-row">
+                            <span class="alert-label alert-label-left alert-labelled-cell">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                            </span>
+                            <h4>
+                                <strong>Failure</strong>
+                            </h4>
+                            <p class="alert-body alert-body-right alert-labelled-cell">
+                                <?php
+                                foreach($this->error as $error){
+                                    echo $error.'<br/>';
+                                }
+                                ?>
+                            </p>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
 
             <div class = "row front-content">
                 <div class = "col-md-offset-4 col-md-4 ">
@@ -32,9 +47,11 @@
         </div>
 
         <form class="full" action="" method="post" id="LoginForm">
-            <div class="col-sm-offset-4">
-                <div class="form-group col-sm-5 <?php if ((!empty($this->missing)) && in_array('email', $this->missing)) { echo 'error'; }?>">
-                    <input type="email" class="form-control" id="email" placeholder="Email Address" name="email">
+            <div class = "form-wrapper">
+                <div class = "row">
+                    <div class="form-group col-sm-12 <?php if ((!empty($this->missing)) && in_array('email', $this->missing)) { echo 'error'; }?>">
+                        <input type="email" class="form-control" id="email" placeholder="Email Address" name="email">
+                    </div>
                 </div>
             </div>
              <div class="col-sm-12 form-spacing" style="text-align:center">
