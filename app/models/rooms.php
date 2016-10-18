@@ -216,8 +216,6 @@ class rooms extends Model{
      * @param int $report_id, int $room_id
      */
     public function createCheckOutRoom($report_id, $room_id){
-        Debug::printr($report_id);
-        Debug::printr($room_id);
         $dbTable = 'check_out_rooms';
         $postData = array(
             'report_id' => $report_id,

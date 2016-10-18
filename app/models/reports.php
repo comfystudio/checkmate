@@ -13,8 +13,9 @@ class Reports extends Model{
     public function validation($data, $type){
         $return = $data;
         foreach($data as $key => $input){
-            $temp = null;
-            $input = is_array($input) ? FormInput::trimArray($input) : FormInput::checkInput($input);
+            if($key != 'meter_image' && $key != 'tenant_agreement') {
+                $input = is_array($input) ? FormInput::trimArray($input) : FormInput::checkInput($input);
+            }
             $return[$key] = $input;
 
             //lord_id
@@ -143,7 +144,7 @@ class Reports extends Model{
                 'tenant_agreement' => $data['tenant_agreement'][0],
                 'oil_level' => $data['oil_level'],
                 'keys_acquired' => $data['keys_acquired'],
-                'fire_extin' => $data['fire_extin'][0],
+                'fire_extin' => $data['fire_extin'],
                 'fire_blanket' => $data['fire_blanket'],
                 'smoke_alarm' => $data['smoke_alarm'],
                 'tenant_approved_check_in' => $data['tenant_approved_check_in'],

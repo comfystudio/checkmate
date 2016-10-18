@@ -11,7 +11,7 @@
 							<a href = "/users/login/"><li>Login/Register</li></a>
 						<?php } else {?>
 							<a href = "/users/logout/"><li>Logout</li></a>
-						<?php } ?>
+                        <?php } ?>
 					<ul>
 				<?php } ?>
 			</div>
@@ -35,8 +35,11 @@
 					  			<a href="/users/login/">Login/Register</a>
 				  			<?php } else {?>
 								<a href = "/users/logout/">Logout</a>
-							<?php } ?>
-						</div>
+                                <a href = "/users/dashboard/">Dashboard</a>
+                                <a class = "search">Search</a>
+
+                            <?php } ?>
+                        </div>
 
 						<span onclick="openNav()"><img src="/assets/images/slideout.png"></span>
 					</div>
@@ -64,6 +67,8 @@
 								<a href="/users/login/"><li>Login/Register</li></a>
 							<?php }	else {?>
 								<a href = "/users/logout/"><li>Logout</li></a>
+                                <a href = "/users/dashboard/"><li>Back to Dashboard</li></a>
+                                <a class = "search"><li>Search</li></a>
 							<?php } ?>
 							<li><div class = "mobile-header-phone header-phone">
                                     <a href="tel:<?php echo $phone?>"><?php echo $phone?></a> / <a href="tel:<?php echo $phone2?>"><?php echo $phone2?></a>
@@ -81,7 +86,7 @@
 
 				<div class = "col-md-1">
                     <?php if(isset($_SESSION['UserCurrentUserID']) && !empty($_SESSION['UserCurrentUserID'])){?>
-                        <div class = "search">
+                        <div class = "search" id = "search-large">
                             <a href="#" title="Search site" id="searchshow">
                                 <img src="/assets/images/search.png" alt="Search site" />
                             </a>

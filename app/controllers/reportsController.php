@@ -334,7 +334,7 @@ class ReportsController extends BaseController {
             Url::redirect('users/dashboard');
         }
 
-        // We need to work if we have already created rooms from template
+        // We need to work out if we have already created rooms from template
         if(isset($report[0]['check_in_room_ids']) && !empty($report[0]['check_in_room_ids'])){
             $check_in_room_ids = explode(',', $report[0]['check_in_room_ids']);
 
@@ -350,7 +350,6 @@ class ReportsController extends BaseController {
                         $rooms['items'][] = $items;
                     }
                 }
-
                 $this->_view->checkInData[] = $rooms;
             }
         }
@@ -395,10 +394,10 @@ class ReportsController extends BaseController {
             }
 
             //Need to workout new status of the report
-            $tenant_approved_check_in = (isset($_POST['tenant_approved_check_in']) && !empty($_POST['tenant_approved_check_in'])) ? $_POST['tenant_approved_check_in'] : $report[0]['tenant_approved_check_in'];
-            $lord_approved_check_in = (isset($_POST['lord_approved_check_in']) && !empty($_POST['lord_approved_check_in'])) ? $_POST['lord_approved_check_in'] : $report[0]['lord_approved_check_in'];
+            $tenant_approved_check_in = (isset($_POST['tenant_approved_check_in'])) ? $_POST['tenant_approved_check_in'] : $report[0]['tenant_approved_check_in'];
+            $lord_approved_check_in = (isset($_POST['lord_approved_check_in'])) ? $_POST['lord_approved_check_in'] : $report[0]['lord_approved_check_in'];
             $oil_level = (isset($_POST['oil_level']) && !empty($_POST['oil_level'])) ? $_POST['oil_level'] : $report[0]['oil_level'];
-            $keys_acquired = (isset($_POST['keys_acquired']) && !empty($_POST['keys_acquired'])) ? $_POST['keys_acquired'] : $report[0]['keys_acquired'];
+            $keys_acquired = (isset($_POST['keys_acquired'])) ? $_POST['keys_acquired'] : $report[0]['keys_acquired'];
             $fire_extin = (isset($_POST['fire_extin']) && !empty($_POST['fire_extin'])) ? $_POST['fire_extin'] : $report[0]['fire_extin'];
             $fire_blanket = (isset($_POST['fire_blanket']) && !empty($_POST['fire_blanket'])) ? $_POST['fire_blanket'] : $report[0]['fire_blanket'];
             $smoke_alarm = (isset($_POST['smoke_alarm']) && !empty($_POST['smoke_alarm'])) ? $_POST['smoke_alarm'] : $report[0]['smoke_alarm'];
@@ -414,8 +413,6 @@ class ReportsController extends BaseController {
             $_POST['status'] = $status;
             $_POST['tenant_approved_check_in'] = $tenant_approved_check_in;
             $_POST['lord_approved_check_in'] = $lord_approved_check_in;
-            $_POST['tenant_approved_check_out'] = 0;
-            $_POST['lord_approved_check_in'] = 0;
             $_POST['oil_level'] = $oil_level;
             $_POST['keys_acquired'] = $keys_acquired;
             $_POST['fire_extin'] = $fire_extin;
@@ -443,10 +440,13 @@ class ReportsController extends BaseController {
 
             foreach($this->_view->checkInData as $key => $roomData){
                 $roomArray[$roomData['id']] = $roomData;
+                $itemsArray = array();
                 foreach($roomData['items'] as $key2 => $item){
-                    $roomArray[$roomData['id']]['items'][$item['id']] = $item;
-                    unset($roomArray[$roomData['id']]['items'][$key2]);
+                    //$roomArray[$roomData['id']]['items'][$item['id']] = $item;
+                    //unset($roomArray[$roomData['id']]['items'][$key2]);
+                    $itemsArray[$item['id']] = $item;
                 }
+                $roomArray[$roomData['id']]['items'] = $itemsArray;
             }
 
             $rooms = $_POST['rooms'];
@@ -467,21 +467,19 @@ class ReportsController extends BaseController {
                 foreach($rooms as $key => $room){
                     $tenant_comment = (isset($rooms[$key]['tenant_comment']) && !empty($rooms[$key]['tenant_comment'])) ? $rooms[$key]['tenant_comment'] : $roomArray[$key]['tenant_comment'];
                     $lord_comment = (isset($rooms[$key]['lord_comment']) && !empty($rooms[$key]['lord_comment'])) ? $rooms[$key]['lord_comment'] : $roomArray[$key]['lord_comment'];
-                    $clean = (isset($rooms[$key]['clean']) && !empty($rooms[$key]['clean'])) ? $rooms[$key]['clean'] : $roomArray[$key]['clean'];
+                    $clean = (isset($rooms[$key]['clean'])) ? $rooms[$key]['clean'] : $roomArray[$key]['clean'];
                     $room['lord_comment'] = $lord_comment;
                     $room['tenant_comment'] = $tenant_comment;
                     $room['clean'] = $clean;
                     $room['id'] = $key;
                     $this->_roomsModel->updateCheckInRoom($room);
 
-                    $checkOutRoomId = $this->_roomsModel->createCheckOutRoom($report[0]['id'], $key); 
+                    $checkOutRoomId = $this->_roomsModel->createCheckOutRoom($report[0]['id'], $key);
 
                     // Now we need to update our items and possibly create new ones....
                     foreach($room['items'] as $key2 => $item){
                         // If its a new item
                         if(preg_match('/new/', $key2)){
-                            // Debug::printr($_FILES);
-                            // Debug::printr($item);
                             if(isset($item['name']) && !empty($item['name'])){
                                 //We need to create the new item in the items table
                                 $newItem['is_active'] = 1;
@@ -512,8 +510,9 @@ class ReportsController extends BaseController {
                         }else{
                             $tenant_comment_item = (isset($item['tenant_comment']) && !empty($item['tenant_comment'])) ? $item['tenant_comment'] : $roomArray[$key]['items'][$key2]['tenant_comment'];
                             $lord_comment_item = (isset($item['lord_comment']) && !empty($item['lord_comment'])) ? $item['lord_comment'] : $roomArray[$key]['items'][$key2]['lord_comment'];
-                            $tenant_approved_item = (isset($item['tenant_approved']) && !empty($item['tenant_approved'])) ? $item['tenant_approved'] : $roomArray[$key]['items'][$key2]['tenant_approved'];
-                            $lord_approved_item = (isset($item['lord_approved']) && !empty($item['lord_approved'])) ? $item['lord_approved'] : $roomArray[$key]['items'][$key2]['lord_approved'];
+                            $tenant_approved_item = (isset($item['tenant_approved'])) ? $item['tenant_approved'] : $roomArray[$key]['items'][$key2]['tenant_approved'];
+                            $lord_approved_item = (isset($item['lord_approved'])) ? $item['lord_approved'] : $roomArray[$key]['items'][$key2]['lord_approved'];
+
 
                             if( $tenant_approved_item == 1 && $lord_approved_item == 1){
                                 $status_item = 2;
@@ -718,14 +717,13 @@ class ReportsController extends BaseController {
             }
 
             //Need to workout new status of the report
-            $tenant_approved_check_out = (isset($_POST['tenant_approved_check_out']) && !empty($_POST['tenant_approved_check_out'])) ? $_POST['tenant_approved_check_out'] : $report[0]['tenant_approved_check_out'];
-            $lord_approved_check_out = (isset($_POST['lord_approved_check_out']) && !empty($_POST['lord_approved_check_out'])) ? $_POST['lord_approved_check_out'] : $report[0]['lord_approved_check_out'];
+            $tenant_approved_check_out = (isset($_POST['tenant_approved_check_out'])) ? $_POST['tenant_approved_check_out'] : $report[0]['tenant_approved_check_out'];
+            $lord_approved_check_out = (isset($_POST['lord_approved_check_out'])) ? $_POST['lord_approved_check_out'] : $report[0]['lord_approved_check_out'];
             $oil_level = (isset($_POST['oil_level']) && !empty($_POST['oil_level'])) ? $_POST['oil_level'] : $report[0]['oil_level'];
             $keys_acquired = (isset($_POST['keys_acquired']) && !empty($_POST['keys_acquired'])) ? $_POST['keys_acquired'] : $report[0]['keys_acquired'];
             $fire_extin = (isset($_POST['fire_extin']) && !empty($_POST['fire_extin'])) ? $_POST['fire_extin'] : $report[0]['fire_extin'];
             $fire_blanket = (isset($_POST['fire_blanket']) && !empty($_POST['fire_blanket'])) ? $_POST['fire_blanket'] : $report[0]['fire_blanket'];
             $smoke_alarm = (isset($_POST['smoke_alarm']) && !empty($_POST['smoke_alarm'])) ? $_POST['smoke_alarm'] : $report[0]['smoke_alarm'];
-
 
             if( $tenant_approved_check_out == 1 && $lord_approved_check_out == 1){
                 $status = 2;
@@ -786,7 +784,7 @@ class ReportsController extends BaseController {
                 foreach($rooms as $key => $room){
                     $tenant_comment = (isset($rooms[$key]['tenant_comment']) && !empty($rooms[$key]['tenant_comment'])) ? $rooms[$key]['tenant_comment'] : $roomArray[$key]['tenant_comment'];
                     $lord_comment = (isset($rooms[$key]['lord_comment']) && !empty($rooms[$key]['lord_comment'])) ? $rooms[$key]['lord_comment'] : $roomArray[$key]['lord_comment'];
-                    $clean = (isset($rooms[$key]['clean']) && !empty($rooms[$key]['clean'])) ? $rooms[$key]['clean'] : $roomArray[$key]['clean'];
+                    $clean = (isset($rooms[$key]['clean'])) ? $rooms[$key]['clean'] : $roomArray[$key]['clean'];
                     $room['lord_comment'] = $lord_comment;
                     $room['tenant_comment'] = $tenant_comment;
                     $room['clean'] = $clean;
@@ -797,8 +795,8 @@ class ReportsController extends BaseController {
                     foreach($room['items'] as $key2 => $item){
                         $tenant_comment_item = (isset($item['tenant_comment']) && !empty($item['tenant_comment'])) ? $item['tenant_comment'] : $roomArray[$key]['items'][$key2]['tenant_comment'];
                         $lord_comment_item = (isset($item['lord_comment']) && !empty($item['lord_comment'])) ? $item['lord_comment'] : $roomArray[$key]['items'][$key2]['lord_comment'];
-                        $tenant_approved_item = (isset($item['tenant_approved']) && !empty($item['tenant_approved'])) ? $item['tenant_approved'] : $roomArray[$key]['items'][$key2]['tenant_approved'];
-                        $lord_approved_item = (isset($item['lord_approved']) && !empty($item['lord_approved'])) ? $item['lord_approved'] : $roomArray[$key]['items'][$key2]['lord_approved'];
+                        $tenant_approved_item = (isset($item['tenant_approved'])) ? $item['tenant_approved'] : $roomArray[$key]['items'][$key2]['tenant_approved'];
+                        $lord_approved_item = (isset($item['lord_approved'])) ? $item['lord_approved'] : $roomArray[$key]['items'][$key2]['lord_approved'];
 
                         if( $tenant_approved_item == 1 && $lord_approved_item == 1){
                             $status_item = 2;

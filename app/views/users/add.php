@@ -95,7 +95,7 @@
                 <?php //if (isset( $this->stored_data['logo_image']) && !empty( $this->stored_data['logo_image'])){?>
                 <div class = "row">
                     <div class="form-group col-sm-6 right-border">
-                        <input type="file" class="form-control" name="logo_image" id="logo_image">
+                        <input type="file" name="logo_image" id="logo_image" class="form-control filestyle" data-buttonText="User Image" data-buttonBefore="true" ">
                     </div>
                 </div>
                 <?php //} ?>
