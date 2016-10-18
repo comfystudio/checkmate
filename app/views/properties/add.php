@@ -100,7 +100,7 @@
                     
                     <div class = "row">
                         <div class="form-group col-sm-6 right-border">
-                            <input type="file" class="form-control" name="image" id="image">
+                            <input type="file" class="form-control filestyle" data-buttonText="Property Image" data-buttonBefore="true" name="image" id="image">
                         </div>
                     </div>
                 </div>

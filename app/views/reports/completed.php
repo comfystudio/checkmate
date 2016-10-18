@@ -70,26 +70,26 @@
                         <td>
                             <?php
                             if(isset($data['tenant_approved_check_in']) && $data['tenant_approved_check_in'] == 1 && isset($data['lord_approved_check_in']) && $data['lord_approved_check_in'] == 1){
-                                echo 'Both Tenant and LandLord have approved';
+                                echo 'Both Tenant and LandLord / Agent have approved';
                             }elseif(isset($data['tenant_approved_check_in']) && $data['tenant_approved_check_in'] == 1){
                                 echo 'Only Tenant has approved';
                             }elseif(isset($data['lord_approved_check_in']) && $data['lord_approved_check_in'] == 1){
-                                echo 'Only Landlord has approved';
+                                echo 'Only Landlord / Agent has approved';
                             }else{
-                                echo 'Neither the Landlord nor Tenant has approved';
+                                echo 'Neither the Landlord / Agent nor Tenant has approved';
                             }
                             ?>
                         </td>
                         <td>
                             <?php
                             if(isset($data['tenant_approved_check_out']) && $data['tenant_approved_check_out'] == 1 && isset($data['lord_approved_check_out']) && $data['lord_approved_check_out'] == 1){
-                                echo 'Both Tenant and LandLord have approved';
+                                echo 'Both Tenant and LandLord / Agent have approved';
                             }elseif(isset($data['tenant_approved_check_out']) && $data['tenant_approved_check_out'] == 1){
-                                echo 'Only Tenant has approved';
+                                echo 'Only Tenant / Agent has approved';
                             }elseif(isset($data['lord_approved_check_out']) && $data['lord_approved_check_out'] == 1){
-                                echo 'Only Landlord has approved';
+                                echo 'Only Landlord / Agent has approved';
                             }else{
-                                echo 'Neither the Landlord nor Tenant has approved';
+                                echo 'Neither the Landlord / Agent nor Tenant has approved';
                             }
                             ?>
                         </td>

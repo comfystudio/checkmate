@@ -691,7 +691,7 @@ class ReportsController extends BaseController {
          $mpdf->WriteHTML('Red');
          $mpdf->WriteHTML('</td>');
          $mpdf->WriteHTML('<td class = "red">');
-         $mpdf->WriteHTML('Red means neither the Landlord nor Lead Tenant have approved.');
+         $mpdf->WriteHTML('Red means neither the Landlord / Agent nor Lead Tenant have approved.');
          $mpdf->WriteHTML('</td>');
 
          $mpdf->WriteHTML('<tr>');
@@ -701,7 +701,7 @@ class ReportsController extends BaseController {
          $mpdf->WriteHTML('Amber');
          $mpdf->WriteHTML('</td>');
          $mpdf->WriteHTML('<td class = "amber">');
-         $mpdf->WriteHTML('Amber means either the Landlord or Lead Tenant have approved.');
+         $mpdf->WriteHTML('Amber means either the Landlord / Agent or Lead Tenant have approved.');
          $mpdf->WriteHTML('</td>');
 
          $mpdf->WriteHTML('<tr>');
@@ -711,7 +711,7 @@ class ReportsController extends BaseController {
          $mpdf->WriteHTML('Green');
          $mpdf->WriteHTML('</td>');
          $mpdf->WriteHTML('<td class = "green">');
-         $mpdf->WriteHTML('Green means both the Landlord and Lead Tenant have approved.');
+         $mpdf->WriteHTML('Green means both the Landlord / Agent and Lead Tenant have approved.');
          $mpdf->WriteHTML('</td>');
          $mpdf->WriteHTML('<tr>');
          $mpdf->WriteHTML('</table>');
@@ -870,7 +870,7 @@ class ReportsController extends BaseController {
 
                  $mpdf->WriteHTML('<tr>');
                  $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                 $mpdf->WriteHTML('LandLord Comment');
+                 $mpdf->WriteHTML('LandLord / Agent Comment');
                  $mpdf->WriteHTML('</th>');
 
                  $mpdf->WriteHTML('<td class = "align-right">');
@@ -917,7 +917,7 @@ class ReportsController extends BaseController {
 
                          $mpdf->WriteHTML('<tr>');
                          $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                         $mpdf->WriteHTML('Landlord Comment');
+                         $mpdf->WriteHTML('Landlord / Agent Comment');
                          $mpdf->WriteHTML('</td>');
 
 
@@ -1082,7 +1082,7 @@ class ReportsController extends BaseController {
 
                  $mpdf->WriteHTML('<tr>');
                  $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                 $mpdf->WriteHTML('LandLord Comment');
+                 $mpdf->WriteHTML('LandLord / Agent Comment');
                  $mpdf->WriteHTML('</th>');
 
                  $mpdf->WriteHTML('<td class = "align-right">');
@@ -1129,7 +1129,7 @@ class ReportsController extends BaseController {
 
                          $mpdf->WriteHTML('<tr>');
                          $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                         $mpdf->WriteHTML('Landlord Comment');
+                         $mpdf->WriteHTML('Landlord / Agent Comment');
                          $mpdf->WriteHTML('</td>');
 
 

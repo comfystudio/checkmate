@@ -5,8 +5,8 @@ header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set('Europe/London'); // Set Timezone to UK
 define('SITE_STATUS', 'LOCAL'); // SITE STATUS (LIVE, DEV or LOCAL)
 define('SITE_NAME', "Checkmate");
-//define('SITE_EMAIL', "info@checkmatedeposit.com");
-define('SITE_EMAIL', "william@websiteni.com");
+define('SITE_EMAIL', "info@checkmatedeposit.com");
+//define('SITE_EMAIL', "william@websiteni.com");
 define('ERROR_EMAIL', "william@websiteni.com"); // Used for error reporting
 define('ROOT', $_SERVER['DOCUMENT_ROOT'].'/'); // Site Document Root
 define('MAX_FILE_SIZE', 8388608); // Maximum Upload Size 8MB

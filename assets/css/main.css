@@ -72,7 +72,7 @@ Header
 	list-style: none;
 	font-family: 'Lato', sans-serif;
 	font-size: 18px;
-	font-weight: 300;
+	font-weight: bold;
 	float:left;
 	color:#282424;
 }
@@ -92,11 +92,15 @@ Header
 	padding-left: 10px;
 }
 
+.logo img{
+    width:110%;
+}
+
 .header-phone{
 	padding:115px 0 0 0;
 	font-family: 'Lato', sans-serif;
 	font-size: 18px;
-	font-weight: 300;
+	font-weight: bold;
 	float:right;
 	color:#282424;
 	display: none;
@@ -210,6 +214,18 @@ Header
     background-color: white;
     overflow: hidden;
     padding: 70px 0;
+}
+
+.back-to-dash-header{
+    color:black;
+    margin-top: 12px;
+    margin-left: -12px;
+    display: block;
+}
+
+.back-to-dash-header:hover{
+    text-decoration: none;
+    color:black;
 }
 
 /*************************************************************************
@@ -550,11 +566,18 @@ Forms
     box-shadow: none;
     border-radius: 0;
     font-size: 26px;
+    /*font-size: 16px;*/
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     height: auto;
     padding-bottom: 20px;
     padding-left: 0px;
+}
+.check-in-form .form-control{
+    font-size: 16px;
+}
+.check-in-form .bootstrap-filestyle label{
+    padding:13px;
 }
 .form-control-2{
     border: none;
@@ -696,7 +719,7 @@ Forms
 .form-wrapper .form-group select, .form-wrapper .form-group-2 select{
 	background-color: #0c7edd;
 	color:white;
-    padding: 15px 20px;
+    padding: 14px 20px;
 }
 .form-group-2-label{
     width:70%;
@@ -715,7 +738,7 @@ Forms
 
 form .form-group input[type="radio"]{
     float: left;
-    width: 5%;
+    width: 20px;
     margin-top: 8px;
     height: 20px;
     margin-right: 20px;
@@ -948,6 +971,30 @@ table tr:nth-child(3){
 .card_icons li{
     float:left;
 }
+#template-add-room{
+    display: block;
+    margin: 12px auto;
+    width:25%;
+}
+.block{
+    display: block !important;
+}
+.status-0{
+    color:red;
+    font-size: 22px;
+}
+.status-1{
+    color:orange;
+    font-size: 22px;
+}
+.status-2{
+    color:green;
+    font-size: 22px;
+}
+
+h1, h2, h3{
+    font-family: 'Lato';
+}
 
 /************************************************************************
 Pages
@@ -1041,6 +1088,10 @@ body{
     margin: 0;
     margin-bottom: 4px;
 }
+.dashboard-notifications p{
+    width:70%;
+    display: inline-block;
+}
 
 .dashboard-notifications a{
     float: right;
@@ -1052,7 +1103,7 @@ body{
     font-family: 'Lato';
     font-size: 16px;
     font-weight: bold;
-    margin-top: -8px;
+    margin-top: 5px;
 }
 .dashboard-notifications .view:hover{
     text-decoration: none;
@@ -1066,7 +1117,6 @@ body{
     font-family: 'Lato';
     font-size: 16px;
     font-weight: normal;
-    margin-top: -12px;
 }
 .dashboard-notifications .delete:hover{
     text-decoration: none;
@@ -1168,6 +1218,16 @@ body{
 
 .border-none{
     border: none;
+}
+
+.dashboard-tooltip{
+    font-size: 32px;
+}
+
+.tooltip{
+    font-family: 'Lato';
+    font-size: 16px;
+    padding:12px;
 }
 
 
@@ -1403,7 +1463,7 @@ Screen Size 992px
         font-size: 18px;
 	}
 	.logo img{
-	    padding-left: 92px;
+	    padding-left: 70px;
 	}
 	.header{
 		height: 270px;
@@ -1433,7 +1493,15 @@ Screen Size 1220px
     .property-row p {
         width:70%;
     }
-
+    .form-wrapper .form-group {
+        padding: 0 60px 15px;
+    }
+    .form-group-4-label {
+        width:80%;
+    }
+    .dashboard-options .option p {
+        padding: 0;
+    }
 }
 
 /*************************************************************************
@@ -1451,6 +1519,10 @@ Screen Size 992px
     }
     .property-row p {
         width:70%;
+    }
+    .dashboard-options .option{
+        padding: 20px;
+        margin: 20px 0;
     }
 }
 
@@ -1493,17 +1565,62 @@ Screen Size Below 490px
     .footer-icons {
         padding-bottom: 54px;
     }
+    .phonenumber {
+        margin-right: 0px;
+    }
+    .dashboard-notifications .view, .dashboard-notifications .delete{
+        font-size: 10px;
+    }
+    .dashboard-notifications img{
+        width:12px;
+    }
+    .dashboard-notifications p{
+        margin-bottom: 0px;
+    }
+    #template-add-room{
+        padding: 0;
+        font-size: 16px;
+    }
+    .back-to-dash {
+        padding-left: 0;
+        font-size: 16px;
+    }
+    form .formbtn {
+        margin: 20px;
+        display: inline-block;
+        font-size:18px;
+    }
+    .create-property .formbtn {
+        display: inline-block;
+    }
+    .form-control{
+        font-size: 18px;
+    }
+    .bootstrap-filestyle label{
+        padding:14px;
+    }
+    .form-wrapper .form-group select, .form-wrapper .form-group-2 select{
+        padding:14px 20px;
+    }
+
+
 }
 
 
 /*************************************************************************
 IE 9 and up
 *************************************************************************/
-@media screen and (min-width:0\0) and (min-resolution: +72dpi) {
+@media screen and (min-width:0\0){
     /*.ie9up{*/
         /*property:value;*/
     /*}*/
     .bootstrap-filestyle label {
         padding:16px;
+    }
+    .form-group-2-label{
+/*        padding-bottom: 14px;
+*/    }
+    .form-group-2-label{
+        padding-bottom: 19px;
     }
 }

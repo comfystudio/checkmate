@@ -139,6 +139,7 @@ class PropertiesController extends BaseController {
             $this->_reportsModel = $this->loadModel('reports');
             $currentDate = date("Y-m-d");
             $this->_view->conflict = $this->_reportsModel->getReportsByPropertyIdAndDate($id, $currentDate);
+            Debug::printr($_POST);
             
             //Check ID returns an Properties
             if(isset($selectDataByID[0]['id']) && !empty($selectDataByID[0]['id'])){

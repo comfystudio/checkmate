@@ -66,7 +66,7 @@
                         <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('type', $this->error)) { echo 'has-error'; }?>" id = "room-group_<?php echo $count?>">
                             <label class="col-md-2 control-label" for="rooms[]">Room <?php echo $count?></label>
                             <div class="col-md-5">
-                                <select id="rooms[<?php echo $count?>]" name="rooms[<?php echo $count?>]" class="form-control">
+                                <select id="rooms[<?php echo $count?>]" name="rooms[<?php echo $count?>]" class="form-control template-add-rooms">
                                     <option value="0">-- Please Select Room --</option>
                                     <?php foreach($this->rooms as $key => $room){?>
                                         <option value="<?php echo $room['id'] ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['rooms'] == $key)) {echo 'selected="selected"';} elseif(!empty($room_id) && $room_id == $key){echo 'selected="selected"';}?> > <?php echo $room['name'].": (".$room['items'].")"?></option>
@@ -86,7 +86,7 @@
                         <div class="col-md-12 form-group <?php if ((!empty($this->error)) && array_key_exists('type', $this->error)) { echo 'has-error'; }?>" id = "room-group_1">
                             <label class="col-md-2 control-label form-control-2" for="rooms[1]">Room 1</label>
                             <div class="col-md-6">
-                                <select id="rooms1" name="rooms[1]" class="form-control">
+                                <select id="rooms1" name="rooms[1]" class="form-control template-add-rooms">
                                     <option value="0">-- Please Select Room --</option>
                                     <?php foreach($this->rooms as $key => $room){?>
                                         <option value="<?php echo $room['id'] ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['rooms'] == $key)) {echo 'selected="selected"';} elseif(!empty($this->stored_data['rooms']) && $this->stored_data['rooms'] == $key){echo 'selected="selected"';}?> > <?php echo $room['name'].": (".$room['items'].")"?></option>
@@ -104,14 +104,16 @@
                     </div>
 
 
-                    <div class="col-md-12" style = "padding:50px 90px 0;">
-                        <a class="formbtn btn-default" id="template-add-room" data-id="2"></i> Add Another Room</a>
+                    <div class = "row">
+                        <div class="col-md-12">
+                            <a class="formbtn btn-default" id="template-add-room" data-id="2"></i> Add Another Room</a>
+                        </div>
                     </div>
                 <?php } ?>
             </div>
             <div class="col-sm-12 form-spacing" style="text-align:center">
                 <div class = "back-to-dash"><a href = "/users/dashboard/"><img src = "/assets/images/back-to-dash.png"/> <span>Back to dashboard</span></a></div>
-                <button type="submit" class="formbtn btn-default" name="save" value = "save">Save</button>
+                <button type="submit" class="formbtn btn-default template-add-save" name="save" value = "save">Save</button>
             </div>
         </form>
     </div>

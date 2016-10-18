@@ -212,7 +212,6 @@ class TemplatesController extends BaseController {
 			    Url::redirect('users/dashboard');
 		    }
 
-            Debug::printr($_POST);
             $_POST['created_by'] = $_SESSION['UserCurrentUserID'];
 
             // Create new Templates
@@ -247,7 +246,7 @@ class TemplatesController extends BaseController {
                                 foreach ($itemArray as $key3 => $id) {
                                     $itemIds[] = $id;
                                 }
-                                if(isset($itemIds) && !empty($itemIds)){
+                                if(isset($itemIds) && !empty($itemIds) && !is_array($itemIds)){
                                     foreach ($itemIds as $key4 => $itemid) {
                                         // creating new room_item
                                         $this->_roomsModel->createRoomItems($roomID, $itemid);

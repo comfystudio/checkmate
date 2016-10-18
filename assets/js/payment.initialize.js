@@ -1,4 +1,5 @@
-Stripe.setPublishableKey('pk_test_tqAFgYsDaCflhYi4GY0y1Esb'); 
+//Stripe.setPublishableKey('pk_test_tqAFgYsDaCflhYi4GY0y1Esb'); // Test Key
+Stripe.setPublishableKey('pk_live_45DdW3CW3klu6rvAv2dE8Apr'); // Live key
 
 function stripeResponseHandler(status, response) {
   var $form = $('#payment-form');

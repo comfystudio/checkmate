@@ -15,7 +15,7 @@
             <?php if(isset($this->user[0]['logo_image']) && !empty($this->user[0]['logo_image'])){?>
                 <img src="/image.php?width=250&image=/assets/uploads/<?php echo $this->user[0]['logo_image'];?>" alt="<?php echo $this->user[0]['logo_image'];?>">
             <?php }else{?>
-                <img src="/image.php?width=250&image=/assets/images/logo-small.png">
+                <img src="/image.php?width=250&image=/assets/images/blank-user.jpg">
             <?php } ?>
 
             <p><a href = "/users/edit/<?php echo $this->user[0]['id']?>" class = "formbtn btn-default">Edit Profile</a></p>
@@ -44,7 +44,7 @@
             <ul class = "dashboard-notifications">
                 <?php foreach($this->notifications as $notification){?>
                     <li>
-                        <?php echo substr($notification['text'],0,50).'...';?>
+                        <p><?php echo substr($notification['text'],0,50).'...';?></p>
                         <a href = "/notifications/delete/<?php echo $notification['id']?>" class = "delete">
                             <img src="/assets/images/delete.png" alt="delete notification">Delete
                         </a>
@@ -61,7 +61,7 @@
         <div class = "col-md-2 option">
             <a href = "/properties/add/">
                 <img src="/assets/images/home.png" alt="Create New Property">
-                <p>Create a New Property</p>
+                <p>New Property Details</p>
             </a>
         </div>
 
@@ -76,6 +76,17 @@
             <a href = "/reports/completed">
                 <img src="/assets/images/completed.png" alt="View Completed Reports">
                 <p>View Completed Reports</p>
+            </a>
+        </div>
+
+        <div class = "col-md-2">
+            <a href = "#" data-toggle="tooltip" title = "Step 1- add new property details<br/>
+                                                        Step 2- create property layout<br/>
+                                                        Step 3- click check in/out on the property <br/>
+                                                        Step 4- await for approval<br/>
+                                                        Step 5- view completed report
+                                                        " class = "dashboard-tooltip">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
             </a>
         </div>
     </div>
@@ -95,7 +106,7 @@
         <?php foreach($this->properties as $property){?>
             <div class = "col-md-12 property-row">
                 <img src="/image.php?width=160&image=/assets/uploads/<?php echo $property['image'];?>" alt="<?php echo $property['image'];?>" class = "property-image">
-                <p><?php echo $property['title'].', '.$property['address_1'].', '.$property['address_2']?></p>
+                <p><?php echo  $property['title'].' - '.$property['house_number'].', '.$property['address_1'].', '.$property['address_2'].', '.$property['postcode']?></p>
                 <p>
                     <?php if(isset($property['check_out']) && !empty($property['check_out'])){?>
                         <?php $checkOutTime = strtotime($property['check_out'])?>
@@ -131,26 +142,28 @@
     </div>
 
     <div class = "row dashboard-properties">
-        <?php foreach($this->reports as $report){?>
-            <div class = "col-md-12 property-row">
-                <img src="/image.php?width=160&image=/assets/uploads/<?php echo $report['image'];?>" alt="<?php echo $report['image'];?>" class = "property-image">
-                <p><?php echo $report['title'].', '.$report['address_1'].', '.$report['address_2']?></p>
-                <p>
-                    <?php $checkOutTime = strtotime($report['check_out'])?>
-                    <?php $checkInTime = strtotime($report['check_in'])?>
-                    <?php $difference = abs($checkOutTime - $timeInSeconds)?>
-                    <?php $differenceCheckIn = abs($checkInTime - $timeInSeconds)?>
-                    <?php if($difference <= $fourDay){?>
-                        <img src="/assets/images/check-out.png">
-                        <a href = "/reports/checkout/<?php echo $report['property_id']?>">Check Out</a>
-                    <?php }elseif($differenceCheckIn <= $sevenDay){ ?>
-                        <img src="/assets/images/blue-map.png">
-                        <a href = "/reports/checkin/<?php echo $report['property_id']?>">Check In</a>
-                    <?php } ?>
-                    <img src="/assets/images/download.png">
-                    <a href = "/reports/report-download/<?php echo $report['id']?>">Download PDF</a>
-                </p>
-            </div>
+        <?php if(isset($this->reports) && !empty($this->reports)){?>
+            <?php foreach($this->reports as $report){?>
+                <div class = "col-md-12 property-row">
+                    <img src="/image.php?width=160&image=/assets/uploads/<?php echo $report['image'];?>" alt="<?php echo $report['image'];?>" class = "property-image">
+                    <p><?php echo $report['title'].' - '.$report['house_number'].', '.$report['address_1'].', '.$report['address_2'].', '.$report['postcode']?></p>
+                    <p>
+                        <?php $checkOutTime = strtotime($report['check_out'])?>
+                        <?php $checkInTime = strtotime($report['check_in'])?>
+                        <?php $difference = abs($checkOutTime - $timeInSeconds)?>
+                        <?php $differenceCheckIn = abs($checkInTime - $timeInSeconds)?>
+                        <?php if($difference <= $fourDay){?>
+                            <img src="/assets/images/check-out.png">
+                            <a href = "/reports/checkout/<?php echo $report['property_id']?>">Check Out</a>
+                        <?php }elseif($differenceCheckIn <= $sevenDay){ ?>
+                            <img src="/assets/images/blue-map.png">
+                            <a href = "/reports/checkin/<?php echo $report['property_id']?>">Check In</a>
+                        <?php } ?>
+                        <img src="/assets/images/download.png">
+                        <a href = "/reports/report-download/<?php echo $report['id']?>">Download PDF</a>
+                    </p>
+                </div>
+            <?php } ?>
         <?php } ?>
     </div>
 </div>

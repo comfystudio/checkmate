@@ -48,6 +48,7 @@ jQuery(document).ready(function(){
 			        removeRooms();
 			        addItems();
                     removeItems();
+                    templateAddItemsCheck();
 				} else {
 				}
 			}
@@ -62,6 +63,16 @@ jQuery(document).ready(function(){
     	jQuery("#room-group_"+current).parent().remove();
     })
 
+    //if on template add page and user tries to submit with an unselected room dropdown then prevent them.
+    jQuery(".template-add-save").click(function(event){
+        event.preventDefault();
+        if(jQuery('.template-add-rooms').val() == 0){
+            alert('One or more rooms needs to be selected');
+        }else{
+            jQuery('form').submit();
+        }
+    })
+
 	function removeRooms(){
         jQuery(".remove-room").off();
         jQuery(".remove-room").click(function(){
@@ -74,6 +85,24 @@ jQuery(document).ready(function(){
         jQuery(".remove-item").off();
         jQuery(".remove-item").click(function(){
             jQuery(this).parent().parent().remove();
+        })
+    }
+
+    function templateAddItemsCheck(){
+        jQuery(".template-add-save").off();
+        jQuery(".template-add-save").click(function(event){
+            var count = 0;
+            event.preventDefault();
+            jQuery('.template-add-rooms').each(function(){
+                if(jQuery(this).val() === '0'){
+                    count++;
+                }
+            })
+            if(count >= 1 ){
+                alert('One or more rooms needs to be selected');
+            }else{
+                jQuery('form').submit();
+            }
         })
     }
 
@@ -166,14 +195,14 @@ jQuery(document).ready(function(){
                 html += '<div class = "row">';
                     html += '<div class="form-group col-sm-6 right-border">';
                         html += '<label class = "form-control form-group-3-label">';
-                            html += 'Item Status: Green';
+                            html += 'Item Status: <i class="fa fa-circle status-2" aria-hidden="true"></i>';
                         html += '</label>';
                     html += '</div>';
                 html += '</div>';
 
                 html += '<div class="row">';
                     html += '<div class="form-group col-sm-6 right-border">';
-                        html += '<input '+disabledTenant+' type = "file" name = "new_'+count+'" class = "form-control file-background">';
+                        html += '<input '+disabledTenant+' type = "file" name = "new_'+count+'" id = "new_'+count+'" class = "form-control file-background filestyle" data-buttonText="Item Image" data-buttonBefore="true">';
                     html += '</div>';
                 html += '</div>';
 
@@ -200,7 +229,7 @@ jQuery(document).ready(function(){
 
                     html += '<div class="form-group col-sm-6">';
                         html += '<label class = "form-control form-group-3-label" style = "width:70%; float: left;">';
-                            html += 'Landlord Approval';
+                            html += 'LL / Agent Approval';
                         html += '</label>';
                         html += '<select '+disabledLord+' class="form-control form-group-2-select lord-item-approval" data-id = "new_'+count+'" name="rooms['+currentRoom+'][items][new_'+count+'][lord_approved]">';
                             html += '<option value="0">No</option>';
@@ -213,9 +242,13 @@ jQuery(document).ready(function(){
     	count = count + 1;
 		jQuery(this).data('items', count);
 
-    	jQuery('#new-item_'+currentRoom).after(html);
+    	jQuery('#new-item_'+currentRoom).before(html);
         blockTenantApproval();
         blockLordApproval();
+        jQuery("#new_"+(count-1)).filestyle({buttonBefore: true});
+        jQuery("#new_"+(count-1)).filestyle('buttonText', 'Item Image');
+
+        //jQuery(":file").filestyle({input: false})
 	})
 
 	//If the check out has been changed for tenant approved check in
@@ -371,4 +404,7 @@ jQuery(document).ready(function(){
     jQuery('.alert-failure .close').click(function(){
         jQuery(this).parent().parent().parent().parent().remove();
     })
+
+    //bootstrap tooltip
+    jQuery('[data-toggle="tooltip"]').tooltip({html: true}); 
 });

@@ -27,12 +27,15 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 form-spacing" style="text-align:center">
-                <div class = "back-to-dash"><a href = "/users/dashboard/"><img src = "/assets/images/back-to-dash.png"/> <span>Back to dashboard</span></a></div>
-                <?php if(!isset($this->conflict) || empty($this->conflict)){?>
-                    <button type="submit" class="formbtn btn-default" name="delete" value = "Delete">Delete</button>
-                <?php } ?>
-            </div>
+            <form action="" method="post" class="form-horizontal form-bordered">
+                <input type="hidden" name="id" value="<?php echo $this->selectedData[0]['id']; ?>" />
+                <div class="col-sm-12 form-spacing" style="text-align:center">
+                    <div class = "back-to-dash"><a href = "/users/dashboard/"><img src = "/assets/images/back-to-dash.png"/> <span>Back to dashboard</span></a></div>
+                    <?php if(!isset($this->conflict) || empty($this->conflict)){?>
+                        <button type="submit" class="formbtn btn-default" name="delete" value = "delete">Delete</button>
+                    <?php } ?>
+                </div>
+            </form>
         </div>
     </div>
 </div>

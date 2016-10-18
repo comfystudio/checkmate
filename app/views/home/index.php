@@ -8,7 +8,7 @@
                             I am a
                         </div>
                         <div class = "box-text2">
-                            Landlord
+                            Landlord / Agent
                         </div>
                         <div class = "box-text3">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit.

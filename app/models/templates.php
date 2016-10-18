@@ -14,7 +14,9 @@ class Templates extends Model{
         $return = $data;
         foreach($data as $key => $input){
             $temp = null;
-            $input = is_array($input) ? FormInput::trimArray($input) : FormInput::checkInput($input);
+            if($key != 'items'){
+                $input = is_array($input) ? FormInput::trimArray($input) : FormInput::checkInput($input);
+            }
             $return[$key] = $input;
 
             //title

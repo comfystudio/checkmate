@@ -17,25 +17,36 @@ class Reports extends Model{
             $input = is_array($input) ? FormInput::trimArray($input) : FormInput::checkInput($input);
             $return[$key] = $input;
 
-            //user_name
-            // if($key == 'firstname'){
-            //     //Max length
-            //     $temp = Form::MaxLength($input, 20);
-            //     if($temp[0] != true){
-            //         $return['error'][$key] = 'Firstname should not exceed 20 characters';
-            //     }
+            //lord_id
+            if($key == 'lord_id'){
+                //Required
+                if(empty($input) || $input == null){
+                    $return['error'][$key] = 'Landlord / Agent cannot be empty';
+                }
+            }
+            //lord_id
+            if($key == 'lead_tenant_id'){
+                //Required
+                if(empty($input) || $input == null){
+                    $return['error'][$key] = 'Lead Tenant cannot be empty';
+                }
+            }
 
-            //     //Alphabetic
-            //     $temp = Form::ValidateAlphabetic($input);
-            //     if($temp != true){
-            //         $return['error'][$key] = 'Firstname should contain only alphabetic characters';
-            //     }
+            //check_in
+            if($key == 'check_in'){
+                //Required
+                if(empty($input) || $input == null){
+                    $return['error'][$key] = 'Check In date cannot be empty';
+                }
+            }
 
-            //     //Required
-            //     if(empty($input) || $input == null){
-            //         $return['error'][$key] = 'Firstname cannot be empty';
-            //     }
-            // }
+            //check_out
+            if($key == 'check_out'){
+                //Required
+                if(empty($input) || $input == null){
+                    $return['error'][$key] = 'Check Out date cannot be empty';
+                }
+            }
         }
         return $return;
     }
@@ -153,7 +164,7 @@ class Reports extends Model{
      * @param int $user_id
      */
     public function getAlldataByUserId($user_id){
-        $sql = "SELECT t1.*, t2.title, t2.image, t2.address_1, t2.address_2
+        $sql = "SELECT t1.*, t2.house_number, t2.title, t2.image, t2.address_1, t2.address_2, t2.postcode
                 FROM reports t1
                     LEFT JOIN properties t2 ON t1.property_id = t2.id
                 WHERE (t1.lead_tenant_id = :user_id OR t1.lord_id = :user_id) AND NOW() BETWEEN (t1.check_in - INTERVAL 7 DAY) AND (t1.check_out + INTERVAL 7 DAY)
@@ -161,6 +172,22 @@ class Reports extends Model{
                 ORDER BY t1.id
                 ";
         return $this->_db->select($sql, array(':user_id' => $user_id));
+    }
+
+    /**
+     * FUNCTION: getAlldataByReportIds
+     * This function returns the details for reports based on array of report_ids
+     * @param array $report_ids
+     */
+    public function getAlldataByReportIds($report_ids){
+        $sql = "SELECT t1.*, t2.house_number, t2.title, t2.image, t2.address_1, t2.address_2, t2.postcode
+                FROM reports t1
+                    LEFT JOIN properties t2 ON t1.property_id = t2.id
+                WHERE t1.id IN ({$report_ids}) AND NOW() BETWEEN (t1.check_in - INTERVAL 7 DAY) AND (t1.check_out + INTERVAL 7 DAY)
+                GROUP BY t1.id
+                ORDER BY t1.id
+                ";
+        return $this->_db->select($sql);
     }
 
     /**
@@ -216,13 +243,25 @@ class Reports extends Model{
     /**
      * FUNCTION: getUserReports
      * This function returns the user reports based on report_id
-     * @param int $property_id
+     * @param int $report_id
      */
     public function getUserReports($report_id){
         $sql = "SELECT GROUP_CONCAT(t1.user_id) as user_id
                 FROM user_reports t1
                 WHERE t1.report_id = :report_id";
         return $this->_db->select($sql, array(':report_id' => $report_id));
+    }
+
+    /**
+     * FUNCTION: getUserReportsByUserId
+     * This function returns the user reports based on user_id
+     * @param int $user_id
+     */
+    public function getUserReportsByUserId($user_id){
+        $sql = "SELECT GROUP_CONCAT(t1.report_id) as report_id
+                FROM user_reports t1
+                WHERE t1.user_id = :user_id";
+        return $this->_db->select($sql, array(':user_id' => $user_id));
     }
 
 

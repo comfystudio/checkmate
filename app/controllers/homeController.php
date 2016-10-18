@@ -13,9 +13,9 @@ class HomeController extends BaseController {
 	 * This method handles the sites home page
 	 */
 	public function index(){
-		if(!isset($_SESSION['AdminLoggedIn']) || empty($_SESSION['AdminLoggedIn'])){
-			Url::redirect('home/holding');
-		}
+		// if(!isset($_SESSION['AdminLoggedIn']) || empty($_SESSION['AdminLoggedIn'])){
+		// 	Url::redirect('home/holding');
+		// }
 
         //if already logged in bouce to dashboard
         if(isset($_SESSION['UserCurrentUserID']) && !empty($_SESSION['UserCurrentUserID'])){

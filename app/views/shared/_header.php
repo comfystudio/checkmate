@@ -86,6 +86,7 @@
                                 <img src="/assets/images/search.png" alt="Search site" />
                             </a>
                         </div>
+                        <a class = "back-to-dash-header" href = "/users/dashboard/">Back to Dashboard</a>
                     <?php } ?>
 				</div>
 			<?php }?>

@@ -153,7 +153,7 @@ class rooms extends Model{
 	 * This function adds a new room item
 	 * @param int $room_id, int $item_id
 	 */
-    public function createRoomItems($room_id, $item_id){
+    public function createRoomItems($room_id, $item_id){       
         $dbTable = 'room_items';
         $postData = array(
             'room_id' => $room_id,
@@ -216,6 +216,8 @@ class rooms extends Model{
      * @param int $report_id, int $room_id
      */
     public function createCheckOutRoom($report_id, $room_id){
+        Debug::printr($report_id);
+        Debug::printr($room_id);
         $dbTable = 'check_out_rooms';
         $postData = array(
             'report_id' => $report_id,

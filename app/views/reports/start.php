@@ -40,7 +40,7 @@
             </div>
             <div class = "row">
                 <div class ="col-xs-12 welcome-message">
-                    Enter the emails of tenants / Landlord, and check in / check out date below to begin process.
+                    Enter the emails of tenants / Landlord / Agent, and check in / check out date below to begin process.
                 </div>
             </div>
         </div>
@@ -56,12 +56,12 @@
 
                     <?php if (!isset($this->lordId) || empty($this->lordId)){?>
                         <div class="form-group col-sm-6 right-border <?php if ((!empty($this->error)) && array_key_exists('lord_id', $this->error)) { echo 'has-error'; }?>">
-                            <input type="name" class="form-control" id="lord_id" placeholder="LandLord Email" name = "lord_id" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['lord_id']);} elseif(!empty($this->stored_data['lord_id'])){echo $this->stored_data['lord_id'];}?>">
+                            <input type="name" class="form-control" id="lord_id" placeholder="LandLord / Agent Email" name = "lord_id" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['lord_id']);} elseif(!empty($this->stored_data['lord_id'])){echo $this->stored_data['lord_id'];}?>">
                         </div>
                     <?php } ?>
 
                     <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('users[]', $this->error)) { echo 'has-error'; }?>" id = "add-tenants_1">
-                        <input type="email" class="form-control" id="users_1" placeholder="Add Other Tenant Email" name = "users[]" value="<?php if ((!empty($this->error))) { echo Formatting::utf8_htmlentities($_POST['users[1]']);} elseif(!empty($this->stored_data['users[1]'])){echo $this->stored_data['users[1]'];}?>">
+                        <input type="email" class="form-control" id="users_1" placeholder="Add Other Tenant Email" name = "users[]">
                     </div>
                 </div>
 
@@ -78,8 +78,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-12" style = "padding:50px 90px 0;">
-                    <a class="formbtn btn-default add-tenants" id="add-tenants_1" title="Add More Tenants" data-id="1"></i> Add Another Tenant</a>
+                <div class = "row">
+                    <div class="col-md-6 form-group">
+                        <a class="formbtn btn-default add-tenants block" id="add-tenants_1" title="Add More Tenants" data-id="1"></i> Add Another Tenant</a>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-12 form-spacing" style="text-align:center">
