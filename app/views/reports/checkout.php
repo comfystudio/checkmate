@@ -240,9 +240,9 @@
                             <label class = "form-control form-group-2-label">
                                 Lead Tenant Approval
                             </label>
-                            <select <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID'] || $this->report[0]['tenant_approved_check_in'] == 1){echo 'disabled';}?> id="tenant_approved_check_in" name="tenant_approved_check_in" class="form-control form-group-2-select">
+                            <select <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID'] || $this->report[0]['tenant_approved_check_out'] == 1){echo 'disabled';}?> id="tenant_approved_check_out" name="tenant_approved_check_out" class="form-control form-group-2-select">
                                 <?php foreach($this->YesNo as $key3 => $type){?>
-                                    <option value="<?php echo $key3 ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['tenant_approved_check_in'] == $key3)) {echo 'selected="selected"';} elseif(!empty($this->report[0]['tenant_approved_check_in']) && $this->report[0]['tenant_approved_check_in'] == $key3){echo 'selected="selected"';}?> > <?php echo $type?></option>
+                                    <option value="<?php echo $key3 ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['tenant_approved_check_out'] == $key3)) {echo 'selected="selected"';} elseif(!empty($this->report[0]['tenant_approved_check_out']) && $this->report[0]['tenant_approved_check_out'] == $key3){echo 'selected="selected"';}?> > <?php echo $type?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -255,9 +255,9 @@
                             <label class = "form-control form-group-2-label">
                                 Landlord / Agent
                             </label>
-                            <select <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] || $this->report[0]['lord_approved_check_in'] == 1){echo 'disabled';}?> id="lord_approved_check_in" name="lord_approved_check_in" class="form-control form-group-2-select">
+                            <select <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] || $this->report[0]['lord_approved_check_out'] == 1){echo 'disabled';}?> id="lord_approved_check_out" name="lord_approved_check_out" class="form-control form-group-2-select">
                                 <?php foreach($this->YesNo as $key3 => $type){?>
-                                    <option value="<?php echo $key3 ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['lord_approved_check_in'] == $key3)) {echo 'selected="selected"';} elseif(!empty($this->report[0]['lord_approved_check_in']) && $this->report[0]['lord_approved_check_in'] == $key3){echo 'selected="selected"';}?> > <?php echo $type?></option>
+                                    <option value="<?php echo $key3 ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['lord_approved_check_out'] == $key3)) {echo 'selected="selected"';} elseif(!empty($this->report[0]['lord_approved_check_out']) && $this->report[0]['lord_approved_check_out'] == $key3){echo 'selected="selected"';}?> > <?php echo $type?></option>
                                 <?php } ?>
                             </select>
                         </div>

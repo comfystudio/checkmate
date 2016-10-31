@@ -90,11 +90,13 @@ Header
 }
 
 .logo img{
+
     width:100%;
     max-width: 620px;
 }
 
 .header-phone{
+
 	padding:25% 0 0 0;
 	font-family: 'Lato', sans-serif;
 	font-size: 16px;
@@ -109,7 +111,8 @@ Header
     color: inherit;
 }
 
-.search{
+
+#search-large{
 	padding:115px 0 0 0;
 	display: none;
     width: 23px;
@@ -1006,11 +1009,16 @@ h1, h2, h3{
     font-family: 'Lato';
 }
 
+#container{
+    background-color: #f2f2f2;
+}
+
 /************************************************************************
 Pages
 ************************************************************************/
 body{
-    background-color: #f4f5f9;
+
+    background-color: #f2f2f2;
 }
 .centre{
     text-align: center;
@@ -1402,7 +1410,8 @@ Screen Size 786px
 		display: block;
 	}
 	.mobile-search{
-		display: block;
+
+		display: none;
 	}
 	.tenantsimg{
 		display: block;
@@ -1420,6 +1429,7 @@ Screen Size 786px
 	}
 	.lord-box{
 		opacity: 0.8;
+
 	    margin-top: 25%;
         margin-bottom: 25%;
 	}
@@ -1471,8 +1481,8 @@ Screen Size 992px
 	.header-nav{
 		display: block;
 	}
-	.search{
-		display: block;
+	#search-large{
+        display: block;
 	}
 	.mobile-list{
 	display: none;
@@ -1532,6 +1542,9 @@ Screen Size 1220px
     .dashboard-options .option p {
         padding: 0;
     }
+    .back-to-dash-header{
+        display: none;
+    }
 }
 
 /*************************************************************************
@@ -1553,6 +1566,9 @@ Screen Size 992px
     .dashboard-options .option{
         padding: 20px;
         margin: 20px 0;
+    }
+    .mobile-search{
+        display: none;
     }
 }
 
@@ -1580,6 +1596,9 @@ Screen Size 786px
         /*display: block;*/
         /*margin-left: 43%;*/
         padding: 14px 20px;
+    }
+    .back-to-dash-header{
+        display: none;
     }
 
 }

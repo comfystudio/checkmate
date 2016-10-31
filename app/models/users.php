@@ -415,7 +415,8 @@ class Users extends Model{
             'surname' => $data['surname'],
             'email' => $data['email'],
             'password' => $data['password'],
-            'salt' => $data['salt']
+            'salt' => $data['salt'],
+            'contact_num' => $data['contact_num']
         );
 
         $this->_db->insert($dbTable, $postData);

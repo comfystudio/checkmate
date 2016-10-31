@@ -17,6 +17,15 @@
 
             <div class = "form-wrapper pages-padding">
                 <div class = "row">
+                    <div class = "col-xs-12 welcome-message">
+                        <video width="90%" controls>
+                            <source src="/assets/videos/checkmate-wb.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+
+                <div class = "row">
                     <div class ="col-xs-12 welcome-message">
                         <img src = "/assets/uploads/<?php echo $this->data[0]['image']?>" alt = "<?php echo $this->data[0]['image']?>"/>
                     </div>
@@ -25,15 +34,6 @@
                 <div class = "row">
                     <div class ="col-xs-12 welcome-message">
                         <p><?php echo $this->data[0]['text']?></p>
-                    </div>
-                </div>
-
-                <div class = "row">
-                    <div class = "col-xs-12 welcome-message">
-                        <video width="90%" controls>
-                          <source src="/assets/videos/checkmate-wb.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
                     </div>
                 </div>
             </div>
