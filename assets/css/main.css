@@ -46,9 +46,6 @@ Slide menu
     transition: margin-left .5s;
     padding: 20px;
 }
-.slide-out-menu{
-	margin-top: 70px;
-}
 .norightpad{
 	padding-right: 0;
 }
@@ -93,13 +90,14 @@ Header
 }
 
 .logo img{
-    width:110%;
+    width:100%;
+    max-width: 620px;
 }
 
 .header-phone{
-	padding:115px 0 0 0;
+	padding:25% 0 0 0;
 	font-family: 'Lato', sans-serif;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: bold;
 	float:right;
 	color:#282424;
@@ -227,6 +225,12 @@ Header
     text-decoration: none;
     color:black;
 }
+    .slide-out-menu img{
+        position: absolute;
+        width: 30px;
+        right: 0;
+        margin-top: 80%;
+    }
 
 /*************************************************************************
 Footer
@@ -344,10 +348,16 @@ Front Page
 *************************************************************************/
 .lord-container{
 	padding:0 !important;
+    background: url(/assets/images/lords.png);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .tenant-container{
 	padding:0 !important;
+    background: url(/assets/images/tenants.png);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .landlordsimg{
 	display: none;
@@ -1400,19 +1410,18 @@ Screen Size 786px
 	.landlordsimg{
 		display: block;
 	}
-	.slide-out-menu{
-		display: none;
-	}
 	.logo-text{
 		display: block;
 	}
 	.tenant-box{
 		opacity: 0.8;
-	    margin-top: -50%;
+	    margin-top: 25%;
+        margin-bottom: 25%;
 	}
 	.lord-box{
 		opacity: 0.8;
-	    margin-top: -50%;
+	    margin-top: 25%;
+        margin-bottom: 25%;
 	}
 	.strapline-header{
 		font-size: 36px;
@@ -1435,6 +1444,22 @@ Screen Size 786px
     .mobile-list{
         display: none;
     }
+    .header-phone{
+        display: block;
+    }
+    .slide-out-menu{
+        position: absolute;
+        left: -350%;
+    }
+    .slide-out-menu img{
+        position: relative;
+        width: 30px;
+        right: 0;
+        margin-top: 290%;
+    }
+    .logo img{
+        width: 120%;
+    }
 }
 
 /*************************************************************************
@@ -1444,9 +1469,6 @@ Screen Size 992px
 @media screen and (min-width: 1220px) {
 
 	.header-nav{
-		display: block;
-	}
-	.header-phone{
 		display: block;
 	}
 	.search{
@@ -1461,6 +1483,7 @@ Screen Size 992px
 	.logo-text{
         margin-top: 0px;
         font-size: 18px;
+        margin-bottom: 20px;
 	}
 	.logo img{
 	    padding-left: 70px;
@@ -1468,6 +1491,13 @@ Screen Size 992px
 	.header{
 		height: 270px;
 	}
+        .slide-out-menu{
+        display: none;
+    }
+    .logo img{
+        width: 80%;
+    }
+
 }
 
 /*************************************************************************
@@ -1478,7 +1508,7 @@ Screen Size 1220px
         margin-right: 10px;
     }
     .mobile-list{
-        display: block;
+        display: none;
         padding-top: 76px;
     }
     .mobile-list ul{

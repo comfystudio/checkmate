@@ -58,6 +58,26 @@ AddDefaultCharset utf-8
     </IfModule>
 </IfModule>
 
+# Rewrite engine
+# ----------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+	Options +FollowSymLinks
+	RewriteEngine On
+	
+	RewriteCond %{HTTPS} =on
+    	RewriteRule ^ - [env=proto:https]
+    	RewriteCond %{HTTPS} !=on
+    	RewriteRule ^ - [env=proto:http]
+
+	RewriteCond %{THE_REQUEST} \s/+index\.php\?url=([^\s&]+) [NC]
+	RewriteRule ^ /%1? [R=301,L,NE]
+  
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+
+	RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
+
 
 # Redirect from the `http://` to the `https://` version of the URL. (uncomment to use)
 # ----------------------------------------------------------------------
@@ -102,22 +122,3 @@ AddDefaultCharset utf-8
 </IfModule>
 
 
-# Rewrite engine
-# ----------------------------------------------------------------------
-<IfModule mod_rewrite.c>
-	Options +FollowSymLinks
-	RewriteEngine On
-	
-	RewriteCond %{HTTPS} =on
-    	RewriteRule ^ - [env=proto:https]
-    	RewriteCond %{HTTPS} !=on
-    	RewriteRule ^ - [env=proto:http]
-
-	RewriteCond %{THE_REQUEST} \s/+index\.php\?url=([^\s&]+) [NC]
-	RewriteRule ^ /%1? [R=301,L,NE]
-  
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteCond %{REQUEST_FILENAME} !-f
-
-	RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
-</IfModule>

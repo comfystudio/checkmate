@@ -1,4 +1,5 @@
 <div class="header">
+	<div class="container-fluid">
 		<div class = "row">
 			<div class = "col-md-4">
 				<?php if (isset($this->pageSection) && $this->pageSection != 'Holding'){?>
@@ -38,7 +39,7 @@
 							<?php } ?>
 						</div>
 
-						<span onclick="openNav()"><img src="/assets/images/slideout.png"></span>
+						<span onclick="openNav()"><img src="/assets/images/menu-lines.svg"></span>
 					</div>
 				</div>
 
@@ -73,7 +74,7 @@
 					</div>
 				</div>
 
-				<div class = "col-md-3">
+				<div class = "col-md-3 col-xs-4">
 					<div class = "header-phone">
                         <a href="tel:<?php echo $phone?>"><?php echo $phone?></a> / <a href="tel:<?php echo $phone2?>"><?php echo $phone2?></a>
 					</div>
@@ -91,6 +92,8 @@
 				</div>
 			<?php }?>
 		</div>
+	</div>
+	<div class="container-fluid">
 		<div class = "row">
 			<div class = "col-md-12">
 				<div class = "logo-text">

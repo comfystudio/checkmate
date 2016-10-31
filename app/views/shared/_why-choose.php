@@ -16,7 +16,7 @@
 					Cost effective
 				</span>
 				<p class = "footer-icon-text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+					Chackmate Deposit save's both time and money.
 				</p>
 				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
 				
@@ -28,7 +28,7 @@
 					Reduce workload for agents
 				</span>
 				<p class = "footer-icon-text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+					Pre-built forms for better time management. 
 				</p>
 				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
 				
@@ -42,7 +42,7 @@
 					Ease of use
 				</span>
 				<p class = "footer-icon-text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+					Easy to use App with little or no training needed.
 				</p>	
 				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
 				
@@ -55,7 +55,7 @@
 					Online tenent references
 				</span>
 				<p class = "footer-icon-text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+					Automated References for tenents when Checkout is finished.
 				</p>	
 				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
 				
@@ -69,7 +69,7 @@
 					Detailed report and time effective
 				</span>
 				<p class = "footer-icon-text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+					All Information is saved securely online for less filing for landlords.
 				</p>	
 				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
 				
@@ -82,7 +82,7 @@
 					Can be electronically signed online
 				</span>
 				<p class = "footer-icon-text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+					No pen needed! All information signed with mouse or finger.
 				</p>
 				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
 			</div>
@@ -95,7 +95,7 @@
 					Online time stamped check in/out report
 				</span>
 				<p class = "footer-icon-text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+					Detailed time and date recorded on every Checkin Process
 				</p>
 				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
 				
@@ -107,7 +107,7 @@
 					All data stored online
 				</span>
 				<p class = "footer-icon-text">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+					Less hassle for both landlord and tenants, with information available always online.
 				</p>
 				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
 			</div>

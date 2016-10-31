@@ -1,6 +1,7 @@
+<div class="container-fluid">
     <div class = "row">
         <div class = "col-sm-6 lord-container">
-            <img class="landlordsimg"src="/assets/images/lords.png" alt ="Land lords image">
+            <!-- <img class="landlordsimg"src="/assets/images/lords.png" alt ="Land lords image"> -->
                 <div class = "col-lg-6 col-lg-offset-6 col-md-10 col-md-offset-2 col-xs-12 lord-box">
                     <!-- <img src="/assets/assets/images/lord-box.png" alt ="Land lords image"> -->
                     <div class="col-xs-offset-1 signupboxes">
@@ -11,7 +12,7 @@
                             Landlord / Agent
                         </div>
                         <div class = "box-text3">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Sign up and become a landlord today!
                         </div>
 
                         <div class = "lord-buttons">
@@ -23,7 +24,7 @@
         </div>
 
         <div class = "col-sm-6 tenant-container">
-            <img class ="tenantsimg"src="/assets/images/tenants.png" alt ="Tenants image">
+            <!-- <img class ="tenantsimg"src="/assets/images/tenants.png" alt ="Tenants image"> -->
                 <div class = "col-lg-6 col-md-10 col-xs-12 tenant-box">
                     <div class="col-xs-offset-1 signupboxes">
                         <!-- <img src="/assets/assets/images/lord-box.png" alt ="Land lords image"> -->
@@ -34,7 +35,7 @@
                             Tentant
                         </div>
                         <div class = "box-text3">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Sign up and become a tenant today!
                         </div>
 
                         <div class = "tenant-buttons">
@@ -46,6 +47,7 @@
         </div>
 
     </div>
+</div>
 <div class ="container home-text">
     <div class = "row front-content">
         <div class = "col-md-offset-4 col-md-4 ">
