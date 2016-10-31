@@ -26,7 +26,7 @@ class FaqsController extends BaseController {
 		$this->_view->pageSubSection = 'Faqs';
 
         $this->_view->data = $this->_model->getAlldata();
-
+        
 		// Render the view ($renderBody, $layout, $area)
 		$this->_view->render('faqs/index', 'layout');
 	}

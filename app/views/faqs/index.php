@@ -20,8 +20,8 @@
                     <div class ="col-xs-12 welcome-message" style="padding-bottom: 0;">
                         <?php foreach($this->data as $data){?>
                             <div class = "row">
-                                <p class = "faq-question"><strong><?php echo $this->data[0]['question']?></strong></p>
-                                <p class = "faq-answer"><?php echo $this->data[0]['answer']?></p>
+                                <p class = "faq-question"><strong><?php echo $data['question']?></strong></p>
+                                <p class = "faq-answer"><?php echo $data['answer']?></p>
                             </div>
                         <?php } ?>
                     </div>
