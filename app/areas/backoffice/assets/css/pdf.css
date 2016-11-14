@@ -64,10 +64,18 @@ h3{
 }
 
 .logo{
-    width: 80%;
+    width: 60%;
     display: block;
     margin: 0 auto; 
     text-align: center;
+    background-color: transparent !important;
+    color:white !important;
+    padding-left: 150px;
+}
+
+.white{
+    color: white;
+    background-color: white;
 }
 
 .center{

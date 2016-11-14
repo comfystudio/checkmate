@@ -146,16 +146,29 @@ jQuery(document).ready(function(){
 	jQuery(".add-tenants").click(function(){
     	var currentItem =  jQuery(this).data('id');
         jQuery(this).data('id', currentItem+1);
+        jQuery('#remove-tenant').parent().removeClass('hide');
         if((currentItem % 2) == 0){
             var aClass = "";
         }else{
             var aClass = "right-border";
         }
-        var html = '<div class="form-group col-sm-6 '+aClass+'" id = "add-tenants_'+(currentItem+1)+'">';
+        var html = '<div class="form-group col-sm-6 '+aClass+'  add-tenant" id = "add-tenants_'+(currentItem+1)+'">';
             html += '<input type="email" class="form-control" id="users[]" placeholder="Add Other Tenant Email" name = "users[]">';
             html += '</div>';
     	jQuery('#add-tenants_'+currentItem).after(html);
 	})
+
+    jQuery("#remove-tenant").click(function(){
+        var count = jQuery(".add-tenant").length;
+        var currentItem =  jQuery(".add-tenants").data('id');
+        jQuery(".add-tenants").data('id', currentItem-1);
+        if(count >= 2 ){
+            jQuery('#add-tenants_'+count).remove();
+            if(count <=2){
+                jQuery('#remove-tenant').parent().addClass('hide');
+            }
+        }
+    })
 
 	// adding check in items
 	jQuery(".check-in-add-items").click(function(){

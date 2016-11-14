@@ -77,7 +77,7 @@ class ReportsController extends BaseController {
 
             // We need to work out if its safe to delete this user.
             $currentDate = date("Y-m-d");
-            $this->_view->conflict = $this->_model->getReportsByIdAndDate($id, $currentDate);
+            //$this->_view->conflict = $this->_model->getReportsByIdAndDate($id, $currentDate);
 
             //Check ID returns an Reports
             if(isset($selectDataByID[0]['id']) && !empty($selectDataByID[0]['id'])){
@@ -450,7 +450,7 @@ class ReportsController extends BaseController {
 
          $mpdf->WriteHTML('<div>');
          $mpdf->WriteHTML('<div');
-         $mpdf->WriteHTML('<img class = "logo" src = "'.ROOT.'assets/images/logo2.png">');
+         $mpdf->WriteHTML('<img class = "logo" src = "'.ROOT.'assets/images/logo.png">');
          $mpdf->WriteHTML('<p class = "center" style ="padding-top:12px">'.SITE_URL.'</p>');
          $mpdf->WriteHTML('</div>');
 
@@ -675,7 +675,7 @@ class ReportsController extends BaseController {
 
          $mpdf->WriteHTML('<tr>');
          $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-         $mpdf->WriteHTML('Smoke Alarms');
+         $mpdf->WriteHTML('Carbon Monoxide / Smoke Alarms');
          $mpdf->WriteHTML('</th>');
 
          $mpdf->WriteHTML('<td class = "align-right">');

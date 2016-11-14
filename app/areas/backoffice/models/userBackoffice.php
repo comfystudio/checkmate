@@ -26,10 +26,10 @@ class UserBackoffice extends Model{
                 }
 
                 //Alphabetic
-                $temp = Form::ValidateAlphabetic($input);
-                if($temp != true){
-                    $return['error'][$key] = 'Firstname should contain only alphabetic characters';
-                }
+//                $temp = Form::ValidateAlphabetic($input);
+//                if($temp != true){
+//                    $return['error'][$key] = 'Firstname should contain only alphabetic characters';
+//                }
 
                 //Required
                 if(empty($input) || $input == null){
@@ -46,10 +46,10 @@ class UserBackoffice extends Model{
                 }
 
                 //Alphabetic
-                $temp = Form::ValidateAlphabetic($input);
-                if($temp != true){
-                    $return['error'][$key] = 'Surname should contain only alphabetic characters';
-                }
+//                $temp = Form::ValidateAlphabetic($input);
+//                if($temp != true){
+//                    $return['error'][$key] = 'Surname should contain only alphabetic characters';
+//                }
 
                 //Required
                 if(empty($input) || $input == null){
@@ -306,7 +306,6 @@ class UserBackoffice extends Model{
                 'firstname' => $data['firstname'],
                 'surname' => $data['surname'],
                 'email' => $data['email'],
-                'email_verified' => $data['email_verified'],
                 'password' => $data['password'],
                 'salt' => $data['salt'],
                 'is_active' => $data['is_active'],

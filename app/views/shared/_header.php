@@ -19,8 +19,9 @@
 
 			<div class = "col-sm-offset-4 col-sm-4 col-md-offset-0 col-xs-9 col-md-4">
 				<div class = "logo">
-					<a href = "/"><img src="/assets/images/logo.png" alt ="Checkmate Logo"></a>
-				</div>
+<!--					<a href = "/"><img src="/assets/images/logo.png" alt ="Checkmate Logo"></a>-->
+                    <a href = "/"><img src="/assets/images/checkmate-logo.svg" alt ="Checkmate Logo"></a>
+                </div>
 			</div>
 
 			<?php if (isset($this->pageSection) && $this->pageSection != 'Holding'){?>

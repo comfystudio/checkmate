@@ -170,7 +170,7 @@
             </div>
 
             <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('smoke_alarm', $this->error)) { echo 'has-error'; }?>">
-                <label class="col-md-2 control-label" for="smoke_alarm">Smoke Alarms</label>
+                <label class="col-md-2 control-label" for="smoke_alarm">Carbon Monoxide / Smoke Alarms</label>
                 <div class="col-md-5">
                     <input type="text" id="smoke_alarm" name="smoke_alarm" class="form-control" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['smoke_alarm']);} elseif(!empty($this->stored_data['smoke_alarm'])){echo $this->stored_data['smoke_alarm'];}?>">
                 </div>

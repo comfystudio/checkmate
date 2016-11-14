@@ -1468,7 +1468,7 @@ Screen Size 786px
         margin-top: 290%;
     }
     .logo img{
-        width: 120%;
+        width: 80%;
     }
 }
 
@@ -1505,7 +1505,7 @@ Screen Size 992px
         display: none;
     }
     .logo img{
-        width: 80%;
+        width: 120%;
     }
 
 }

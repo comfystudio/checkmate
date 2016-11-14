@@ -89,7 +89,7 @@ class Properties extends Model{
      * @param int $user_id
      */
     public function getAlldataByUserId($user_id, $keywords = false){
-        $optKeywords = $keywords != false ? " AND CONCAT(IF(isnull(t1.title),' ',CONCAT(LOWER(t1.title),' ')), IF(isnull(t1.house_number),' ',CONCAT(LOWER(t1.house_number),' ')), IF(isnull(t1.address_1),' ',CONCAT(LOWER(t1.address_1),' ')), IF(isnull(t1.address_2),' ',CONCAT(LOWER(t1.address_2),' ')), IF(isnull(t1.address_3),' ',CONCAT(LOWER(t1.address_3),' ')), IF(isnull(t1.address_4),' ',CONCAT(LOWER(t1.address_4),' ')), IF(isnull(t1.postcode),' ',CONCAT(LOWER(t1.postcode),' '))) LIKE '%$keywords%'" : "";
+        $optKeywords = $keywords != false ? " AND CONCAT(IF(isnull(t1.house_number),' ',CONCAT(LOWER(t1.house_number),' ')), IF(isnull(t1.address_1),' ',CONCAT(LOWER(t1.address_1),' ')), IF(isnull(t1.address_2),' ',CONCAT(LOWER(t1.address_2),' ')), IF(isnull(t1.address_3),' ',CONCAT(LOWER(t1.address_3),' ')), IF(isnull(t1.postcode),' ',CONCAT(LOWER(t1.postcode),' '))) LIKE '%$keywords%'" : "";
 
         $sql = "SELECT t1.*, max(t2.check_in) as check_in, max(t2.check_out) as check_out, max(t2.id)  as report_id
                 FROM properties t1
@@ -151,13 +151,13 @@ class Properties extends Model{
         }else {
             $dbTable = 'properties';
             $postData = array(
-                'title' => $data['title'],
+//                'title' => $data['title'],
                 'image' => $data['image'][0],
                 'house_number' => $data['house_number'],
                 'address_1' => $data['address_1'],
                 'address_2' => $data['address_2'],
                 'address_3' => $data['address_3'],
-                'address_4' => $data['address_4'],
+//                'address_4' => $data['address_4'],
                 'postcode' => $data['postcode']
             );
             $where = "`id` = {$data['id']}";
@@ -179,13 +179,13 @@ class Properties extends Model{
         }else {
             $dbTable = 'properties';
             $postData = array(
-                'title' => $data['title'],
+//                'title' => $data['title'],
                 'image' => $data['image'][0],
                 'house_number' => $data['house_number'],
                 'address_1' => $data['address_1'],
                 'address_2' => $data['address_2'],
                 'address_3' => $data['address_3'],
-                'address_4' => $data['address_4'],
+//                'address_4' => $data['address_4'],
                 'postcode' => $data['postcode'],
                 'created_by' => $data['created_by']
             );

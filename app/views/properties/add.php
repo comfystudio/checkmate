@@ -62,9 +62,9 @@
                             </div>
                         <?php } ?>
 
-                        <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('title', $this->error)) { echo 'has-error'; }?>">
-                            <input type="name" class="form-control" id="title" placeholder="Title" name = "title" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['title']);} elseif(!empty($this->stored_data['title'])){echo $this->stored_data['title'];}?>">
-                        </div>
+<!--                        <div class="form-group col-sm-6 --><?php //if ((!empty($this->error)) && array_key_exists('title', $this->error)) { echo 'has-error'; }?><!--">-->
+<!--                            <input type="name" class="form-control" id="title" placeholder="Title" name = "title" value="--><?php //if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['title']);} elseif(!empty($this->stored_data['title'])){echo $this->stored_data['title'];}?><!--">-->
+<!--                        </div>-->
                     </div>
 
                     <div class = "row">
@@ -89,11 +89,11 @@
                     </div>
 
                     <div class = "row">
-                        <div class="form-group col-sm-6 right-border <?php if ((!empty($this->error)) && array_key_exists('address_4', $this->error)) { echo 'has-error'; }?>">
-                            <input type="name" class="form-control" id="address_4" placeholder="Address Line 4" name = "address_4" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_4']);} elseif(!empty($this->stored_data['address_4'])){echo $this->stored_data['address_4'];}?>">
-                        </div>
+<!--                        <div class="form-group col-sm-6 right-border --><?php //if ((!empty($this->error)) && array_key_exists('address_4', $this->error)) { echo 'has-error'; }?><!--">-->
+<!--                            <input type="name" class="form-control" id="address_4" placeholder="Address Line 4" name = "address_4" value="--><?php //if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_4']);} elseif(!empty($this->stored_data['address_4'])){echo $this->stored_data['address_4'];}?><!--">-->
+<!--                        </div>-->
 
-                        <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('postcode', $this->error)) { echo 'has-error'; }?>">
+                        <div class="form-group col-sm-6 right-border <?php if ((!empty($this->error)) && array_key_exists('postcode', $this->error)) { echo 'has-error'; }?>">
                             <input type="name" class="form-control" id="postcode" placeholder="Postcode" name = "postcode" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['postcode']);} elseif(!empty($this->stored_data['postcode'])){echo $this->stored_data['postcode'];}?>">
                         </div>
                     </div>

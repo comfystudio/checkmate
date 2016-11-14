@@ -160,7 +160,7 @@
                             <a href = "/reports/checkin/<?php echo $report['property_id']?>">Check In</a>
                         <?php } ?>
                         <img src="/assets/images/download.png">
-                        <a href = "/reports/report-download/<?php echo $report['id']?>">Download PDF</a>
+                        <a href = "/reports/report-download/<?php echo $report['id']?>" target="_blank">Download PDF</a>
                     </p>
                 </div>
             <?php } ?>

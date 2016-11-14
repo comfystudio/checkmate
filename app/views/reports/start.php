@@ -60,7 +60,7 @@
                         </div>
                     <?php } ?>
 
-                    <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('users[]', $this->error)) { echo 'has-error'; }?>" id = "add-tenants_1">
+                    <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('users[]', $this->error)) { echo 'has-error'; }?> add-tenant" id = "add-tenants_1">
                         <input type="email" class="form-control" id="users_1" placeholder="Add Other Tenant Email" name = "users[]">
                     </div>
                 </div>
@@ -81,6 +81,9 @@
                 <div class = "row">
                     <div class="col-md-6 form-group">
                         <a class="formbtn btn-default add-tenants block" id="add-tenants_1" title="Add More Tenants" data-id="1"></i> Add Another Tenant</a>
+                    </div>
+                    <div class = "col-md-2 hide">
+                        <a data-toggle="tooltip" id= "remove-tenant" title="Remove Tenant" class="btn btn-effect-ripple btn-sm btn-danger remove-tenant"><i class="fa fa-minus"></i> Remove Tenant</a>
                     </div>
                 </div>
             </div>

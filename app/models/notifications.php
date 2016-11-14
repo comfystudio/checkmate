@@ -49,7 +49,7 @@ class Notifications extends Model{
     public function getAlldataByUserId($user_id){
         $sql = "SELECT t1.*
                 FROM notifications t1
-                WHERE t1.user_id = :user_id AND t1.read = 0
+                WHERE t1.user_id = :user_id
                 GROUP BY t1.id
                 ORDER BY t1.created DESC
                 ";

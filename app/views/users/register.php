@@ -42,7 +42,7 @@
             <div class = "row">
                 <div class ="col-xs-12 welcome-message">
                 	<?php if (isset($this->userType) && $this->userType == 1){?>
-                    	Welcome new Landlord. Please register your details below
+                    	Welcome new Landlord / Agent. Please register your details below
                 	<?php }else{ ?>
                     	Welcome new Tenant. Please register your details below
                 	<?php } ?>
@@ -84,6 +84,7 @@
                 <div class = "row">
                     <div class="form-group col-sm-6 right-border <?php if ((!empty($this->missing)) && in_array('confirm_password', $this->missing)) { echo 'error'; }?>">
                         <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" name="confirm_password" value="<?php echo isset($_POST['confirm_password']) ? $_POST['confirm_password'] : ''; ?>">
+                        <span class = "help-block">Password Must contain atleast one captial letter and atleast 1 number.</span>
                     </div>
 
                     <div class="form-group col-sm-6 <?php if ((!empty($this->missing)) && in_array('contact_num', $this->missing)) { echo 'error'; }?>">

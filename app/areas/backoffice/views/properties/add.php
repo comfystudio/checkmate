@@ -84,12 +84,12 @@
                 </div>
             </div>
 
-            <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('title', $this->error)) { echo 'has-error'; }?>">
-                <label class="col-md-2 control-label" for="meta_title">Title <span class="text-danger">*</span></label>
-                <div class="col-md-5">
-                    <input type="text" id="title" name="title" class="form-control" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['title']);} elseif(!empty($this->stored_data['title'])){echo $this->stored_data['title'];}?>">
-                </div>
-            </div>
+<!--            <div class="form-group --><?php //if ((!empty($this->error)) && array_key_exists('title', $this->error)) { echo 'has-error'; }?><!--">-->
+<!--                <label class="col-md-2 control-label" for="meta_title">Title <span class="text-danger">*</span></label>-->
+<!--                <div class="col-md-5">-->
+<!--                    <input type="text" id="title" name="title" class="form-control" value="--><?php //if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['title']);} elseif(!empty($this->stored_data['title'])){echo $this->stored_data['title'];}?><!--">-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('house_number', $this->error)) { echo 'has-error'; }?>">
                 <label class="col-md-2 control-label" for="meta_title">House Number <span class="text-danger">*</span></label>
@@ -119,12 +119,12 @@
                 </div>
             </div>
 
-            <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('address_4', $this->error)) { echo 'has-error'; }?>">
-                <label class="col-md-2 control-label" for="meta_title">Address Line 4 </label>
-                <div class="col-md-5">
-                    <input type="text" id="address_4" name="address_4" class="form-control" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_4']);} elseif(!empty($this->stored_data['address_4'])){echo $this->stored_data['address_4'];}?>">
-                </div>
-            </div>
+<!--            <div class="form-group --><?php //if ((!empty($this->error)) && array_key_exists('address_4', $this->error)) { echo 'has-error'; }?><!--">-->
+<!--                <label class="col-md-2 control-label" for="meta_title">Address Line 4 </label>-->
+<!--                <div class="col-md-5">-->
+<!--                    <input type="text" id="address_4" name="address_4" class="form-control" value="--><?php //if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['address_4']);} elseif(!empty($this->stored_data['address_4'])){echo $this->stored_data['address_4'];}?><!--">-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('postcode', $this->error)) { echo 'has-error'; }?>">
                 <label class="col-md-2 control-label" for="meta_title">Postcode <span class="text-danger">*</span></label>

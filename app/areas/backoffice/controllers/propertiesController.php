@@ -125,7 +125,7 @@ class PropertiesController extends BaseController {
             // We need to work out if its safe to delete this user.
             $this->_reportsModel = $this->loadModel('reportsBackoffice', 'backoffice');
             $currentDate = date("Y-m-d");
-            $this->_view->conflict = $this->_reportsModel->getReportsByPropertyIdAndDate($id, $currentDate);
+            //$this->_view->conflict = $this->_reportsModel->getReportsByPropertyIdAndDate($id, $currentDate);
 
             //Check ID returns an Properties
             if(isset($selectDataByID[0]['id']) && !empty($selectDataByID[0]['id'])){

@@ -109,7 +109,7 @@ class PropertiesBackoffice extends Model{
 	public function getAllData($limit = false, $keywords = false, $active = false){
         $optLimit = $limit != false ? " LIMIT $limit" : "";
         $optActive = $active != false ? " AND t1.is_active = 1" : "";
-        $optKeywords = $keywords != false ? " AND CONCAT(IF(isnull(t1.title),' ',CONCAT(LOWER(t1.title),' ')),IF(isnull(t1.address_1),' ',CONCAT(LOWER(t1.address_1),' ')),IF(isnull(t1.postcode),' ',CONCAT(LOWER(t1.postcode),' '))) LIKE '%$keywords%'" : "";
+        $optKeywords = $keywords != false ? " AND CONCAT(IF(isnull(t1.address_1),' ',CONCAT(LOWER(t1.address_1),' ')),IF(isnull(t1.postcode),' ',CONCAT(LOWER(t1.postcode),' '))) LIKE '%$keywords%'" : "";
 
         $sql = "SELECT t1.*
 				FROM properties t1
@@ -128,7 +128,7 @@ class PropertiesBackoffice extends Model{
 	 * @param int $keywords
 	 */
 	public function countAllData($keywords = false, $active = false){
-        $optKeywords = $keywords != false ? " AND CONCAT(IF(isnull(t1.title),' ',CONCAT(LOWER(t1.title),' ')),IF(isnull(t1.address_1),' ',CONCAT(LOWER(t1.address_1),' ')),IF(isnull(t1.postcode),' ',CONCAT(LOWER(t1.postcode),' '))) LIKE '%$keywords%'" : "";
+        $optKeywords = $keywords != false ? " AND CONCAT(IF(isnull(t1.address_1),' ',CONCAT(LOWER(t1.address_1),' ')),IF(isnull(t1.postcode),' ',CONCAT(LOWER(t1.postcode),' '))) LIKE '%$keywords%'" : "";
         $optActive = $active != false ? " AND t1.is_active = 1" : "";
 
 		$sql = "SELECT COUNT(t1.id) AS total
@@ -163,13 +163,13 @@ class PropertiesBackoffice extends Model{
         }else {
             $dbTable = 'properties';
             $postData = array(
-                'title' => $data['title'],
+//                'title' => $data['title'],
                 'image' => $data['image'][0],
                 'house_number' => $data['house_number'],
                 'address_1' => $data['address_1'],
                 'address_2' => $data['address_2'],
                 'address_3' => $data['address_3'],
-                'address_4' => $data['address_4'],
+//                'address_4' => $data['address_4'],
                 'postcode' => $data['postcode']
             );
             $where = "`id` = {$data['id']}";

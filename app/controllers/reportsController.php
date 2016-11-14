@@ -86,8 +86,6 @@ class ReportsController extends BaseController {
             $userIdArray[] = $_SESSION['UserCurrentUserID'];
             $_POST['property_id'] = $property_id;
 
-            // Debug::printr($_POST);die;
-
             if(isset($_POST['lord_id']) && !empty($_POST['lord_id']) && !is_numeric($_POST['lord_id'])){
                 $user = $this->_userModel->getUserByEmail($_POST['lord_id']);
                 // If this user already exists on our system
@@ -213,32 +211,34 @@ class ReportsController extends BaseController {
 
                     }else{
                         // If user doesn't exist in our system, we need to create them and send email / Notification to them.
-                        $newUser['type'] = 0;
-                        $newUser['firstname'] = 'temp firstname';
-                        $newUser['surname'] = 'temp Surname';
-                        $newUser['email'] = $email;
-                        $newUser['contact_num'] = 'temp number';
-                        $random = rand();
-                        $tempPassword = 'temp'.$random;
-                        $hash = Password::password_hash($tempPassword);
-                        $newUser['password'] = $hash[1];
-                        $newUser['salt'] = $hash[2];
+                        if(isset($email) && !empty($email)) {
+                            $newUser['type'] = 0;
+                            $newUser['firstname'] = 'temp firstname';
+                            $newUser['surname'] = 'temp Surname';
+                            $newUser['email'] = $email;
+                            $newUser['contact_num'] = 'temp number';
+                            $random = rand();
+                            $tempPassword = 'temp' . $random;
+                            $hash = Password::password_hash($tempPassword);
+                            $newUser['password'] = $hash[1];
+                            $newUser['salt'] = $hash[2];
 
-                        $createUser = $this->_userModel->createDataSystem($newUser);
+                            $createUser = $this->_userModel->createDataSystem($newUser);
 
-                        $data['user_id'] = $createUser;
-                        $data['text'] = 'You have been named a tenant for property '.$property[0]['title'].' Please review check in at the following link. <a href = "'.SITE_URL.'reports/checkin/'.$property[0]['id'].'">Link</a>';
-                        $this->_notificationModel->createData($data);
+                            $data['user_id'] = $createUser;
+                            $data['text'] = 'You have been named a tenant for property ' . $property[0]['title'] . ' Please review check in at the following link. <a href = "' . SITE_URL . 'reports/checkin/' . $property[0]['id'] . '">Link</a>';
+                            $this->_notificationModel->createData($data);
 
-                        $this->_view->data['name'] = 'New User';
-                        $this->_view->data['message'] = 'You have been named a tenant for property '.$property[0]['title'].' Please review check in at the following link. Your password is: '.$tempPassword;
-                        $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$property[0]['id'];
-                        $this->_view->data['button_text'] = 'Review Report';
+                            $this->_view->data['name'] = 'New User';
+                            $this->_view->data['message'] = 'You have been named a tenant for property ' . $property[0]['title'] . ' Please review check in at the following link. Your password is: ' . $tempPassword;
+                            $this->_view->data['button_link'] = SITE_URL . 'reports/checkin/' . $property[0]['id'];
+                            $this->_view->data['button_text'] = 'Review Report';
 
-                        // Need to create email
-                        $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
-                        Html::sendEmail($newUser['email'], 'Checkmate - New report has been created for you.', SITE_EMAIL, $message);
-                        $userIdArray[] = $createUser;
+                            // Need to create email
+                            $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                            Html::sendEmail($newUser['email'], 'Checkmate - New report has been created for you.', SITE_EMAIL, $message);
+                            $userIdArray[] = $createUser;
+                        }
                     }
                 }
             }
@@ -474,7 +474,7 @@ class ReportsController extends BaseController {
                     $room['id'] = $key;
                     $this->_roomsModel->updateCheckInRoom($room);
 
-                    $checkOutRoomId = $this->_roomsModel->createCheckOutRoom($report[0]['id'], $key);
+                    $checkOutRoomId = $this->_roomsModel->createCheckOutRoom($report[0]['id'], $room['room_id']);
 
                     // Now we need to update our items and possibly create new ones....
                     foreach($room['items'] as $key2 => $item){
@@ -1058,9 +1058,9 @@ class ReportsController extends BaseController {
         $stylesheet = file_get_contents(ROOT.'/app/areas/backoffice/assets/css/pdf.css');
         $mpdf->WriteHTML($stylesheet,1);
 
-        $mpdf->WriteHTML('<div>');
-            $mpdf->WriteHTML('<div');
-                $mpdf->WriteHTML('<img class = "logo" src = "'.ROOT.'assets/images/logo2.png">');
+        $mpdf->WriteHTML('<div class = "white">');
+            $mpdf->WriteHTML('<div class = "white"');
+                $mpdf->WriteHTML('<img class = "logo" src = "'.ROOT.'assets/images/logo.png">');
                 $mpdf->WriteHTML('<p class = "center" style ="padding-top:12px">'.SITE_URL.'</p>');
             $mpdf->WriteHTML('</div>');
 
