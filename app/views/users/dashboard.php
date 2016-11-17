@@ -59,16 +59,16 @@
 
     <div class = "row dashboard-options">
         <div class = "col-md-2 option">
-            <a href = "/properties/add/">
-                <img src="/assets/images/home.png" alt="Create New Property">
-                <p>New Property Details</p>
+            <a href = "/templates/add/">
+                <img src="/assets/images/layout.png" alt="Create Property Layout">
+                <p>Create a New Property Layout</p>
             </a>
         </div>
 
         <div class = "col-md-2 option">
-            <a href = "/templates/add/">
-                <img src="/assets/images/layout.png" alt="Create Property Layout">
-                <p>Create a New Property Layout</p>
+            <a href = "/properties/add/">
+                <img src="/assets/images/home.png" alt="Create New Property">
+                <p>New Property Details</p>
             </a>
         </div>
 
@@ -80,8 +80,8 @@
         </div>
 
         <div class = "col-md-2">
-            <a href = "#" data-toggle="tooltip" title = "Step 1- add new property details<br/>
-                                                        Step 2- create property layout<br/>
+            <a data-toggle="tooltip" title = "Step 1- create property layout<br/>
+                                                        Step 2- add new property details<br/>
                                                         Step 3- click check in/out on the property <br/>
                                                         Step 4- await for approval<br/>
                                                         Step 5- view completed report

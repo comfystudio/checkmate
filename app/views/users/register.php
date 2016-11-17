@@ -17,8 +17,13 @@
                             </h4>
                             <p class="alert-body alert-body-right alert-labelled-cell">
                                 <?php
-                                foreach($this->error as $error){
-                                    echo $error.'<br/>';
+                                    foreach($this->error as $error){
+                                        echo $error.'<br/>';
+                                    }
+                                if(isset($this->missing) && !empty($this->missing)){
+                                    foreach($this->missing as $missing){
+                                        echo $missing.'<br/>';
+                                    }
                                 }
                                 ?>
                             </p>
@@ -97,7 +102,14 @@
                         <input type="file" class="form-control filestyle" data-buttonText="Upload User Image" data-buttonBefore="true" name="logo_image" id="logo_image">
                     </div>
 
-                    <div class="form-group col-sm-6 g-recaptcha <?php if ((!empty($this->missing)) && in_array('captcha', $this->missing)) { echo 'error'; }?>" data-sitekey="6LceKioTAAAAAGMIgGPIR25MLHHQvEcubqHVBk6a"></div>
+                    <div class="form-group checkbox-inline col-sm-6 right-border <?php if ((!empty($this->missing)) && array_key_exists('terms', $this->missing)) { echo 'error'; }?>"">
+                        <label><input type="checkbox" class="form-control" name="terms" id="terms">I Agree to Terms and Conditions</label>
+                        <span class = "help-block"><a href = "/terms" target="_blank">Terms and Conditions</a></span>
+                    </div>
+                </div>
+
+                <div class = "row">
+                    <div class="form-group col-sm-6 right-border g-recaptcha <?php if ((!empty($this->missing)) && array_key_exists('captcha', $this->missing)) { echo 'error'; }?>" data-sitekey="6LceKioTAAAAAGMIgGPIR25MLHHQvEcubqHVBk6a"></div>
                 </div>
             </div>
             <div class="col-sm-12 form-spacing" style="text-align:center">

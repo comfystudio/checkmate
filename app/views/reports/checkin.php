@@ -227,8 +227,8 @@
 
             <div class = "row"><!-- Key for statuses -->
                 <div class = "col-sm-6" style = "padding-right: 30px;">
-                    <div class = "form-wrapper">
-                        <div class="form-group-2 col-sm-12" style = "min-height:400px;">
+                    <div class = "form-wrapper" style = "padding:10px 0;">
+                        <div class="form-group-2 col-sm-12" style = "min-height:310px;">
                             <h1 class = "centre">Report Statuses</h1>
                             <p class = "status-0">Red means neither the Landlord / Agent nor Lead Tenant have approved.</p>
                             <p class = "status-1">Amber means either the Landlord / Agent or Lead Tenant have approved.</p>
@@ -238,8 +238,8 @@
                 </div>
 
                 <div class = "col-sm-6">
-                    <div class = "form-wrapper"
->                        <div class="form-group-2 col-sm-12" style = "min-height:400px;">
+                    <div class = "form-wrapper" style = "padding:10px 0;">
+                        <div class="form-group-2 col-sm-12" style = "min-height:310px;">
                             <h1 class = "centre">Item Statuses</h1>
                             <p class = "status-0">Not working condition, marked or damaged</p>
                             <p class = "status-1">Working condition, marked or damaged</p>

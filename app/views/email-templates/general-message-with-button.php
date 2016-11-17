@@ -23,9 +23,9 @@ a:hover { text-decoration: none !important; }
 	    <td align="center" style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; margin: 0; padding: 40px 0 0; border: 0;">
 		    <table cellpadding="0" cellspacing="0" border="0" align="center" width="600" bgcolor="#ffffff" style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; border-collapse: collapse; border-spacing: 0; font-size: 14px; margin: 0; padding: 0; border: 0;">
 			    <tr style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; margin: 0; padding: 0; border: 0;">
-		            <td bgcolor="#fafafa" style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-align: left; border-bottom-style: solid; border-bottom-color: #f0f0f0; margin: 0; padding: 40px 0; border-width: 0 0 1px;" align="left">
+		            <td bgcolor="#ffffff" style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-align: left; border-bottom-style: solid; border-bottom-color: #f0f0f0; margin: 0; padding: 40px 0; border-width: 0 0 1px;" align="left">
 		                <center>
-		                	<img src="http://checkmatedeposit.com/assets/images/logo2.png" style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; display: block; margin: 0; padding: 0; border: 0 none;" />
+		                	<img src="https://checkmatedeposit.com/assets/images/logo.png" style="font-family: Helvetica,Arial,sans-serif; color: #7a7a7a; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; display: block; margin: 0; padding: 0; border: 0 none;" />
 		                </center>
 		            </td>
 		        </tr>

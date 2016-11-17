@@ -647,9 +647,13 @@ class UsersController extends BaseController {
 
 			if(!isset($_POST['g-recaptcha-response']) || empty($_POST['g-recaptcha-response'])){
 				$this->_view->missing['capthca'] = 'Please complete the reCAPTCHA'; 
-			} 
+			}
 
-			if(empty($this->_view->missing)){
+            if(!isset($_POST['terms']) || empty($_POST['terms'])){
+                $this->_view->missing['terms'] = 'Please agree to the terms and conditions before registering';
+            }
+
+            if(empty($this->_view->missing)){
 
 				// Define variables from $_POST
 				$firstname = $this->_view->postData['firstname'];

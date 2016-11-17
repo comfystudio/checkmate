@@ -206,6 +206,39 @@ Header
 	border-bottom-right-radius:6px;
 	border-top-right-radius:6px;
 }
+
+.checkbox-inline{
+    padding: 0 90px !important;
+}
+
+.help-block{
+    margin-bottom: 8px;
+}
+
+.error label{
+    border: 1px solid #ebccd1 !important;
+}
+
+.checkbox-inline label, .checkbox label{
+    border: none;
+    border-bottom: 1px solid #c1c1c1;
+    box-shadow: none;
+    border-radius: 0;
+    font-size: 26px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    height: auto;
+    padding-bottom: 20px;
+    padding-left: 0px;
+    width:100%;
+}
+
+.checkbox-inline input{
+    width: 30px;
+    height: 30px;
+    float: right;
+    position: relative !important;
+}
 .header{
     background-color: white;
 	/*margin: 0 0 15px;*/
@@ -994,15 +1027,15 @@ table tr:nth-child(3){
 }
 .status-0{
     color:red;
-    font-size: 22px;
+    font-size: 16px;
 }
 .status-1{
     color:orange;
-    font-size: 22px;
+    font-size: 16px;
 }
 .status-2{
     color:green;
-    font-size: 22px;
+    font-size: 16px;
 }
 
 h1, h2, h3{
@@ -1496,7 +1529,7 @@ Screen Size 992px
         margin-bottom: 20px;
 	}
 	.logo img{
-	    padding-left: 70px;
+	    /*padding-left: 70px;*/
 	}
 	.header{
 		height: 270px;
@@ -1599,6 +1632,9 @@ Screen Size 786px
     }
     .back-to-dash-header{
         display: none;
+    }
+    .lord-container, .tenant-container{
+        background: none;
     }
 
 }
