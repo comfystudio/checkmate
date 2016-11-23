@@ -165,9 +165,10 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('meter_reading', $this->error)){echo 'has-error';}?>">
-                        <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="meter_reading" name="meter_reading" class="form-control" placeholder="Meter Reading" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['meter_reading']);} elseif(!empty($this->report[0]['meter_reading'])){echo $this->report[0]['meter_reading'];}?>">
+                    <div class = "form-group col-sm-6">
+                        <input <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="oil_level" name="oil_level" class="form-control" placeholder="Oil Level" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['oil_level']);} elseif(!empty($this->report[0]['oil_level'])){echo $this->report[0]['oil_level'];}?>">
                     </div>
+
                 </div>
 
                 <div class = "row">
@@ -175,14 +176,8 @@
                         <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="meter_measurement" name="meter_measurement" class="form-control" placeholder="Meter Measurement" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['meter_measurement']);} elseif(!empty($this->report[0]['meter_measurement'])){echo $this->report[0]['meter_measurement'];}?>">
                     </div>
 
-
-                    <div class = "form-group col-sm-6">
-                        <?php if(isset($this->report[0]['meter_image']) && !empty($this->report[0]['meter_image'])){?>
-                            <img src="/image.php?width=90&height=90&image=/assets/uploads/<?php echo $this->report[0]['meter_image']?>" alt="<?php echo $this->report[0]['meter_image']?>">
-                            <a href="/reports/download/<?php echo $this->report[0]['id'];?>/meter" class="btn btn-primary check-in-download">Download Meter Image <i class="fa fa-cloud-download"></i></a>
-                        <?php } else {?>
-                            <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="file" name="meter_image" id="meter_image" class = "form-control filestyle" data-buttonText="Meter Image" data-buttonBefore="true">
-                        <?php } ?>
+                    <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('meter_reading', $this->error)){echo 'has-error';}?>">
+                        <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="meter_reading" name="meter_reading" class="form-control" placeholder="Meter Reading" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['meter_reading']);} elseif(!empty($this->report[0]['meter_reading'])){echo $this->report[0]['meter_reading'];}?>">
                     </div>
                 </div>
 
@@ -196,13 +191,18 @@
                     </div>
 
                     <div class = "form-group col-sm-6">
-                        <input <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="oil_level" name="oil_level" class="form-control" placeholder="Oil Level" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['oil_level']);} elseif(!empty($this->report[0]['oil_level'])){echo $this->report[0]['oil_level'];}?>">
+                        <?php if(isset($this->report[0]['meter_image']) && !empty($this->report[0]['meter_image'])){?>
+                            <img src="/image.php?width=90&height=90&image=/assets/uploads/<?php echo $this->report[0]['meter_image']?>" alt="<?php echo $this->report[0]['meter_image']?>">
+                            <a href="/reports/download/<?php echo $this->report[0]['id'];?>/meter" class="btn btn-primary check-in-download">Download Meter Image <i class="fa fa-cloud-download"></i></a>
+                        <?php } else {?>
+                            <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="file" name="meter_image" id="meter_image" class = "form-control filestyle" data-buttonText="Meter Image" data-buttonBefore="true">
+                        <?php } ?>
                     </div>
                 </div>
 
                 <div class = "row">
                     <div class="form-group col-sm-6 right-border">
-                        <select <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> id="keys_acquired" name="keys_acquired" class="form-control">
+                        <select <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> id="keys_acquired" name="keys_acquired" class="form-control">
                             <?php foreach($this->key_status as $key3 => $key_status){?>
                                 <option value="<?php echo $key3 ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['keys_acquired'] == $key3)) {echo 'selected="selected"';} elseif(!empty($this->report[0]['keys_acquired']) && $this->report[0]['keys_acquired'] == $key3){echo 'selected="selected"';}?> > <?php echo $key_status?></option>
                             <?php } ?>
@@ -210,17 +210,17 @@
                     </div>
 
                     <div class = "form-group col-sm-6">
-                        <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="fire_extin" name="fire_extin" class="form-control" placeholder="Fire Extinguishers" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['fire_extin']);} elseif(!empty($this->report[0]['fire_extin'])){echo $this->report[0]['fire_extin'];}?>">
+                        <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="fire_extin" name="fire_extin" class="form-control" placeholder="Fire Extinguishers" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['fire_extin']);} elseif(!empty($this->report[0]['fire_extin'])){echo $this->report[0]['fire_extin'];}?>">
                     </div>
                 </div>
 
                 <div class = "row">
                     <div class="form-group col-sm-6 right-border">
-                        <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="fire_blanket" name="fire_blanket" class="form-control" placeholder="Fire Blankets" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['fire_blanket']);} elseif(!empty($this->report[0]['fire_blanket'])){echo $this->report[0]['fire_blanket'];}?>">
+                        <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="fire_blanket" name="fire_blanket" class="form-control" placeholder="Fire Blankets" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['fire_blanket']);} elseif(!empty($this->report[0]['fire_blanket'])){echo $this->report[0]['fire_blanket'];}?>">
                     </div>
 
                     <div class = "form-group col-sm-6">
-                        <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="smoke_alarm" name="smoke_alarm" class="form-control" placeholder="Carbon Monoxide / Smoke Alarms" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['smoke_alarm']);} elseif(!empty($this->report[0]['smoke_alarm'])){echo $this->report[0]['smoke_alarm'];}?>">
+                        <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID'] && $this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="smoke_alarm" name="smoke_alarm" class="form-control" placeholder="Carbon Monoxide / Smoke Alarms" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['smoke_alarm']);} elseif(!empty($this->report[0]['smoke_alarm'])){echo $this->report[0]['smoke_alarm'];}?>">
                     </div>
                 </div>
             </div>
@@ -273,11 +273,11 @@
 
                         <div class = "row">
                             <div class="form-group col-sm-6 right-border">
-                                <input <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="rooms_tenant_comment_<?php echo $key?>" name="rooms[<?php echo $room['id']?>][tenant_comment]" class="form-control" placeholder="Tenant Comment" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['rooms']['<?php echo $room["id"]?>']['tenant_comment']);} elseif(!empty($room['tenant_comment'])){echo $room['tenant_comment'];}?>">
+                                <textarea <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> id="rooms_tenant_comment_<?php echo $key?>" name="rooms[<?php echo $room['id']?>][tenant_comment]" class="form-control" placeholder="Tenant Comment" ><?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['rooms']['<?php echo $room["id"]?>']['tenant_comment']);} elseif(!empty($room['tenant_comment'])){echo $room['tenant_comment'];}?></textarea>
                             </div>
 
                             <div class="form-group col-sm-6">
-                                <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="rooms_lord_comment_<?php echo $key?>" name="rooms[<?php echo $room['id']?>][lord_comment]" class="form-control" placeholder="Landlord / Agent comment" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['rooms']['<?php echo $room["id"]?>']['lord_comment']);} elseif(!empty($room['lord_comment'])){echo $room['lord_comment'];}?>">
+                                <textarea <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> id="rooms_lord_comment_<?php echo $key?>" name="rooms[<?php echo $room['id']?>][lord_comment]" class="form-control" placeholder="Landlord / Agent comment"><?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['rooms']['<?php echo $room["id"]?>']['lord_comment']);} elseif(!empty($room['lord_comment'])){echo $room['lord_comment'];}?></textarea>
                             </div>
                         </div>
                         <input type = "hidden" name="rooms[<?php echo $room['id']?>][room_id]" value = "<?php echo $room['room_id']?>">
@@ -344,11 +344,11 @@
 
                                     <div class = "row">
                                         <div class = "form-group col-sm-6 right-border">
-                                            <input <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="items_tenant_comment_<?php echo $item['id']?>" name="rooms[<?php echo $room['id']?>][items][<?php echo $item['id']?>][tenant_comment]" class="form-control form-group-3-label" placeholder="Tenant Comment" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['rooms']['<?php echo $room["id"]?>']['items']['<?php echo $item["id"]?>']['tenant_comment']);} elseif(!empty($item['tenant_comment'])){echo $item['tenant_comment'];}?>">
+                                            <textarea <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> id="items_tenant_comment_<?php echo $item['id']?>" name="rooms[<?php echo $room['id']?>][items][<?php echo $item['id']?>][tenant_comment]" class="form-control form-group-3-label" placeholder="Tenant Comment"><?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['rooms']['<?php echo $room["id"]?>']['items']['<?php echo $item["id"]?>']['tenant_comment']);} elseif(!empty($item['tenant_comment'])){echo $item['tenant_comment'];}?></textarea>
                                         </div>
 
                                         <div class = "form-group col-sm-6">
-                                            <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="text" id="items_lord_comment_<?php echo $item['id']?>" name="rooms[<?php echo $room['id']?>][items][<?php echo $item['id']?>][lord_comment]" class="form-control form-group-3-label" placeholder="Landlord / Agent comment" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['rooms']['<?php echo $room["id"]?>']['items']['<?php echo $item["id"]?>']['lord_comment']);} elseif(!empty($item['lord_comment'])){echo $item['lord_comment'];}?>">
+                                            <textarea <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> id="items_lord_comment_<?php echo $item['id']?>" name="rooms[<?php echo $room['id']?>][items][<?php echo $item['id']?>][lord_comment]" class="form-control form-group-3-label" placeholder="Landlord / Agent comment"><?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['rooms']['<?php echo $room["id"]?>']['items']['<?php echo $item["id"]?>']['lord_comment']);} elseif(!empty($item['lord_comment'])){echo $item['lord_comment'];}?></textarea>
                                         </div>
                                     </div>
 

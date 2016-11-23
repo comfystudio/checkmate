@@ -395,7 +395,7 @@ class PaymentsController extends BaseController {
     /**
      * PAGE: Payments Hook
      * GET: /payments/hook
-     * This method handles the reponse from strip regarding payments etc.
+     * This method handles the response from strip regarding payments etc.
      */
     public function hook(){
         // See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -408,7 +408,8 @@ class PaymentsController extends BaseController {
 //        ob_start();
 //        Debug::printr($event_json);
 //        //Debug::printr($event_json->id);
-//        Debug::printr($event_json->data->object->period_end);
+//        Debug::printr($event_json->data->object->lines->data[0]->period->start);
+//        Debug::printr($event_json->data->object->lines->data[0]->period->end);
 //        $data = ob_get_clean();
 //        $fp = fopen(date('g:i:s-')."hook.txt", "w");
 //        fwrite($fp, $data);
@@ -419,20 +420,20 @@ class PaymentsController extends BaseController {
             //trying to find payment with stripe customer id.
             $payment = $this->_model->getPaymentByStripeCusId($event_json->data->object->customer);
             if(isset($payment) && !empty($payment)){
-                $data['last_payment'] = date('Y-m-d H:i:s', $event_json->data->object->period_start);
-                $data['active_until'] = date('Y-m-d H:i:s', $event_json->data->object->period_end);
+                $data['last_payment'] = date('Y-m-d H:i:s', $event_json->data->object->lines->data[0]->period->start);
+                $data['active_until'] = date('Y-m-d H:i:s', $event_json->data->object->lines->data[0]->period->end);
                 $data['id'] = $payment[0]['id'];
                 //updating payment with new times.
                 $this->_model->updatePaymentTime($data);
 
                 //notification creation
-                $data['text'] = 'We have recieved your payment until the period '.$data['active_until'].'. Thank you!';
+                $data['text'] = 'We have received your payment until the period '.$data['active_until'].'. Thank you!';
                 $data['user_id'] = $payment[0]['user_id'];
                 $this->_notificationsModel->createData($data);
 
                 //Email setup
                 $this->_view->data['name'] = $payment[0]['firstname'].' '.$payment[0]['surname'];
-                $this->_view->data['message'] = 'We have recieved your payment until the period '.$data['active_until'].'. Thank you!';
+                $this->_view->data['message'] = 'We have received your payment until the period '.$data['active_until'].'. Thank you!';
                 $this->_view->data['button_link'] = SITE_URL.'users/dashboard/';
                 $this->_view->data['button_text'] = 'Checkmate Site.';
 

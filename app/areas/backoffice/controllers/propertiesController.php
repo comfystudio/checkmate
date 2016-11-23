@@ -145,7 +145,7 @@ class PropertiesController extends BaseController {
 
                             //Email setup
                             $this->_view->data['name'] = $selectDataByID[0]['firstname'].' '.$selectDataByID[0]['surname'];
-                            $this->_view->data['message'] = 'Administrator has deleted to your property. If this was not intended please contact admins at '.SITE_EMAIL;
+                            $this->_view->data['message'] = 'Administrator has deleted your property. If this was not intended please contact admins at '.SITE_EMAIL;
                             $this->_view->data['button_link'] = SITE_URL.'users/dashboard/';
                             $this->_view->data['button_text'] = 'Checkmate Site';
 

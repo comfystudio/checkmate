@@ -1,4 +1,8 @@
 jQuery(document).ready(function(){
+    // textarea auto resizer
+    jQuery("textarea").each(function(element) {
+        jQuery(this).height(jQuery("textarea")[element].scrollHeight);
+    });
 
 	// Initialize Datepicker
 	$('.input-datepicker, .input-daterange').datepicker({weekStart: 1}).on('changeDate', function(e){ $(this).datepicker('hide'); });
