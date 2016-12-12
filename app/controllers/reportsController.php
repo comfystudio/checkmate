@@ -302,7 +302,9 @@ class ReportsController extends BaseController {
         $this->_view->meter_type = explode(',', METER);
         $this->_view->key_status = explode(',', KEYS);
         $this->_view->clean_status = explode(',', CLEAN);
+        $this->_view->item_status = array('Green', 'Yellow', 'Red');
         $this->_view->YesNo = array('No', 'Yes');
+
 
         $this->_roomsModel = $this->loadModel('rooms');
         $this->_itemsModel = $this->loadModel('items');
@@ -442,8 +444,6 @@ class ReportsController extends BaseController {
                 $roomArray[$roomData['id']] = $roomData;
                 $itemsArray = array();
                 foreach($roomData['items'] as $key2 => $item){
-                    //$roomArray[$roomData['id']]['items'][$item['id']] = $item;
-                    //unset($roomArray[$roomData['id']]['items'][$key2]);
                     $itemsArray[$item['id']] = $item;
                 }
                 $roomArray[$roomData['id']]['items'] = $itemsArray;
@@ -500,6 +500,16 @@ class ReportsController extends BaseController {
                                     $newCheckInItem['image'] = $this->uploadFile($_FILES, $key2);
                                 }
 
+//                                DEBUG::printr($room['items']);die;
+//                                //We need to handle our Lord image if there is one
+//                                if(!isset($_FILES["lord_".$key2]) || $_FILES["lord_".$key2]['name'] == null) {
+//                                    $newCheckInItem['lord_image'][0] = null;
+//                                }else{
+//                                    //calls function that moves resourced documents
+//                                    DEBUG::printr('here');die;
+//                                    $newCheckInItem['lord_image'] = $this->uploadFile($_FILES, $key2);
+//                                }
+
                                 $this->_itemsModel->createCheckInItemTenant($newCheckInItem);
 
                                 //Creating check_out_item
@@ -538,6 +548,16 @@ class ReportsController extends BaseController {
                                 $item['image'] = $this->uploadFile($_FILES, 'item_'.$key2);
                             }
 
+                            // We need to handle our lord_image
+                            if(!isset($_FILES['lord_item_'.$key2]) || $_FILES['lord_item_'.$key2]['name'] == null) {
+                                $item['lord_image'][0] = $roomArray[$key]['items'][$key2]['lord_image'];
+                            }else{
+                                //remove old file
+                                unlink(ROOT . UPLOAD_DIR . '/' . $roomArray[$key]['items'][$key2]['lord_image']);
+                                //calls function that moves resourced documents
+                                $item['lord_image'] = $this->uploadFile($_FILES, 'lord_item_'.$key2);
+                            }
+
                             // Need to now update our check_in_item
                             $this->_itemsModel->updateCheckInItem($item);
 
@@ -557,38 +577,58 @@ class ReportsController extends BaseController {
                     unlink(ROOT . UPLOAD_DIR . '/' . $report[0]['tenant_agreement']);
                 }
 
-                //Need to email / notify either LL or lead tenant that update has taken place.
-                if($_SESSION['UserCurrentUserID'] != $report[0]['lord_id']){
-                    //notification creation
-                    $data['text'] = 'Lead Tenant has made changes to a check in. Please review at <a href = "'.SITE_URL.'reports/checkin/'.$report[0]['property_id'].'">Link</a>';
-                    $data['user_id'] = $report[0]['lord_id'];
-                    $this->_notificationModel->createData($data);
 
+                // If both the lord and tenant have approved then email them both
+                if ($_POST['lord_approved_check_in'] == 1 && $_POST['tenant_approved_check_in'] == 1){
                     //Email setup
                     $this->_view->data['name'] = $report[0]['lord_firstname'].' '.$report[0]['lord_surname'];
-                    $this->_view->data['message'] = 'Lead Tenant has made changes to a check in';
+                    $this->_view->data['message'] = 'Both Lead Tenant and Landlord / Agent have approved the check in';
                     $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$report[0]['property_id'];
-                    $this->_view->data['button_text'] = 'Review Check In';
+                    $this->_view->data['button_text'] = 'Check In Complete';
 
                     // Need to create email
                     $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
-                    Html::sendEmail($report[0]['lord_email'], 'Checkmate - Lead Tenant has updated a Check in', SITE_EMAIL, $message);
+                    Html::sendEmail($report[0]['lord_email'], 'Checkmate - Check in Complete', SITE_EMAIL, $message);
+
+                    $this->_view->data['name'] = $report[0]['tenant_firstname'].' '.$report[0]['tenant_surname'];
+                    // Need to create email
+                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                    Html::sendEmail($report[0]['tenant_email'], 'Checkmate - Check in Complete', SITE_EMAIL, $message);
 
                 }else{
-                    //notification creation
-                    $data['text'] = 'Landlord / Letting Agent has made changes to a check in. Please review at <a href = "'.SITE_URL.'reports/checkin/'.$report[0]['property_id'].'">Link</a>';
-                    $data['user_id'] = $report[0]['tenant_id'];
-                    $this->_notificationModel->createData($data);
+                    //Need to email / notify either LL or lead tenant that update has taken place.
+                    if($_SESSION['UserCurrentUserID'] != $report[0]['lord_id']){
+                        //notification creation
+                        $data['text'] = 'Lead Tenant has made changes to a check in. Please review at <a href = "'.SITE_URL.'reports/checkin/'.$report[0]['property_id'].'">Link</a>';
+                        $data['user_id'] = $report[0]['lord_id'];
+                        $this->_notificationModel->createData($data);
 
-                    //Email setup
-                    $this->_view->data['name'] = $report[0]['tenant_firstname'].' '.$report[0]['tenant_surname'];
-                    $this->_view->data['message'] = 'Landlord / Letting Agent has made changes to a check in';
-                    $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$report[0]['property_id'];
-                    $this->_view->data['button_text'] = 'Review Check In';
+                        //Email setup
+                        $this->_view->data['name'] = $report[0]['lord_firstname'].' '.$report[0]['lord_surname'];
+                        $this->_view->data['message'] = 'Lead Tenant has made changes to a check in';
+                        $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$report[0]['property_id'];
+                        $this->_view->data['button_text'] = 'Review Check In';
 
-                    // Need to create email
-                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
-                    Html::sendEmail($report[0]['tenant_email'], 'Checkmate - Landlord / Letting Agent has updated a Check in', SITE_EMAIL, $message);
+                        // Need to create email
+                        $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                        Html::sendEmail($report[0]['lord_email'], 'Checkmate - Lead Tenant has updated a Check in', SITE_EMAIL, $message);
+
+                    }else{
+                        //notification creation
+                        $data['text'] = 'Landlord / Letting Agent has made changes to a check in. Please review at <a href = "'.SITE_URL.'reports/checkin/'.$report[0]['property_id'].'">Link</a>';
+                        $data['user_id'] = $report[0]['tenant_id'];
+                        $this->_notificationModel->createData($data);
+
+                        //Email setup
+                        $this->_view->data['name'] = $report[0]['tenant_firstname'].' '.$report[0]['tenant_surname'];
+                        $this->_view->data['message'] = 'Landlord / Letting Agent has made changes to a check in';
+                        $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$report[0]['property_id'];
+                        $this->_view->data['button_text'] = 'Review Check In';
+
+                        // Need to create email
+                        $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                        Html::sendEmail($report[0]['tenant_email'], 'Checkmate - Landlord / Letting Agent has updated a Check in', SITE_EMAIL, $message);
+                    }
                 }
 
 
@@ -624,6 +664,7 @@ class ReportsController extends BaseController {
         $this->_view->meter_type = explode(',', METER);
         $this->_view->key_status = explode(',', KEYS);
         $this->_view->clean_status = explode(',', CLEAN);
+        $this->_view->item_status = array('Green', 'Yellow', 'Red');
         $this->_view->YesNo = array('No', 'Yes');
 
         $this->_roomsModel = $this->loadModel('rooms');
@@ -822,6 +863,16 @@ class ReportsController extends BaseController {
                             $item['image'] = $this->uploadFile($_FILES, 'item_'.$key2);
                         }
 
+                        // We need to handle our lord_image
+                        if(!isset($_FILES['lord_item_'.$key2]) || $_FILES['lord_item_'.$key2]['name'] == null) {
+                            $item['lord_image'][0] = $roomArray[$key]['items'][$key2]['lord_image'];
+                        }else{
+                            //remove old file
+                            unlink(ROOT . UPLOAD_DIR . '/' . $roomArray[$key]['items'][$key2]['lord_image']);
+                            //calls function that moves resourced documents
+                            $item['lord_image'] = $this->uploadFile($_FILES, 'lord_item_'.$key2);
+                        }
+
                         // Need to now update our check_in_item
                         $this->_itemsModel->updateCheckOutItem($item);
                     }
@@ -837,38 +888,57 @@ class ReportsController extends BaseController {
                     unlink(ROOT . UPLOAD_DIR . '/' . $report[0]['tenant_agreement']);
                 }
 
-                //Need to email / notify either LL or lead tenant that update has taken place.
-                if($_SESSION['UserCurrentUserID'] != $report[0]['lord_id']){
-                    //notification creation
-                    $data['text'] = 'Lead Tenant has made changes to a check out. Please review at <a href = "'.SITE_URL.'reports/checkout/'.$report[0]['property_id'].'">Link</a>';
-                    $data['user_id'] = $report[0]['lord_id'];
-                    $this->_notificationModel->createData($data);
-
+                // If both the lord and tenant have approved then email them both
+                if ($_POST['lord_approved_check_out'] == 1 && $_POST['tenant_approved_check_out'] == 1){
                     //Email setup
                     $this->_view->data['name'] = $report[0]['lord_firstname'].' '.$report[0]['lord_surname'];
-                    $this->_view->data['message'] = 'Lead Tenant has made changes to a check out';
+                    $this->_view->data['message'] = 'Both Lead Tenant and Landlord / Agent have approved the check out';
                     $this->_view->data['button_link'] = SITE_URL.'reports/checkout/'.$report[0]['property_id'];
-                    $this->_view->data['button_text'] = 'Review Check Out';
+                    $this->_view->data['button_text'] = 'Check In Complete';
 
                     // Need to create email
                     $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
-                    Html::sendEmail($report[0]['lord_email'], 'Checkmate - Lead Tenant has updated a Check Out', SITE_EMAIL, $message);
+                    Html::sendEmail($report[0]['lord_email'], 'Checkmate - Check out Complete', SITE_EMAIL, $message);
+
+                    $this->_view->data['name'] = $report[0]['tenant_firstname'].' '.$report[0]['tenant_surname'];
+                    // Need to create email
+                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                    Html::sendEmail($report[0]['tenant_email'], 'Checkmate - Check out Complete', SITE_EMAIL, $message);
 
                 }else{
-                    //notification creation
-                    $data['text'] = 'Landlord / Letting Agent has made changes to a check out. Please review at <a href = "'.SITE_URL.'reports/checkout/'.$report[0]['property_id'].'">Link</a>';
-                    $data['user_id'] = $report[0]['tenant_id'];
-                    $this->_notificationModel->createData($data);
+                    //Need to email / notify either LL or lead tenant that update has taken place.
+                    if ($_SESSION['UserCurrentUserID'] != $report[0]['lord_id']) {
+                        //notification creation
+                        $data['text'] = 'Lead Tenant has made changes to a check out. Please review at <a href = "' . SITE_URL . 'reports/checkout/' . $report[0]['property_id'] . '">Link</a>';
+                        $data['user_id'] = $report[0]['lord_id'];
+                        $this->_notificationModel->createData($data);
 
-                    //Email setup
-                    $this->_view->data['name'] = $report[0]['tenant_firstname'].' '.$report[0]['tenant_surname'];
-                    $this->_view->data['message'] = 'Landlord / Letting Agent has made changes to a check out';
-                    $this->_view->data['button_link'] = SITE_URL.'reports/checkout/'.$report[0]['property_id'];
-                    $this->_view->data['button_text'] = 'Review Check Out';
+                        //Email setup
+                        $this->_view->data['name'] = $report[0]['lord_firstname'] . ' ' . $report[0]['lord_surname'];
+                        $this->_view->data['message'] = 'Lead Tenant has made changes to a check out';
+                        $this->_view->data['button_link'] = SITE_URL . 'reports/checkout/' . $report[0]['property_id'];
+                        $this->_view->data['button_text'] = 'Review Check Out';
 
-                    // Need to create email
-                    $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
-                    Html::sendEmail($report[0]['tenant_email'], 'Checkmate - Landlord / Letting Agent has updated a Check out', SITE_EMAIL, $message);
+                        // Need to create email
+                        $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                        Html::sendEmail($report[0]['lord_email'], 'Checkmate - Lead Tenant has updated a Check Out', SITE_EMAIL, $message);
+
+                    } else {
+                        //notification creation
+                        $data['text'] = 'Landlord / Letting Agent has made changes to a check out. Please review at <a href = "' . SITE_URL . 'reports/checkout/' . $report[0]['property_id'] . '">Link</a>';
+                        $data['user_id'] = $report[0]['tenant_id'];
+                        $this->_notificationModel->createData($data);
+
+                        //Email setup
+                        $this->_view->data['name'] = $report[0]['tenant_firstname'] . ' ' . $report[0]['tenant_surname'];
+                        $this->_view->data['message'] = 'Landlord / Letting Agent has made changes to a check out';
+                        $this->_view->data['button_link'] = SITE_URL . 'reports/checkout/' . $report[0]['property_id'];
+                        $this->_view->data['button_text'] = 'Review Check Out';
+
+                        // Need to create email
+                        $message = $this->_view->renderToString('email-templates/general-message-with-button', 'blank-layout');
+                        Html::sendEmail($report[0]['tenant_email'], 'Checkmate - Landlord / Letting Agent has updated a Check out', SITE_EMAIL, $message);
+                    }
                 }
 
                 $this->_view->flash[] = "Checkout updated successfully.";
@@ -905,10 +975,20 @@ class ReportsController extends BaseController {
                     $checkinItem = $this->_itemsModel->selectCheckInItemsByID($id);
                     $image = $checkinItem[0]['image'];
                     break;
+                case 'lord_item':
+                    //Need to search for checkinItem
+                    $checkinItem = $this->_itemsModel->selectCheckInItemsByID($id);
+                    $image = $checkinItem[0]['lord_image'];
+                    break;
                 case 'checkoutItem':
                     //Need to search for checkoutItem
                     $checkOutItem = $this->_itemsModel->selectCheckOutItemsByID($id);
                     $image = $checkOutItem[0]['image'];
+                    break;
+                case 'checkoutLordItem':
+                    //Need to search for checkoutItem
+                    $checkOutItem = $this->_itemsModel->selectCheckOutItemsByID($id);
+                    $image = $checkOutItem[0]['lord_image'];
                     break;
             }
 
@@ -948,7 +1028,8 @@ class ReportsController extends BaseController {
                 $file = new Ps2_Upload(ROOT.UPLOAD_DIR.'/', $name, true);
                 if($name == 'tenant_agreement'){
                     $file->addPermittedTypes(array(
-                            'text/plain', 'application/pdf', 'application/msword', 
+                            'text/plain', 'application/pdf', 'application/msword',
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                         )
                     );
                 }else{
@@ -992,7 +1073,8 @@ class ReportsController extends BaseController {
         }
 
         // Building drop down arrays
-        $this->_view->status = explode(',', REPORT);
+        //$this->_view->status = explode(',', REPORT);
+        $this->_view->status = array('Green', 'Yellow', 'Red');
         $this->_view->meter_type = explode(',', METER);
         $this->_view->key_status = explode(',', KEYS);
         $this->_view->clean_status = explode(',', CLEAN);
@@ -1006,6 +1088,13 @@ class ReportsController extends BaseController {
             $users[$user['id']] = $user;
             unset($users[$key]);
         }
+
+        // setting up vars so we can decide if we want to show checkout data
+        $current_time = strtotime(date('Y-m-d'));
+        $checkout_time = strtotime($selectDataByID[0]['check_out']);
+        $week = 60 * 60 * 24 * 7;
+        $checkout_time = $checkout_time - $week;
+
 
         // Constructing our check in details
         if(isset($selectDataByID[0]['check_in_room_ids']) && !empty($selectDataByID[0]['check_in_room_ids'])){
@@ -1381,7 +1470,7 @@ class ReportsController extends BaseController {
                         if($this->_view->stored_data['tenant_approved_check_in'] == 1){
                             $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lead_tenant_id']]['check_in_time'])));
                         }else{
-                            $mpdf->WriteHTML('No approval / signature given');
+                            //$mpdf->WriteHTML('No approval / signature given');
                         }
                     $mpdf->WriteHTML('</td>');
 
@@ -1410,7 +1499,7 @@ class ReportsController extends BaseController {
                         if($this->_view->stored_data['lord_approved_check_in'] == 1){
                             $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lord_id']]['check_in_time'])));
                         }else{
-                            $mpdf->WriteHTML('No approval / signature given');
+                            //$mpdf->WriteHTML('No approval / signature given');
                         }
                     $mpdf->WriteHTML('</td>');
 
@@ -1441,7 +1530,7 @@ class ReportsController extends BaseController {
                                 if(isset($user['check_in_signature']) && !empty($user['check_in_signature'])){
                                     $mpdf->WriteHTML(date("F j, Y", strtotime($users[$user['id']]['check_in_time'])));
                                 }else{
-                                    $mpdf->WriteHTML('No approval / signature given');
+                                    //$mpdf->WriteHTML('No approval / signature given');
                                 }
                             $mpdf->WriteHTML('</td>');
 
@@ -1498,24 +1587,42 @@ class ReportsController extends BaseController {
 
                         $mpdf->WriteHTML('<table style = "width:100%; padding-bottom:20px">');
                             $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
+                                $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:20%;">');
+                                    $mpdf->WriteHTML('Tenant Item Image');
+                                $mpdf->WriteHTML('</td>');
+
+                                $mpdf->WriteHTML('<td class = "blue bold align-right" style = "width:20%;">');
                                     if(isset($item['image']) && !empty($item['image'])) {
                                         $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $item['image'] . '" width="160px;">');
                                     }
-                                $mpdf->WriteHTML('</th>');
-
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                                    $mpdf->WriteHTML('Item Status');
-                                $mpdf->WriteHTML('</td>');
-
-
-                                $mpdf->WriteHTML('<td class = "align-right">');
-                                        $mpdf->WriteHTML($this->_view->status[$item['tenant_approved'] + $item['lord_approved']]);
                                 $mpdf->WriteHTML('</td>');
                             $mpdf->WriteHTML('</tr>');
 
                             $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                                $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:20%;">');
+                                    $mpdf->WriteHTML('LL / Agent Item Image');
+                                $mpdf->WriteHTML('</td>');
+
+                                $mpdf->WriteHTML('<td class = "blue bold align-right" style = "width:20%;">');
+                                    if(isset($item['lord_image']) && !empty($item['lord_image'])) {
+                                        $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $item['lord_image'] . '" width="160px;">');
+                                    }
+                                $mpdf->WriteHTML('</td>');
+                            $mpdf->WriteHTML('</tr>');
+
+
+                            $mpdf->WriteHTML('<tr>');
+                                $mpdf->WriteHTML('<td class = "blue bold align-left">');
+                                    $mpdf->WriteHTML('Item Status');
+                                $mpdf->WriteHTML('</td>');
+
+                                $mpdf->WriteHTML('<td class = "align-right">');
+                                        $mpdf->WriteHTML($this->_view->status[max($item['tenant_approved'], $item['lord_approved'])]);
+                                $mpdf->WriteHTML('</td>');
+                            $mpdf->WriteHTML('</tr>');
+
+                            $mpdf->WriteHTML('<tr>');
+                                $mpdf->WriteHTML('<td class = "blue bold align-left">');
                                     $mpdf->WriteHTML('Tenant Comment');
                                 $mpdf->WriteHTML('</td>');
 
@@ -1526,7 +1633,7 @@ class ReportsController extends BaseController {
                             $mpdf->WriteHTML('</tr>');
 
                              $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                                $mpdf->WriteHTML('<td class = "blue bold align-left">');
                                     $mpdf->WriteHTML('Landlord Comment');
                                 $mpdf->WriteHTML('</td>');
 
@@ -1541,10 +1648,9 @@ class ReportsController extends BaseController {
                 }
             }
         }
+        if(isset($this->_view->checkOutData) && !empty($this->_view->checkOutData) && $current_time >= $checkout_time){
+            $mpdf->WriteHTML('<pagebreak />');
 
-       $mpdf->WriteHTML('<pagebreak />');
-
-        if(isset($this->_view->checkOutData) && !empty($this->_view->checkOutData)){
             $mpdf->WriteHTML('<div>');
                 $mpdf->WriteHTML('<h3 class = "center blue" style ="padding-top:30px; padding-bottom:30px;">Check Out Report</h3>');
             $mpdf->WriteHTML('</div>');
@@ -1595,7 +1701,7 @@ class ReportsController extends BaseController {
                         if($this->_view->stored_data['tenant_approved_check_out'] == 1){
                             $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lead_tenant_id']]['check_out_time'])));
                         }else{
-                            $mpdf->WriteHTML('No approval / signature given');
+                            //$mpdf->WriteHTML('No approval / signature given');
                         }
                     $mpdf->WriteHTML('</td>');
 
@@ -1623,7 +1729,7 @@ class ReportsController extends BaseController {
                         if($this->_view->stored_data['lord_approved_check_out'] == 1){
                             $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lord_id']]['check_out_time'])));
                         }else{
-                            $mpdf->WriteHTML('No approval / signature given');
+                            //$mpdf->WriteHTML('No approval / signature given');
                         }
                     $mpdf->WriteHTML('</td>');
 
@@ -1653,7 +1759,7 @@ class ReportsController extends BaseController {
                                 if(isset($user['check_out_signature']) && !empty($user['check_out_signature'])){
                                     $mpdf->WriteHTML(date("F j, Y", strtotime($users[$user['id']]['check_out_time'])));
                                 }else{
-                                    $mpdf->WriteHTML('No approval / signature given');
+                                    //$mpdf->WriteHTML('No approval / signature given');
                                 }
                             $mpdf->WriteHTML('</td>');
 
@@ -1710,24 +1816,41 @@ class ReportsController extends BaseController {
 
                         $mpdf->WriteHTML('<table style = "width:100%; padding-bottom:20px">');
                             $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
+                                $mpdf->WriteHTML('<td class = "blue bold">');
+                                    $mpdf->WriteHTML('Tenant Item Image');
+                                $mpdf->WriteHTML('</td>');
+
+                                $mpdf->WriteHTML('<td class = "blue bold align-right" style = "width:20%;">');
                                     if(isset($item['image']) && !empty($item['image'])){
                                         $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="160px;">');
                                     }
-                                $mpdf->WriteHTML('</th>');
-
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                                    $mpdf->WriteHTML('Item Status');
-                                $mpdf->WriteHTML('</td>');
-
-
-                                $mpdf->WriteHTML('<td class = "align-right">');
-                                        $mpdf->WriteHTML($this->_view->status[$item['tenant_approved'] + $item['lord_approved']]);
                                 $mpdf->WriteHTML('</td>');
                             $mpdf->WriteHTML('</tr>');
 
                             $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                                $mpdf->WriteHTML('<td class = "blue bold">');
+                                    $mpdf->WriteHTML('LL / Agent Item Image');
+                                $mpdf->WriteHTML('</td>');
+
+                                $mpdf->WriteHTML('<td class = "align-right" style = "width:20%;">');
+                                    if(isset($item['lord_image']) && !empty($item['lord_image'])){
+                                        $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['lord_image'].'" width="160px;">');
+                                    }
+                                $mpdf->WriteHTML('</td>');
+                            $mpdf->WriteHTML('</tr>');
+
+                            $mpdf->WriteHTML('<tr>');
+                                $mpdf->WriteHTML('<td class = "blue bold">');
+                                    $mpdf->WriteHTML('Item Status');
+                                $mpdf->WriteHTML('</td>');
+
+                                $mpdf->WriteHTML('<td class = "align-right">');
+                                        $mpdf->WriteHTML($this->_view->status[max($item['tenant_approved'], $item['lord_approved'])]);
+                                $mpdf->WriteHTML('</td>');
+                            $mpdf->WriteHTML('</tr>');
+
+                            $mpdf->WriteHTML('<tr>');
+                                $mpdf->WriteHTML('<td class = "blue bold">');
                                     $mpdf->WriteHTML('Tenant Comment');
                                 $mpdf->WriteHTML('</td>');
 
@@ -1738,7 +1861,7 @@ class ReportsController extends BaseController {
                             $mpdf->WriteHTML('</tr>');
 
                              $mpdf->WriteHTML('<tr>');
-                                $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                                $mpdf->WriteHTML('<td class = "blue bold">');
                                     $mpdf->WriteHTML('Landlord Comment');
                                 $mpdf->WriteHTML('</td>');
 
@@ -1748,7 +1871,6 @@ class ReportsController extends BaseController {
                                 $mpdf->WriteHTML('</td>');
                             $mpdf->WriteHTML('</tr>');
                         $mpdf->WriteHTML('</table>');
-
                     }
                 }
             }

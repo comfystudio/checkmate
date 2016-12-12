@@ -57,9 +57,10 @@ class rooms extends Model{
 	 * This function returns the details for All rooms
 	 * @param int $limit, $keywords
 	 */
-	public function getAllData($limit = false, $keywords = false){
+	public function getAllData($limit = false, $keywords = false, $user_id = false){
         $optLimit = $limit != false ? " LIMIT $limit" : "";
         $optKeywords = $keywords != false ? " AND CONCAT(IF(isnull(t1.name),' ',CONCAT(LOWER(t1.name),' '))) LIKE '%$keywords%'" : "";
+        $optUser = $user_id != false ? " AND t1.user_id IS NULL OR t1.user_id = ".$user_id : "";
 
 		$sql = "SELECT t1.id, t1.name, t1.is_active, GROUP_CONCAT(DISTINCT t3.name SEPARATOR ', ') AS items
 				FROM rooms t1
@@ -67,11 +68,11 @@ class rooms extends Model{
                         LEFT JOIN items t3 ON t2.item_id = t3.id AND t3.is_active = 1
 				WHERE 1 = 1
 				".$optKeywords."
+				".$optUser."
                 GROUP BY t1.id
 				ORDER BY t1.id DESC
 				".$optLimit
                 ;
-
 		return $this->_db->select($sql);
 	}
 
@@ -103,8 +104,8 @@ class rooms extends Model{
             $dbTable = 'rooms';
             $postData = array(
                 'name' => $data['name'],                
-                'is_active' => $data['is_active']
-
+                'is_active' => $data['is_active'],
+                'user_id' => $_SESSION['UserCurrentUserID']
             );
 
             $this->_db->insert($dbTable, $postData);

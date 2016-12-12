@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
+
 <div class="greyback">
     <div class ="container">
         <div class="formintro">
@@ -46,7 +48,7 @@
         </div>
 
         <form class="full" action="" method="post" enctype="multipart/form-data">
-            <div class = "form-wrapper create-property">
+            <div class = "form-wrapper create-property" style="overflow: visible;">
                 <div class = "row">
                     <div class="form-group col-sm-6 <?php if ((!empty($this->error)) && array_key_exists('title', $this->error)) { echo 'has-error'; }?>">
                         <input type="text" id="title" name="title" class="form-control" placeholder="Template Title" value="<?php if (!empty($this->error)) { echo Formatting::utf8_htmlentities($_POST['title']);} elseif(!empty($this->stored_data['title'])){echo $this->stored_data['title'];}?>">
@@ -66,7 +68,7 @@
                         <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('type', $this->error)) { echo 'has-error'; }?>" id = "room-group_<?php echo $count?>">
                             <label class="col-md-2 control-label" for="rooms[]">Room <?php echo $count?></label>
                             <div class="col-md-5">
-                                <select id="rooms[<?php echo $count?>]" name="rooms[<?php echo $count?>]" class="form-control template-add-rooms">
+                                <select id="rooms[<?php echo $count?>]" name="rooms[<?php echo $count?>]" class="form-control template-add-rooms selectpicker" data-live-search="true">
                                     <option value="0">-- Please Select Room --</option>
                                     <?php foreach($this->rooms as $key => $room){?>
                                         <option value="<?php echo $room['id'] ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['rooms'] == $key)) {echo 'selected="selected"';} elseif(!empty($room_id) && $room_id == $key){echo 'selected="selected"';}?> > <?php echo $room['name'].": (".$room['items'].")"?></option>
@@ -86,7 +88,7 @@
                         <div class="col-md-12 form-group <?php if ((!empty($this->error)) && array_key_exists('type', $this->error)) { echo 'has-error'; }?>" id = "room-group_1">
                             <label class="col-md-2 control-label form-control-2" for="rooms[1]">Room 1</label>
                             <div class="col-md-6">
-                                <select id="rooms1" name="rooms[1]" class="form-control template-add-rooms">
+                                <select id="rooms1" name="rooms[1]" class="form-control template-add-rooms selectpicker" data-live-search="true">
                                     <option value="0">-- Please Select Room --</option>
                                     <?php foreach($this->rooms as $key => $room){?>
                                         <option value="<?php echo $room['id'] ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['rooms'] == $key)) {echo 'selected="selected"';} elseif(!empty($this->stored_data['rooms']) && $this->stored_data['rooms'] == $key){echo 'selected="selected"';}?> > <?php echo $room['name'].": (".$room['items'].")"?></option>

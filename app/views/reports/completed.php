@@ -96,8 +96,11 @@
                         <td><?php echo date("F j, Y", strtotime($data['check_in'])) ?></td>
                         <td><?php echo date("F j, Y", strtotime($data['check_out'])) ?></td>
                         <td class="text-left">
-                            <img src="/assets/images/download.png">
-                            <a href="/reports/report-download/<?php echo $data['id']; ?>/" data-toggle="tooltip" title="Download PDF" class="">Download PDF</a>
+
+                            <a href="/reports/report-download/<?php echo $data['id']; ?>/" data-toggle="tooltip" title="Download PDF" class="btn btn-effect-ripple btn-sm btn-primary"><i class="fa fa-cloud-download"></i> Download PDF</a>
+                            <?php if (isset($data['tenant_agreement']) && !empty($data['tenant_agreement'])){?>
+                                <a href="/reports/download/<?php echo $data['id']; ?>/tenant/" data-toggle="tooltip" title="Download Tenant Agreement" class="btn btn-effect-ripple btn-sm btn-primary"><i class="fa fa-cloud-download"></i> Download Tenant Agreement</a>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>

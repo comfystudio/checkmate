@@ -2,7 +2,7 @@
     <div class="col-md-12 form-group <?php if ((!empty($this->error)) && array_key_exists('type', $this->error)) { echo 'has-error'; }?>" id = "room-group_<?php echo $this->current?>">
         <label class="col-md-2 control-label form-control-2" for="rooms[<?php echo $this->current ?>]">Room <?php echo $this->current ?></label>
         <div class="col-md-6">
-            <select id="rooms[<?php echo $this->current?>]" name="rooms[<?php echo $this->current?>]" class="form-control template-add-rooms">
+            <select id="rooms[<?php echo $this->current?>]" name="rooms[<?php echo $this->current?>]" class="form-control template-add-rooms selectpicker" data-live-search="true">
                 <option value="0">-- Please Select Room --</option>
                 <?php foreach($this->rooms as $key => $room){?>
                     <option value="<?php echo $room['id'] ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['rooms'] == $key)) {echo 'selected="selected"';} elseif(!empty($this->stored_data['rooms']) && $this->stored_data['rooms'] == $key){echo 'selected="selected"';}?> > <?php echo $room['name'].": (".$room['items'].")"?></option>

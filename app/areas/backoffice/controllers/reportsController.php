@@ -209,7 +209,8 @@ class ReportsController extends BaseController {
         $this->_view->error = array();
 
         // Building drop down arrays
-        $this->_view->status = explode(',', REPORT);
+        //$this->_view->status = explode(',', REPORT);
+        $this->_view->status = array('Green', 'Yellow', 'Red');
         $this->_view->meter_type = explode(',', METER);
         $this->_view->key_status = explode(',', KEYS);
         $this->_view->clean_status = explode(',', CLEAN);
@@ -293,7 +294,7 @@ class ReportsController extends BaseController {
      * This method handles the download image action.
      */
     public function download($id, $type){
-        if(!empty($id && $type)) {
+        if(!empty($id) && !empty($type)) {
             $selectedData = $this->_model->selectDataByID($id);
 
             switch ($type) {
@@ -382,7 +383,8 @@ class ReportsController extends BaseController {
         }
 
         // Building drop down arrays
-        $this->_view->status = explode(',', REPORT);
+        //$this->_view->status = explode(',', REPORT);
+        $this->_view->status = array('Green', 'Yellow', 'Red');
         $this->_view->meter_type = explode(',', METER);
         $this->_view->key_status = explode(',', KEYS);
         $this->_view->clean_status = explode(',', CLEAN);
@@ -771,7 +773,7 @@ class ReportsController extends BaseController {
              if($this->_view->stored_data['tenant_approved_check_in'] == 1){
                  $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lead_tenant_id']]['check_in_time'])));
              }else{
-                 $mpdf->WriteHTML('No approval / signature given');
+                 //$mpdf->WriteHTML('No approval / signature given');
              }
              $mpdf->WriteHTML('</td>');
 
@@ -800,7 +802,7 @@ class ReportsController extends BaseController {
              if($this->_view->stored_data['lord_approved_check_in'] == 1){
                  $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lord_id']]['check_in_time'])));
              }else{
-                 $mpdf->WriteHTML('No approval / signature given');
+                 //$mpdf->WriteHTML('No approval / signature given');
              }
              $mpdf->WriteHTML('</td>');
 
@@ -831,7 +833,7 @@ class ReportsController extends BaseController {
                      if(isset($user['check_in_signature']) && !empty($user['check_in_signature'])){
                          $mpdf->WriteHTML(date("F j, Y", strtotime($users[$user['id']]['check_in_time'])));
                      }else{
-                         $mpdf->WriteHTML('No approval / signature given');
+                         //$mpdf->WriteHTML('No approval / signature given');
                      }
                      $mpdf->WriteHTML('</td>');
 
@@ -888,24 +890,42 @@ class ReportsController extends BaseController {
 
                          $mpdf->WriteHTML('<table style = "width:100%; padding-bottom:20px">');
                          $mpdf->WriteHTML('<tr>');
-                         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
+                         $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:20%;">');
+                         $mpdf->WriteHTML('Tenant Item Image');
+                         $mpdf->WriteHTML('</td>');
+
+                         $mpdf->WriteHTML('<td class = "blue bold align-right" style = "width:20%;">');
                          if(isset($item['image']) && !empty($item['image'])) {
                              $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $item['image'] . '" width="160px;">');
                          }
-                         $mpdf->WriteHTML('</th>');
-
-                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                         $mpdf->WriteHTML('Item Status');
-                         $mpdf->WriteHTML('</td>');
-
-
-                         $mpdf->WriteHTML('<td class = "align-right">');
-                         $mpdf->WriteHTML($this->_view->status[$item['tenant_approved'] + $item['lord_approved']]);
                          $mpdf->WriteHTML('</td>');
                          $mpdf->WriteHTML('</tr>');
 
                          $mpdf->WriteHTML('<tr>');
-                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                         $mpdf->WriteHTML('<td class = "blue bold align-left" style = "width:20%;">');
+                         $mpdf->WriteHTML('LL / Agent Item Image');
+                         $mpdf->WriteHTML('</td>');
+
+                         $mpdf->WriteHTML('<td class = "blue bold align-right" style = "width:20%;">');
+                         if(isset($item['lord_image']) && !empty($item['lord_image'])) {
+                             $mpdf->WriteHTML('<img src = "' . ROOT . 'assets/uploads/' . $item['lord_image'] . '" width="160px;">');
+                         }
+                         $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('</tr>');
+
+
+                         $mpdf->WriteHTML('<tr>');
+                         $mpdf->WriteHTML('<td class = "blue bold align-left">');
+                         $mpdf->WriteHTML('Item Status');
+                         $mpdf->WriteHTML('</td>');
+
+                         $mpdf->WriteHTML('<td class = "align-right">');
+                         $mpdf->WriteHTML($this->_view->status[max($item['tenant_approved'], $item['lord_approved'])]);
+                         $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('</tr>');
+
+                         $mpdf->WriteHTML('<tr>');
+                         $mpdf->WriteHTML('<td class = "blue bold align-left">');
                          $mpdf->WriteHTML('Tenant Comment');
                          $mpdf->WriteHTML('</td>');
 
@@ -916,8 +936,8 @@ class ReportsController extends BaseController {
                          $mpdf->WriteHTML('</tr>');
 
                          $mpdf->WriteHTML('<tr>');
-                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                         $mpdf->WriteHTML('Landlord / Agent Comment');
+                         $mpdf->WriteHTML('<td class = "blue bold align-left">');
+                         $mpdf->WriteHTML('Landlord Comment');
                          $mpdf->WriteHTML('</td>');
 
 
@@ -985,7 +1005,7 @@ class ReportsController extends BaseController {
              if($this->_view->stored_data['tenant_approved_check_out'] == 1){
                  $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lead_tenant_id']]['check_out_time'])));
              }else{
-                 $mpdf->WriteHTML('No approval / signature given');
+                 //$mpdf->WriteHTML('No approval / signature given');
              }
              $mpdf->WriteHTML('</td>');
 
@@ -1013,7 +1033,7 @@ class ReportsController extends BaseController {
              if($this->_view->stored_data['lord_approved_check_out'] == 1){
                  $mpdf->WriteHTML(date("F j, Y", strtotime($users[$this->_view->stored_data['lord_id']]['check_out_time'])));
              }else{
-                 $mpdf->WriteHTML('No approval / signature given');
+                 //$mpdf->WriteHTML('No approval / signature given');
              }
              $mpdf->WriteHTML('</td>');
 
@@ -1043,7 +1063,7 @@ class ReportsController extends BaseController {
                      if(isset($user['check_out_signature']) && !empty($user['check_out_signature'])){
                          $mpdf->WriteHTML(date("F j, Y", strtotime($users[$user['id']]['check_out_time'])));
                      }else{
-                         $mpdf->WriteHTML('No approval / signature given');
+                         //$mpdf->WriteHTML('No approval / signature given');
                      }
                      $mpdf->WriteHTML('</td>');
 
@@ -1100,24 +1120,41 @@ class ReportsController extends BaseController {
 
                          $mpdf->WriteHTML('<table style = "width:100%; padding-bottom:20px">');
                          $mpdf->WriteHTML('<tr>');
-                         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:20%;" rowspan = "3">');
+                         $mpdf->WriteHTML('<td class = "blue bold">');
+                         $mpdf->WriteHTML('Tenant Item Image');
+                         $mpdf->WriteHTML('</td>');
+
+                         $mpdf->WriteHTML('<td class = "blue bold align-right" style = "width:20%;">');
                          if(isset($item['image']) && !empty($item['image'])){
                              $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['image'].'" width="160px;">');
                          }
-                         $mpdf->WriteHTML('</th>');
-
-                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                         $mpdf->WriteHTML('Item Status');
-                         $mpdf->WriteHTML('</td>');
-
-
-                         $mpdf->WriteHTML('<td class = "align-right">');
-                         $mpdf->WriteHTML($this->_view->status[$item['tenant_approved'] + $item['lord_approved']]);
                          $mpdf->WriteHTML('</td>');
                          $mpdf->WriteHTML('</tr>');
 
                          $mpdf->WriteHTML('<tr>');
-                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
+                         $mpdf->WriteHTML('<td class = "blue bold">');
+                         $mpdf->WriteHTML('LL / Agent Item Image');
+                         $mpdf->WriteHTML('</td>');
+
+                         $mpdf->WriteHTML('<td class = "align-right" style = "width:20%;">');
+                         if(isset($item['lord_image']) && !empty($item['lord_image'])){
+                             $mpdf->WriteHTML('<img src = "'.ROOT.'assets/uploads/'.$item['lord_image'].'" width="160px;">');
+                         }
+                         $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('</tr>');
+
+                         $mpdf->WriteHTML('<tr>');
+                         $mpdf->WriteHTML('<td class = "blue bold">');
+                         $mpdf->WriteHTML('Item Status');
+                         $mpdf->WriteHTML('</td>');
+
+                         $mpdf->WriteHTML('<td class = "align-right">');
+                         $mpdf->WriteHTML($this->_view->status[max($item['tenant_approved'], $item['lord_approved'])]);
+                         $mpdf->WriteHTML('</td>');
+                         $mpdf->WriteHTML('</tr>');
+
+                         $mpdf->WriteHTML('<tr>');
+                         $mpdf->WriteHTML('<td class = "blue bold">');
                          $mpdf->WriteHTML('Tenant Comment');
                          $mpdf->WriteHTML('</td>');
 
@@ -1128,8 +1165,8 @@ class ReportsController extends BaseController {
                          $mpdf->WriteHTML('</tr>');
 
                          $mpdf->WriteHTML('<tr>');
-                         $mpdf->WriteHTML('<td class = "blue bold align-right">');
-                         $mpdf->WriteHTML('Landlord / Agent Comment');
+                         $mpdf->WriteHTML('<td class = "blue bold">');
+                         $mpdf->WriteHTML('Landlord Comment');
                          $mpdf->WriteHTML('</td>');
 
 
@@ -1138,7 +1175,6 @@ class ReportsController extends BaseController {
                          $mpdf->WriteHTML('</td>');
                          $mpdf->WriteHTML('</tr>');
                          $mpdf->WriteHTML('</table>');
-
                      }
                  }
              }

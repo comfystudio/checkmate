@@ -203,7 +203,7 @@ class TemplatesController extends BaseController {
 
 		$this->_roomsModel = $this->loadModel('rooms');
         $this->_itemsModel = $this->loadModel('items');
-		$this->_view->rooms = $this->_roomsModel->getAllData();
+		$this->_view->rooms = $this->_roomsModel->getAllData(false, false, $_SESSION['UserCurrentUserID']);
 
         // If Form has been submitted process it
 		if(!empty($_POST)){
@@ -286,7 +286,7 @@ class TemplatesController extends BaseController {
             // Fetch an array of all the regions
             $this->_view->current = $_POST['current'];
             $this->_roomsModel = $this->loadModel('rooms');
-            $this->_view->rooms = $this->_roomsModel->getAllData();
+            $this->_view->rooms = $this->_roomsModel->getAllData(false, false, $_SESSION['UserCurrentUserID']);
 
             // Render the view ($renderBody, $layout, $area)
             $this->_view->renderPartial('templates/_rooms');

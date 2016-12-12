@@ -14,6 +14,8 @@ function renderDefaultJSBundle(){
     echo '<script src="/assets/js/plugins.js"></script>';
     echo '<script src="/assets/js/general.js"></script>';
     echo '<script src="/assets/js/bootstrap-filestyle.min.js"></script>';
+    echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>';
+
 }
 
 function renderDefaultHeadJSBundle(){

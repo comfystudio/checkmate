@@ -307,7 +307,7 @@
                                         <div class="form-group col-sm-6 right-border">
                                             <label class = "form-control form-group-3-label">
                                                 <!-- Item Status: <?php echo $this->status[$item['tenant_approved'] + $item['lord_approved']]?> -->
-                                                <?php $class = $item['tenant_approved'] + $item['lord_approved'];?>
+                                                <?php $class = max($item['tenant_approved'], $item['lord_approved']);?>
                                                 Item Status: <i class="fa fa-circle status-<?php echo $class?>" aria-hidden="true"></i>
                                             </label>
                                         </div>
@@ -317,9 +317,18 @@
                                         <div class = "form-group col-sm-6 right-border">
                                             <?php if(isset($item['image']) && !empty($item['image'])){?>
                                                 <img src="/image.php?width=90&height=90&image=/assets/uploads/<?php echo $item['image']?>" alt="<?php echo $item['image']?>">
-                                                <a href="/reports/download/<?php echo $item['id'];?>/item" class="btn btn-primary check-in-download">Download Item Image <i class="fa fa-cloud-download"></i></a>
+                                                <a href="/reports/download/<?php echo $item['id'];?>/checkoutItem" class="btn btn-primary check-in-download">Download Item Image <i class="fa fa-cloud-download"></i></a>
                                             <?php } else {?>
-                                                <input <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="file" name="item_<?php echo $item['id']?>" class = "form-control file-background">
+                                                <input <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="file" name="item_<?php echo $item['id']?>" class = "form-control file-background filestyle" data-buttonText="Item Image" data-buttonBefore="true">
+                                            <?php } ?>
+                                        </div>
+
+                                        <div class = "form-group col-sm-6">
+                                            <?php if(isset($item['lord_image']) && !empty($item['lord_image'])){?>
+                                                <img src="/image.php?width=90&height=90&image=/assets/uploads/<?php echo $item['lord_image']?>" alt="<?php echo $item['lord_image']?>">
+                                                <a href="/reports/download/<?php echo $item['id'];?>/checkoutLordItem" class="btn btn-primary check-in-download">Download Item Image <i class="fa fa-cloud-download"></i></a>
+                                            <?php } else {?>
+                                                <input <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> type="file" name="lord_item_<?php echo $item['id']?>" class = "form-control file-background filestyle" data-buttonText="LL / Agent Approval Item Image" data-buttonBefore="true">
                                             <?php } ?>
                                         </div>
                                     </div>
@@ -337,10 +346,10 @@
                                     <div class = "row">
                                         <div class="form-group col-sm-6 right-border">
                                             <label class = "form-control form-group-3-label" style = "width:70%; float: left;">
-                                                Tenant Approval
+                                                Tenant Item Status
                                             </label>
                                             <select <?php if($this->report[0]['lead_tenant_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> data-id = "<?php echo $item['id']?>" id="tenant_approved_check_in_<?php echo $item['id']?>" name="rooms[<?php echo $room['id']?>][items][<?php echo $item['id']?>][tenant_approved]" class="form-control form-group-2-select tenant-item-approval">
-                                                <?php foreach($this->YesNo as $key3 => $type){?>
+                                                <?php foreach($this->item_status as $key3 => $type){?>
                                                     <option value="<?php echo $key3 ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['rooms'][$room['id']]['items'][$item['id']]['tenant_approved'] == $key3)) {echo 'selected="selected"';} elseif(!empty($item['tenant_approved']) && $item['tenant_approved'] == $key3){echo 'selected="selected"';}?> > <?php echo $type?></option>
                                                 <?php } ?>
                                             </select>
@@ -348,10 +357,10 @@
 
                                         <div class="form-group col-sm-6">
                                             <label class = "form-control form-group-3-label" style = "width:70%; float: left;">
-                                                LL / Agent Approval
+                                                LL / Agent Item Status
                                             </label>
                                             <select <?php if($this->report[0]['lord_id'] != $_SESSION['UserCurrentUserID']){echo 'disabled';}?> data-id = "<?php echo $item['id']?>" id="lord_approved_check_in_<?php echo $item['id']?>" name="rooms[<?php echo $room['id']?>][items][<?php echo $item['id']?>][lord_approved]" class="form-control form-group-2-select lord-item-approval">
-                                                <?php foreach($this->YesNo as $key3 => $type){?>
+                                                <?php foreach($this->item_status as $key3 => $type){?>
                                                     <option value="<?php echo $key3 ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['rooms'][$room['id']]['items'][$item['id']]['lord_approved'] == $key3)) {echo 'selected="selected"';} elseif(!empty($item['lord_approved']) && $item['lord_approved'] == $key3){echo 'selected="selected"';}?> > <?php echo $type?></option>
                                                 <?php } ?>
                                             </select>

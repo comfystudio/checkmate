@@ -161,6 +161,10 @@
                         <?php } ?>
                         <img src="/assets/images/download.png">
                         <a href = "/reports/report-download/<?php echo $report['id']?>" target="_blank">Download PDF</a>
+                        <?php if (isset($report['tenant_agreement']) && !empty($report['tenant_agreement'])){?>
+                            <img src="/assets/images/download.png">
+                            <a href = "/reports/download/<?php echo $report['id']?>/tenant" target="_blank">Download Tenant Agreement</a>
+                        <?php } ?>
                     </p>
                 </div>
             <?php } ?>

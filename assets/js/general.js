@@ -53,6 +53,7 @@ jQuery(document).ready(function(){
 			        addItems();
                     removeItems();
                     templateAddItemsCheck();
+                    jQuery('.selectpicker').selectpicker();
 				} else {
 				}
 			}
@@ -357,13 +358,13 @@ jQuery(document).ready(function(){
 		});
 	}
 
-    //If user changes the item approval to NO then they must give a comment for Tenant
+    //If user changes the item approval to Red then they must give a comment for Tenant
     jQuery('.tenant-item-approval').change(function(){
-        if(jQuery(this).val() == 0){
+        if(jQuery(this).val() == 2){
             var currentItem = jQuery(this).data('id');
             if(!jQuery('#items_tenant_comment_'+currentItem).val()){
                 alert('A comment is required for disapproval of an item');
-                jQuery(this).val(1);
+                jQuery(this).val(0);
             }
         }
     })
@@ -371,23 +372,23 @@ jQuery(document).ready(function(){
     function blockTenantApproval(){
         jQuery('.tenant-item-approval').off();
         jQuery('.tenant-item-approval').change(function(){
-            if(jQuery(this).val() == 0){
+            if(jQuery(this).val() == 2){
                 var currentItem = jQuery(this).data('id');
                 if(!jQuery('#items_tenant_comment_'+currentItem).val()){
                     alert('A comment is required for disapproval of an item');
-                    jQuery(this).val(1);
+                    jQuery(this).val(0);
                 }
             }
         })
     }
 
-    //If user changes the item approval to NO then they must give a comment for landLord
+    //If user changes the item approval to Red then they must give a comment for landLord
     jQuery('.lord-item-approval').change(function(){
-        if(jQuery(this).val() == 0){
+        if(jQuery(this).val() == 2){
             var currentItem = jQuery(this).data('id');
             if(!jQuery('#items_lord_comment_'+currentItem).val()){
                 alert('A comment is required for disapproval of an item');
-                jQuery(this).val(1);
+                jQuery(this).val(0);
             }
         }
     })
@@ -395,11 +396,11 @@ jQuery(document).ready(function(){
     function blockLordApproval() {
         jQuery('.lord-item-approval').off();
         jQuery('.lord-item-approval').change(function () {
-            if (jQuery(this).val() == 0) {
+            if (jQuery(this).val() == 2) {
                 var currentItem = jQuery(this).data('id');
                 if (!jQuery('#items_lord_comment_' + currentItem).val()) {
                     alert('A comment is required for disapproval of an item');
-                    jQuery(this).val(1);
+                    jQuery(this).val(0);
                 }
             }
         })

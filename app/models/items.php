@@ -246,7 +246,8 @@ class Items extends Model{
             'status' => $data['status'],
             'tenant_approved' => $data['tenant_approved'],
             'lord_approved' => $data['lord_approved'],
-            'image' => $data['image'][0]
+            'image' => $data['image'][0],
+            'lord_image' => $data['lord_image'][0]
         );
         $where = "`id` = {$data['id']}";
 
@@ -267,7 +268,8 @@ class Items extends Model{
             'status' => $data['status'],
             'tenant_approved' => $data['tenant_approved'],
             'lord_approved' => $data['lord_approved'],
-            'image' => $data['image'][0]
+            'image' => $data['image'][0],
+            'lord_image' => $data['lord_image'][0]
         );
         $where = "`id` = {$data['id']}";
 
