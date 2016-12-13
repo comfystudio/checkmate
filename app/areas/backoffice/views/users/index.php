@@ -58,7 +58,8 @@
                                     <th>Surname</th>
                                     <th>User Type</th>
                                     <th>Email</th>
-                                    <th style="width: 90px; min-width:90px;" class="text-center"><i class="fa fa-flash"></i></th>
+                                    <th>Total Credits</th>
+                                    <th style="width: 130px; min-width:130px;" class="text-center"><i class="fa fa-flash"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,7 +70,17 @@
                                     <td><strong><?php echo $data['surname']; ?></strong></td>
                                     <td><?php echo $this->userTypes[$data['type']];?></td>
                                     <td><?php echo $data['email']; ?></td>
+                                    <td>
+                                        <?php
+                                            if(isset($data['remaining_credits'])){
+                                                echo $data['remaining_credits'] + $data['bonus_credits'];
+                                            }else{
+                                                echo 'No Credits';
+                                            }
+                                        ?>
+                                    </td>
                                     <td class="text-left">
+                                        <a href="/backoffice/payments/bonus/<?php echo $data['id']; ?>/" data-toggle="tooltip" title="Add Bonus Credit" class="btn btn-effect-ripple btn-sm btn-primary"><i class="fa fa-plus"></i></a>
                                         <a href="/backoffice/users/edit/<?php echo $data['id']; ?>/" data-toggle="tooltip" title="Edit User" class="btn btn-effect-ripple btn-sm btn-success"><i class="fa fa-pencil"></i></a>
                                         <a href="/backoffice/users/delete/<?php echo $data['id']; ?>/" data-toggle="tooltip" title="Delete this User" class="btn btn-effect-ripple btn-sm btn-danger"><i class="fa fa-times"></i></a>
                                         <!-- <a href="/backoffice/users/login/<?php echo $data['id']; ?>/" data-toggle="tooltip" title="Login as this User" class="btn btn-effect-ripple btn-sm btn-primary" rel="external"><i class="gi gi-user"></i></a> -->

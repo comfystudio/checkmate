@@ -58,6 +58,7 @@
                                     <th>Payment Type</th>
                                     <th>Last Payment</th>
                                     <th>Remaining Credits</th>
+                                    <th>Bonus Credits</th>
                                     <!-- <th style="width: 90px; min-width:90px;" class="text-center"><i class="fa fa-flash"></i></th> -->
                                 </tr>
                             </thead>
@@ -70,8 +71,7 @@
                                         <td><?php echo $this->paymentTypes[$data['type']]?></td>
                                         <td><?php echo date("F j, Y, g:i a", strtotime($data['last_payment'])) ?></td>
                                         <td><?php echo $data['remaining_credits']?></td>
-                                        <td class="text-left">
-                                        </td>
+                                        <td><?php echo $data['bonus_credits']?></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>

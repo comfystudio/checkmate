@@ -61,8 +61,8 @@
                     <div class = "row">
                         <div class = "form-group col-sm-6 right-border">
                             <select id="type" name="type" class="form-control">
-                                <option value="0" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['type'] == 0)) {echo 'selected="selected"';} elseif(!empty($this->report[0]['keys_acquired']) && $this->report[0]['keys_acquired'] == $key3){echo 'selected="selected"';}?> > Tenant</option>
-                                <option value="1" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['type'] == 1)) {echo 'selected="selected"';} elseif(!empty($this->report[0]['keys_acquired']) && $this->report[0]['keys_acquired'] == $key3){echo 'selected="selected"';}?> > Landlord</option>
+                                <option value="0" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['type'] == 0)) {echo 'selected="selected"';} ?> > Tenant</option>
+                                <option value="1" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['type'] == 1)) {echo 'selected="selected"';} ?> > Landlord</option>
                             </select>
                         </div>
                     </div>

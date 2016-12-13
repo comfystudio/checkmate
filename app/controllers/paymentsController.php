@@ -242,7 +242,7 @@ class PaymentsController extends BaseController {
         }
 
         // If this user already has a cus_id and basically previously subbed then redirect them to the upgrade page.
-        if(isset($user[0]['stripe_cus_id']) && !empty($user[0]['stripe_cus_id'])){
+        if(isset($user[0]['stripe_cus_id']) && !empty($user[0]['stripe_cus_id']) && $user[0]['stripe_cus_id'] != 'temp_'.$user[0]['id']){
             Url::redirect('payments/upgrade');
         }
 
@@ -357,6 +357,7 @@ class PaymentsController extends BaseController {
                     $data['type'] = $_POST['type'];
                     $data['last_payment'] = date('Y-m-d H:i:s', $customer->subscriptions->data[0]['current_period_start']);
                     $data['active_until'] = date('Y-m-d H:i:s', $customer->subscriptions->data[0]['current_period_end']);
+                    $data['bonus_credits'] = $user[0]['bonus_credits'];
 
                     //Need to remove previous payments if they exist
                     $this->_model->deleteByUserId($data['user_id']);

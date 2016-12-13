@@ -6,10 +6,10 @@ class UserBackoffice extends Model{
 	}
 
     /**
-	 * FUNCTION: validation
-	 * This function validates post data, and should be called for any update or create model calls.
-	 * @param mixed array $data, $type can define different standards depending on if edit for example.
-	 */
+ * FUNCTION: validation
+ * This function validates post data, and should be called for any update or create model calls.
+ * @param mixed array $data, $type can define different standards depending on if edit for example.
+ */
     public function validation($data, $type){
         $return = $data;
         foreach($data as $key => $input){
@@ -121,7 +121,7 @@ class UserBackoffice extends Model{
                                 $return['password'] = $hash[1];
                                 $return['salt'] = $hash[2];
                             }else{
-                               $return['error'][$key] = $hash[1];
+                                $return['error'][$key] = $hash[1];
                             }
                         }else{
                             $return['error'][$key] = $passwordStrength[1];
@@ -203,8 +203,9 @@ class UserBackoffice extends Model{
 	public function selectDataByID($user_id, $is_active = null){
         $optActive = "";
         if(isset($is_active) && $is_active != null){if($is_active == 'active'){$optActive = "AND t1.is_active = 1";}else{$optActive = "AND t1.is_active = 0";}}else{$optActive = "";}
-		$sql = "SELECT t1.id, t1.firstname, t1.surname, t1.email,  t1.password, t1.salt, t1.is_active, t1.type, t1.contact_num, t1.logo_image
+		$sql = "SELECT t1.id, t1.firstname, t1.surname, t1.email,  t1.password, t1.salt, t1.is_active, t1.type, t1.contact_num, t1.logo_image, t2.id AS payment_id, t2.bonus_credits
 				FROM users t1
+				    LEFT JOIN payments t2 ON t2.user_id = t1.id
 				WHERE t1.id = :id ".$optActive."
 				";
 									
@@ -221,8 +222,9 @@ class UserBackoffice extends Model{
         if(isset($is_active) && $is_active != null){if($is_active == 'active'){$optActive = "AND t1.is_active = 1";}else{$optActive = "AND t1.is_active = 0";}}else{$optActive = "";}
 		$optLimit = $limit != false ? " LIMIT $limit" : "";
         $optKeywords = $keywords != false ? " AND CONCAT(IF(isnull(t1.id),' ',CONCAT(LOWER(t1.id),' ')),IF(isnull(t1.firstname),' ',CONCAT(LOWER(t1.firstname),'  ')),IF(isnull(t1.surname),'',CONCAT(LOWER(t1.surname),' ')),IF(isnull(t1.email),' ',CONCAT(LOWER(t1.email),' '))) LIKE '%$keywords%'" : "";
-		$sql = "SELECT t1.id, t1.firstname, t1.surname, t1.email, t1.email_verified, t1.is_active, t1.type, t1.contact_num, t1.logo_image
+		$sql = "SELECT t1.id, t1.firstname, t1.surname, t1.email, t1.email_verified, t1.is_active, t1.type, t1.contact_num, t1.logo_image, t2.remaining_credits, t2.bonus_credits
 				FROM users t1
+                    LEFT JOIN payments t2 ON t2.user_id = t1.id
 				WHERE 1 = 1
 				".$optKeywords."
 				".$optActive."

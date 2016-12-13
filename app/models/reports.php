@@ -95,7 +95,12 @@ class Reports extends Model{
                 'meter_reading' => $data['meter_reading'],
                 'meter_measurement' => $data['meter_measurement'],
                 'oil_level' => $data['oil_level'],
-                'keys_acquired' => $data['keys_acquired']
+                'keys_front_door' => $data['keys_front_door'],
+                'keys_bedroom_door' => $data['keys_bedroom_door'],
+                'keys_block_door' => $data['keys_block_door'],
+                'keys_back_door' => $data['keys_back_door'],
+                'keys_garage_door' => $data['keys_garage_door'],
+                'keys_other_door' => $data['keys_other_door'],
             );
             $this->_db->insert($dbTable, $postData);
             // Gets Last Insert ID
@@ -143,7 +148,12 @@ class Reports extends Model{
                 'meter_image' => $data['meter_image'][0],
                 'tenant_agreement' => $data['tenant_agreement'][0],
                 'oil_level' => $data['oil_level'],
-                'keys_acquired' => $data['keys_acquired'],
+                'keys_front_door' => $data['keys_front_door'],
+                'keys_bedroom_door' => $data['keys_bedroom_door'],
+                'keys_block_door' => $data['keys_block_door'],
+                'keys_back_door' => $data['keys_back_door'],
+                'keys_garage_door' => $data['keys_garage_door'],
+                'keys_other_door' => $data['keys_other_door'],
                 'fire_extin' => $data['fire_extin'],
                 'fire_blanket' => $data['fire_blanket'],
                 'smoke_alarm' => $data['smoke_alarm'],

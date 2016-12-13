@@ -239,22 +239,87 @@
             </div>
         </div>
 
-        <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('keys_acquired', $this->error)) {
+        <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('keys_front_door', $this->error)) {
             echo 'has-error';
         } ?>">
-            <label class="col-md-2 control-label" for="status">Key Status</label>
+            <label class="col-md-2 control-label" for="keys_front_door">Keys Front Door</label>
 
             <div class="col-md-5">
-                <select id="type" name="keys_acquired" class="form-control">
-                    <?php foreach ($this->key_status as $key => $key_status) { ?>
-                        <option
-                            value="<?php echo $key ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['keys_acquired'] == $key)) {
-                            echo 'selected="selected"';
-                        } elseif (!empty($this->stored_data['keys_acquired']) && $this->stored_data['keys_acquired'] == $key) {
-                            echo 'selected="selected"';
-                        } ?> > <?php echo $key_status ?></option>
-                    <?php } ?>
-                </select>
+                <input type="number" id="keys_front_door" name="keys_front_door" class="form-control" value="<?php if (!empty($this->error)) {
+                    echo Formatting::utf8_htmlentities($_POST['keys_front_door']);
+                } elseif (!empty($this->stored_data['keys_front_door'])) {
+                    echo $this->stored_data['keys_front_door'];
+                } ?>">
+            </div>
+        </div>
+
+        <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('keys_bedroom_door', $this->error)) {
+            echo 'has-error';
+        } ?>">
+            <label class="col-md-2 control-label" for="keys_bedroom_door">Keys Bedroom Door</label>
+
+            <div class="col-md-5">
+                <input type="number" id="keys_bedroom_door" name="keys_bedroom_door" class="form-control" value="<?php if (!empty($this->error)) {
+                    echo Formatting::utf8_htmlentities($_POST['keys_bedroom_door']);
+                } elseif (!empty($this->stored_data['keys_bedroom_door'])) {
+                    echo $this->stored_data['keys_bedroom_door'];
+                } ?>">
+            </div>
+        </div>
+
+        <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('keys_block_door', $this->error)) {
+            echo 'has-error';
+        } ?>">
+            <label class="col-md-2 control-label" for="keys_block_door">Keys Block Door</label>
+
+            <div class="col-md-5">
+                <input type="number" id="keys_block_door" name="keys_block_door" class="form-control" value="<?php if (!empty($this->error)) {
+                    echo Formatting::utf8_htmlentities($_POST['keys_block_door']);
+                } elseif (!empty($this->stored_data['keys_block_door'])) {
+                    echo $this->stored_data['keys_block_door'];
+                } ?>">
+            </div>
+        </div>
+
+        <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('keys_back_door', $this->error)) {
+            echo 'has-error';
+        } ?>">
+            <label class="col-md-2 control-label" for="keys_back_door">Keys Back Door</label>
+
+            <div class="col-md-5">
+                <input type="number" id="keys_back_door" name="keys_back_door" class="form-control" value="<?php if (!empty($this->error)) {
+                    echo Formatting::utf8_htmlentities($_POST['keys_back_door']);
+                } elseif (!empty($this->stored_data['keys_back_door'])) {
+                    echo $this->stored_data['keys_back_door'];
+                } ?>">
+            </div>
+        </div>
+
+        <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('keys_garage_door', $this->error)) {
+            echo 'has-error';
+        } ?>">
+            <label class="col-md-2 control-label" for="keys_garage_door">Keys Garage Door</label>
+
+            <div class="col-md-5">
+                <input type="number" id="keys_garage_door" name="keys_garage_door" class="form-control" value="<?php if (!empty($this->error)) {
+                    echo Formatting::utf8_htmlentities($_POST['keys_garage_door']);
+                } elseif (!empty($this->stored_data['keys_garage_door'])) {
+                    echo $this->stored_data['keys_garage_door'];
+                } ?>">
+            </div>
+        </div>
+
+        <div class="form-group <?php if ((!empty($this->error)) && array_key_exists('keys_other_door', $this->error)) {
+            echo 'has-error';
+        } ?>">
+            <label class="col-md-2 control-label" for="keys_other_door">Keys Other Door</label>
+
+            <div class="col-md-5">
+                <input type="number" id="keys_other_door" name="keys_other_door" class="form-control" value="<?php if (!empty($this->error)) {
+                    echo Formatting::utf8_htmlentities($_POST['keys_other_door']);
+                } elseif (!empty($this->stored_data['keys_other_door'])) {
+                    echo $this->stored_data['keys_other_door'];
+                } ?>">
             </div>
         </div>
 

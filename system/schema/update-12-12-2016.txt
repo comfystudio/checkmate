@@ -22,3 +22,16 @@ ALTER TABLE `check_out_items`
 ALTER TABLE `check_in_items`
 	CHANGE COLUMN `tenant_approved` `tenant_approved` TINYINT(1) NOT NULL DEFAULT '0' AFTER `lord_image`,
 	CHANGE COLUMN `lord_approved` `lord_approved` TINYINT(1) NOT NULL DEFAULT '0' AFTER `tenant_approved`;
+
+ALTER TABLE `payments`
+	ADD COLUMN `bonus_credits` INT(11) NOT NULL DEFAULT '0' AFTER `remaining_credits`;
+
+ALTER TABLE `reports`
+	CHANGE COLUMN `keys_acquired` `keys_front_door` INT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `oil_level`;
+
+ALTER TABLE `reports`
+	ADD COLUMN `keys_bedroom_door` INT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `keys_front_door`,
+	ADD COLUMN `keys_block_door` INT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `keys_bedroom_door`,
+	ADD COLUMN `keys_back_door` INT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `keys_block_door`,
+	ADD COLUMN `keys_garage_door` INT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `keys_back_door`,
+	ADD COLUMN `keys_other_door` INT(1) UNSIGNED NOT NULL DEFAULT '0' AFTER `keys_garage_door`;

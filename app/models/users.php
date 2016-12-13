@@ -169,7 +169,7 @@ class Users extends Model{
 	public function selectDataByID($user_id, $is_active = 'active'){
         $optActive = "";
         if(isset($is_active) && $is_active != null){if($is_active == 'active'){$optActive = "AND t1.is_active = 1";}else{$optActive = "AND t1.is_active = 0";}}else{$optActive = "";}
-		$sql = "SELECT t1.*, t2.id as payment_id, t2.type as payment_type, t2.last_payment, t2.remaining_credits, t2.active_until, t2.stripe_cus_id, t2.stripe_sub_id
+		$sql = "SELECT t1.*, t2.id as payment_id, t2.type as payment_type, t2.last_payment, t2.remaining_credits, t2.active_until, t2.stripe_cus_id, t2.stripe_sub_id, t2.bonus_credits
 				FROM users t1
 					LEFT JOIN payments t2 ON t1.id = t2.user_id
 				WHERE t1.id = :id ".$optActive."

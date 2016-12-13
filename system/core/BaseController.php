@@ -71,15 +71,15 @@ class BaseController{
             return false;
         }
 
-        // if there is no payment type they false
-        if(!isset($user[0]['payment_type']) || empty($user[0]['payment_type'])){
+        // if there is no payment type they are false
+        if(!isset($user[0]['payment_type'])){
             return false;
         }
 
         //Need to check active until date so we know they're still active payees
         $active_until = strtotime($user[0]['active_until']);
         $now = strtotime('now');
-        if($now > $active_until){
+        if(empty($user[0]['bonus_credits']) && ($now > $active_until)){
             return false;
         }else{
             return true;

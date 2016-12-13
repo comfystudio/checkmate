@@ -30,7 +30,7 @@
                     <?php //if($this->user[0]['payment_type'] == 5){?>
 <!--                        <p>Remaining Property Credits: Unlimited - <a href = "/payments/cancel" class = "red">Cancel Subscription</a></p>-->
                     <?php //}else{ ?>
-                        <p>Property Credits: <?php echo $this->user[0]['remaining_credits'] - $this->propertyCount?> - <a href = "/payments/cancel" class = "red">Cancel Membership</a></p>
+                        <p>Property Credits: <?php echo ($this->user[0]['remaining_credits'] + $this->user[0]['bonus_credits']) - $this->propertyCount?> - <a href = "/payments/cancel" class = "red">Cancel Membership</a></p>
                     <?php //} ?>
                 <?php }else{?>
                     <p><a href = "/payments/create/" class = 'red'>Become a Member</a></p>
@@ -119,7 +119,10 @@
                         <?php }elseif($differenceCheckIn <= $sevenDay){ ?>
                             <img src="/assets/images/blue-map.png">
                             <a href = "/reports/checkin/<?php echo $property['id']?>">Check In</a>
-                        <?php } ?>
+                        <?php }elseif($difference > $fourDay){ ?>
+                            <img src="/assets/images/blue-map.png">
+                            <a href = "/reports/start/<?php echo $property['id']?>">Start Check In</a>
+                        <?php }?>
                     <?php } else {?>
                         <img src="/assets/images/blue-map.png">
                         <a href = "/reports/start/<?php echo $property['id']?>">Start Check In</a>

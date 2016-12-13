@@ -37,33 +37,6 @@
 
 		<div class = "row">
 			<div class = "col-sm-6 whychooselinks">
-				<img src="/assets/images/ease.png" alt ="Land lords image" class = "footer-icons">
-				<span class = "footer-icon-header">
-					Ease of use
-				</span>
-				<p class = "footer-icon-text">
-					Easy to use App with little or no training needed.
-				</p>	
-				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
-				
-				
-			</div>
-
-			<div class = "col-sm-6 whychooselinks">
-				<span class = "footer-icon-header">
-				<img src="/assets/images/references.png" alt ="Land lords image" class = "footer-icons">
-					Online tenent references
-				</span>
-				<p class = "footer-icon-text">
-					Automated References for tenents when Checkout is finished.
-				</p>	
-				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
-				
-			</div>
-		</div>
-
-		<div class = "row">
-			<div class = "col-sm-6 whychooselinks">
 				<img src="/assets/images/report.png" alt ="Land lords image" class = "footer-icons">
 				<span class = "footer-icon-header">
 					Detailed report and time effective
@@ -112,5 +85,32 @@
 				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
 			</div>
 		</div>
+
+        <div class = "row">
+            <div class = "col-sm-6 whychooselinks">
+                <img src="/assets/images/ease.png" alt ="Land lords image" class = "footer-icons">
+				<span class = "footer-icon-header">
+					Ease of use
+				</span>
+                <p class = "footer-icon-text">
+                    Easy to use App with little or no training needed.
+                </p>
+                <img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
+
+
+            </div>
+
+            <!--			<div class = "col-sm-6 whychooselinks">-->
+            <!--				<span class = "footer-icon-header">-->
+            <!--				<img src="/assets/images/references.png" alt ="Land lords image" class = "footer-icons">-->
+            <!--					Online tenent references-->
+            <!--				</span>-->
+            <!--				<p class = "footer-icon-text">-->
+            <!--					Automated References for tenents when Checkout is finished.-->
+            <!--				</p>	-->
+            <!--				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">-->
+            <!--				-->
+            <!--			</div>-->
+        </div>
 	</div>
 </div>

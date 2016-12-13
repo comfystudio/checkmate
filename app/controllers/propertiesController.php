@@ -351,7 +351,7 @@ class PropertiesController extends BaseController {
             $properties = $this->_propertiesModel->getAlldataByUserId($user[0]['id']);
             $propertyCount = count($properties);
             // If no credits left then redirect them to the payment page
-            if(($user[0]['remaining_credits'] - $propertyCount) <= 0){
+            if((($user[0]['remaining_credits'] + $user[0]['bonus_credits']) - $propertyCount) <= 0){
                 $this->_view->flash[] = "You have used all available credits please upgrade account to create more properties";
                 Session::set('backofficeFlash', array($this->_view->flash, 'failure'));
                 Url::redirect('payments/upgrade');

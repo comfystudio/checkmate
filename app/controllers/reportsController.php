@@ -399,7 +399,12 @@ class ReportsController extends BaseController {
             $tenant_approved_check_in = (isset($_POST['tenant_approved_check_in'])) ? $_POST['tenant_approved_check_in'] : $report[0]['tenant_approved_check_in'];
             $lord_approved_check_in = (isset($_POST['lord_approved_check_in'])) ? $_POST['lord_approved_check_in'] : $report[0]['lord_approved_check_in'];
             $oil_level = (isset($_POST['oil_level']) && !empty($_POST['oil_level'])) ? $_POST['oil_level'] : $report[0]['oil_level'];
-            $keys_acquired = (isset($_POST['keys_acquired'])) ? $_POST['keys_acquired'] : $report[0]['keys_acquired'];
+            $keys_front_door = (isset($_POST['keys_front_door'])) ? $_POST['keys_front_door'] : $report[0]['keys_front_door'];
+            $keys_bedroom_door = (isset($_POST['keys_bedroom_door'])) ? $_POST['keys_bedroom_door'] : $report[0]['keys_bedroom_door'];
+            $keys_block_door = (isset($_POST['keys_block_door'])) ? $_POST['keys_block_door'] : $report[0]['keys_block_door'];
+            $keys_back_door = (isset($_POST['keys_back_door'])) ? $_POST['keys_back_door'] : $report[0]['keys_back_door'];
+            $keys_garage_door = (isset($_POST['keys_garage_door'])) ? $_POST['keys_garage_door'] : $report[0]['keys_garage_door'];
+            $keys_other_door = (isset($_POST['keys_other_door'])) ? $_POST['keys_other_door'] : $report[0]['keys_other_door'];
             $fire_extin = (isset($_POST['fire_extin']) && !empty($_POST['fire_extin'])) ? $_POST['fire_extin'] : $report[0]['fire_extin'];
             $fire_blanket = (isset($_POST['fire_blanket']) && !empty($_POST['fire_blanket'])) ? $_POST['fire_blanket'] : $report[0]['fire_blanket'];
             $smoke_alarm = (isset($_POST['smoke_alarm']) && !empty($_POST['smoke_alarm'])) ? $_POST['smoke_alarm'] : $report[0]['smoke_alarm'];
@@ -416,7 +421,12 @@ class ReportsController extends BaseController {
             $_POST['tenant_approved_check_in'] = $tenant_approved_check_in;
             $_POST['lord_approved_check_in'] = $lord_approved_check_in;
             $_POST['oil_level'] = $oil_level;
-            $_POST['keys_acquired'] = $keys_acquired;
+            $_POST['keys_front_door'] = $keys_front_door;
+            $_POST['keys_bedroom_door'] = $keys_bedroom_door;
+            $_POST['keys_block_door'] = $keys_block_door;
+            $_POST['keys_back_door'] = $keys_back_door;
+            $_POST['keys_garage_door'] = $keys_garage_door;
+            $_POST['keys_other_door'] = $keys_other_door;
             $_POST['fire_extin'] = $fire_extin;
             $_POST['fire_blanket'] = $fire_blanket;
             $_POST['smoke_alarm'] = $smoke_alarm;
@@ -761,7 +771,12 @@ class ReportsController extends BaseController {
             $tenant_approved_check_out = (isset($_POST['tenant_approved_check_out'])) ? $_POST['tenant_approved_check_out'] : $report[0]['tenant_approved_check_out'];
             $lord_approved_check_out = (isset($_POST['lord_approved_check_out'])) ? $_POST['lord_approved_check_out'] : $report[0]['lord_approved_check_out'];
             $oil_level = (isset($_POST['oil_level']) && !empty($_POST['oil_level'])) ? $_POST['oil_level'] : $report[0]['oil_level'];
-            $keys_acquired = (isset($_POST['keys_acquired']) && !empty($_POST['keys_acquired'])) ? $_POST['keys_acquired'] : $report[0]['keys_acquired'];
+            $keys_front_door = (isset($_POST['keys_front_door'])) ? $_POST['keys_front_door'] : $report[0]['keys_front_door'];
+            $keys_bedroom_door = (isset($_POST['keys_bedroom_door'])) ? $_POST['keys_bedroom_door'] : $report[0]['keys_bedroom_door'];
+            $keys_block_door = (isset($_POST['keys_block_door'])) ? $_POST['keys_block_door'] : $report[0]['keys_block_door'];
+            $keys_back_door = (isset($_POST['keys_back_door'])) ? $_POST['keys_back_door'] : $report[0]['keys_back_door'];
+            $keys_garage_door = (isset($_POST['keys_garage_door'])) ? $_POST['keys_garage_door'] : $report[0]['keys_garage_door'];
+            $keys_other_door = (isset($_POST['keys_other_door'])) ? $_POST['keys_other_door'] : $report[0]['keys_other_door'];
             $fire_extin = (isset($_POST['fire_extin']) && !empty($_POST['fire_extin'])) ? $_POST['fire_extin'] : $report[0]['fire_extin'];
             $fire_blanket = (isset($_POST['fire_blanket']) && !empty($_POST['fire_blanket'])) ? $_POST['fire_blanket'] : $report[0]['fire_blanket'];
             $smoke_alarm = (isset($_POST['smoke_alarm']) && !empty($_POST['smoke_alarm'])) ? $_POST['smoke_alarm'] : $report[0]['smoke_alarm'];
@@ -779,7 +794,12 @@ class ReportsController extends BaseController {
             $_POST['tenant_approved_check_out'] = $tenant_approved_check_out;
             $_POST['lord_approved_check_out'] = $lord_approved_check_out;
             $_POST['oil_level'] = $oil_level;
-            $_POST['keys_acquired'] = $keys_acquired;
+            $_POST['keys_front_door'] = $keys_front_door;
+            $_POST['keys_bedroom_door'] = $keys_bedroom_door;
+            $_POST['keys_block_door'] = $keys_block_door;
+            $_POST['keys_back_door'] = $keys_back_door;
+            $_POST['keys_garage_door'] = $keys_garage_door;
+            $_POST['keys_other_door'] = $keys_other_door;
             $_POST['fire_extin'] = $fire_extin;
             $_POST['fire_blanket'] = $fire_blanket;
             $_POST['smoke_alarm'] = $smoke_alarm;
@@ -1342,15 +1362,68 @@ class ReportsController extends BaseController {
                     $mpdf->WriteHTML('</td>');
                 $mpdf->WriteHTML('</tr>');
 
+                /*Keys*/
                 $mpdf->WriteHTML('<tr>');
                     $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-                        $mpdf->WriteHTML('Key Status');
+                        $mpdf->WriteHTML('Keys Front Door');
                     $mpdf->WriteHTML('</th>');
 
                     $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->key_status[$this->_view->stored_data['keys_acquired']]);
+                        $mpdf->WriteHTML($this->_view->stored_data['keys_front_door']);
                     $mpdf->WriteHTML('</td>');
                 $mpdf->WriteHTML('</tr>');
+
+                $mpdf->WriteHTML('<tr>');
+                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                        $mpdf->WriteHTML('Keys Bedroom Door');
+                    $mpdf->WriteHTML('</th>');
+
+                    $mpdf->WriteHTML('<td class = "align-right">');
+                        $mpdf->WriteHTML($this->_view->stored_data['keys_bedroom_door']);
+                    $mpdf->WriteHTML('</td>');
+                $mpdf->WriteHTML('</tr>');
+
+                $mpdf->WriteHTML('<tr>');
+                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                        $mpdf->WriteHTML('Keys Block Door');
+                    $mpdf->WriteHTML('</th>');
+
+                    $mpdf->WriteHTML('<td class = "align-right">');
+                        $mpdf->WriteHTML($this->_view->stored_data['keys_block_door']);
+                    $mpdf->WriteHTML('</td>');
+                $mpdf->WriteHTML('</tr>');
+
+                $mpdf->WriteHTML('<tr>');
+                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                        $mpdf->WriteHTML('Keys Back Door');
+                    $mpdf->WriteHTML('</th>');
+
+                    $mpdf->WriteHTML('<td class = "align-right">');
+                        $mpdf->WriteHTML($this->_view->stored_data['keys_back_door']);
+                    $mpdf->WriteHTML('</td>');
+                $mpdf->WriteHTML('</tr>');
+
+                $mpdf->WriteHTML('<tr>');
+                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                        $mpdf->WriteHTML('Keys Garage Door');
+                    $mpdf->WriteHTML('</th>');
+
+                    $mpdf->WriteHTML('<td class = "align-right">');
+                        $mpdf->WriteHTML($this->_view->stored_data['keys_garage_door']);
+                    $mpdf->WriteHTML('</td>');
+                $mpdf->WriteHTML('</tr>');
+
+                $mpdf->WriteHTML('<tr>');
+                    $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+                        $mpdf->WriteHTML('Keys Other Door');
+                    $mpdf->WriteHTML('</th>');
+
+                    $mpdf->WriteHTML('<td class = "align-right">');
+                        $mpdf->WriteHTML($this->_view->stored_data['keys_other_door']);
+                    $mpdf->WriteHTML('</td>');
+                $mpdf->WriteHTML('</tr>');
+
+                /*End of Keys*/
 
                 $mpdf->WriteHTML('<tr>');
                     $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');

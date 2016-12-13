@@ -131,7 +131,8 @@ class Payments extends Model{
             'type' => $data['type'],
             'last_payment' => $data['last_payment'],
             'active_until' => $data['active_until'],
-            'remaining_credits' => $data['remaining_credits']
+            'remaining_credits' => $data['remaining_credits'],
+            'bonus_credits' => $data['bonus_credits']
         );
 
         $this->_db->insert($dbTable, $postData);

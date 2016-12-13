@@ -645,15 +645,68 @@ class ReportsController extends BaseController {
          $mpdf->WriteHTML('</td>');
          $mpdf->WriteHTML('</tr>');
 
+         /*Keys*/
          $mpdf->WriteHTML('<tr>');
          $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
-         $mpdf->WriteHTML('Key Status');
+         $mpdf->WriteHTML('Keys Front Door');
          $mpdf->WriteHTML('</th>');
 
          $mpdf->WriteHTML('<td class = "align-right">');
-         $mpdf->WriteHTML($this->_view->key_status[$this->_view->stored_data['keys_acquired']]);
+         $mpdf->WriteHTML($this->_view->stored_data['keys_front_door']);
          $mpdf->WriteHTML('</td>');
          $mpdf->WriteHTML('</tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Keys Bedroom Door');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['keys_bedroom_door']);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Keys Block Door');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['keys_block_door']);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Keys Back Door');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['keys_back_door']);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Keys Garage Door');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['keys_garage_door']);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+
+         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
+         $mpdf->WriteHTML('Keys Other Door');
+         $mpdf->WriteHTML('</th>');
+
+         $mpdf->WriteHTML('<td class = "align-right">');
+         $mpdf->WriteHTML($this->_view->stored_data['keys_other_door']);
+         $mpdf->WriteHTML('</td>');
+         $mpdf->WriteHTML('</tr>');
+
+         /*End of Keys*/
 
          $mpdf->WriteHTML('<tr>');
          $mpdf->WriteHTML('<th class = "blue bold align-left" style = "width:30%;">');
