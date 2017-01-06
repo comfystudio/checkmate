@@ -90,7 +90,7 @@ class PaymentsController extends BaseController {
         Auth::checkAdminLogin();
 
         if(!empty($user_id)){
-            $this->_userModel = $this->loadModel('UserBackoffice', 'backoffice');
+            $this->_userModel = $this->loadModel('userBackoffice', 'backoffice');
             $selectDataByID = $this->_userModel->selectDataByID($user_id);
             if(isset($selectDataByID[0]['id']) && !empty($selectDataByID[0]['id'])){
                 $this->_view->stored_data = $selectDataByID[0];

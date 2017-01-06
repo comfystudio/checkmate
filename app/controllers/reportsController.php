@@ -108,10 +108,10 @@ class ReportsController extends BaseController {
                 }else{
                     // If user doesn't exist in our system, we need to create them and send email / Notification to them.
                     $newUser['type'] = 1;
-                    $newUser['firstname'] = 'temp firstname';
-                    $newUser['surname'] = 'temp Surname';
+                    $newUser['firstname'] = 'new';
+                    $newUser['surname'] = 'user';
                     $newUser['email'] = $_POST['lord_id'];
-                    $newUser['contact_num'] = 'temp number';
+                    $newUser['contact_num'] = 'temp';
                     $random = rand();
                     $tempPassword = 'temp'.$random;
                     $hash = Password::password_hash($tempPassword);
@@ -143,11 +143,11 @@ class ReportsController extends BaseController {
                 // If this user already exists on our system
                 if(isset($user) && !empty($user)){
                     $data['user_id'] = $user[0]['id'];
-                    $data['text'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link. <a href = "'.SITE_URL.'reports/checkin/'.$property[0]['id'].'">Link</a>';
+                    $data['text'] = 'You have been named Lead Tenant for property '.$property[0]['title'].' Please review check in at the following link. <a href = "'.SITE_URL.'reports/checkin/'.$property[0]['id'].'">Link</a>';
                     $this->_notificationModel->createData($data);
 
                     $this->_view->data['name'] = $user[0]['firstname'].' '.$user[0]['surname'];
-                    $this->_view->data['message'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link.';
+                    $this->_view->data['message'] = 'You have been named Lead Tenant for property '.$property[0]['title'].' Please review check in at the following link.';
                     $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$property[0]['id'];
                     $this->_view->data['button_text'] = 'Review Report';
 
@@ -160,10 +160,10 @@ class ReportsController extends BaseController {
                 }else{
                     // If user doesn't exist in our system, we need to create them and send email / Notification to them.
                     $newUser['type'] = 0;
-                    $newUser['firstname'] = 'temp firstname';
-                    $newUser['surname'] = 'temp Surname';
+                    $newUser['firstname'] = 'new';
+                    $newUser['surname'] = 'user';
                     $newUser['email'] = $_POST['lead_tenant_id'];
-                    $newUser['contact_num'] = 'temp number';
+                    $newUser['contact_num'] = 'temp';
                     $random = rand();
                     $tempPassword = 'temp'.$random;
                     $hash = Password::password_hash($tempPassword);
@@ -173,11 +173,11 @@ class ReportsController extends BaseController {
                     $createUser = $this->_userModel->createDataSystem($newUser);
 
                     $data['user_id'] = $createUser;
-                    $data['text'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link. <a href = "'.SITE_URL.'reports/checkin/'.$property[0]['id'].'">Link</a>';
+                    $data['text'] = 'You have been named Lead Tenant for property '.$property[0]['title'].' Please review check in at the following link. <a href = "'.SITE_URL.'reports/checkin/'.$property[0]['id'].'">Link</a>';
                     $this->_notificationModel->createData($data);
 
                     $this->_view->data['name'] = 'New User';
-                    $this->_view->data['message'] = 'You have been named a Landlord / Letting Agent for property '.$property[0]['title'].' Please review check in at the following link. Your password is: '.$tempPassword;
+                    $this->_view->data['message'] = 'You have been named Lead Tenant for property '.$property[0]['title'].' Please review check in at the following link. Your password is: '.$tempPassword;
                     $this->_view->data['button_link'] = SITE_URL.'reports/checkin/'.$property[0]['id'];
                     $this->_view->data['button_text'] = 'Review Report';
 
@@ -190,7 +190,7 @@ class ReportsController extends BaseController {
                 }
             }
 
-            if(isset($_POST['users']) && !empty($_POST['users'])){
+            if(isset($_POST['users'][0]) && !empty($_POST['users'][0])){
                 foreach($_POST['users'] as $key => $email){
                     $user = $this->_userModel->getUserByEmail($email);
                     // If this user already exists on our system
@@ -213,10 +213,10 @@ class ReportsController extends BaseController {
                         // If user doesn't exist in our system, we need to create them and send email / Notification to them.
                         if(isset($email) && !empty($email)) {
                             $newUser['type'] = 0;
-                            $newUser['firstname'] = 'temp firstname';
-                            $newUser['surname'] = 'temp Surname';
+                            $newUser['firstname'] = 'new';
+                            $newUser['surname'] = 'user';
                             $newUser['email'] = $email;
-                            $newUser['contact_num'] = 'temp number';
+                            $newUser['contact_num'] = 'temp';
                             $random = rand();
                             $tempPassword = 'temp' . $random;
                             $hash = Password::password_hash($tempPassword);
@@ -302,7 +302,7 @@ class ReportsController extends BaseController {
         $this->_view->meter_type = explode(',', METER);
         $this->_view->key_status = explode(',', KEYS);
         $this->_view->clean_status = explode(',', CLEAN);
-        $this->_view->item_status = array('Green', 'Yellow', 'Red');
+        $this->_view->item_status = array('Green', 'Amber', 'Red');
         $this->_view->YesNo = array('No', 'Yes');
 
 
@@ -641,7 +641,6 @@ class ReportsController extends BaseController {
                     }
                 }
 
-
                 $this->_view->flash[] = "Check In updated successfully.";
                 Session::set('backofficeFlash', array($this->_view->flash, 'success'));
                 Url::redirect('users/dashboard');
@@ -674,7 +673,7 @@ class ReportsController extends BaseController {
         $this->_view->meter_type = explode(',', METER);
         $this->_view->key_status = explode(',', KEYS);
         $this->_view->clean_status = explode(',', CLEAN);
-        $this->_view->item_status = array('Green', 'Yellow', 'Red');
+        $this->_view->item_status = array('Green', 'Amber', 'Red');
         $this->_view->YesNo = array('No', 'Yes');
 
         $this->_roomsModel = $this->loadModel('rooms');
@@ -1094,7 +1093,8 @@ class ReportsController extends BaseController {
 
         // Building drop down arrays
         //$this->_view->status = explode(',', REPORT);
-        $this->_view->status = array('Green', 'Yellow', 'Red');
+        $this->_view->status = array('Green', 'Amber', 'Red');
+        $this->_view->reportStatus = array('Red', 'Amber', 'Green');
         $this->_view->meter_type = explode(',', METER);
         $this->_view->key_status = explode(',', KEYS);
         $this->_view->clean_status = explode(',', CLEAN);
@@ -1457,35 +1457,64 @@ class ReportsController extends BaseController {
             $mpdf->WriteHTML('</table>');
 
             //New colour key section
+//            $mpdf->WriteHTML('<table class = "colour-key">');
+//            $mpdf->WriteHTML('<tr>');
+//            $mpdf->WriteHTML('<td class = "red">');
+//            $mpdf->WriteHTML('Red');
+//            $mpdf->WriteHTML('</td>');
+//            $mpdf->WriteHTML('<td class = "red">');
+//            $mpdf->WriteHTML('Red means neither the Landlord nor Lead Tenant have approved.');
+//            $mpdf->WriteHTML('</td>');
+//
+//            $mpdf->WriteHTML('<tr>');
+//
+//            $mpdf->WriteHTML('<tr>');
+//            $mpdf->WriteHTML('<td class = "amber">');
+//            $mpdf->WriteHTML('Amber');
+//            $mpdf->WriteHTML('</td>');
+//            $mpdf->WriteHTML('<td class = "amber">');
+//            $mpdf->WriteHTML('Amber means either the Landlord or Lead Tenant have approved.');
+//            $mpdf->WriteHTML('</td>');
+//
+//            $mpdf->WriteHTML('<tr>');
+//
+//            $mpdf->WriteHTML('<tr>');
+//            $mpdf->WriteHTML('<td class = "green">');
+//            $mpdf->WriteHTML('Green');
+//            $mpdf->WriteHTML('</td>');
+//            $mpdf->WriteHTML('<td class = "green">');
+//            $mpdf->WriteHTML('Green means both the Landlord and Lead Tenant have approved.');
+//            $mpdf->WriteHTML('</td>');
+//            $mpdf->WriteHTML('<tr>');
+//            $mpdf->WriteHTML('</table>');
+
             $mpdf->WriteHTML('<table class = "colour-key">');
             $mpdf->WriteHTML('<tr>');
             $mpdf->WriteHTML('<td class = "red">');
             $mpdf->WriteHTML('Red');
             $mpdf->WriteHTML('</td>');
             $mpdf->WriteHTML('<td class = "red">');
-            $mpdf->WriteHTML('Red means neither the Landlord nor Lead Tenant have approved.');
+            $mpdf->WriteHTML('Working condition, marked or damaged');
             $mpdf->WriteHTML('</td>');
-
-            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('</tr>');
 
             $mpdf->WriteHTML('<tr>');
             $mpdf->WriteHTML('<td class = "amber">');
             $mpdf->WriteHTML('Amber');
             $mpdf->WriteHTML('</td>');
             $mpdf->WriteHTML('<td class = "amber">');
-            $mpdf->WriteHTML('Amber means either the Landlord or Lead Tenant have approved.');
+            $mpdf->WriteHTML('Working condition, marked or damaged.');
             $mpdf->WriteHTML('</td>');
-
-            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('</tr>');
 
             $mpdf->WriteHTML('<tr>');
             $mpdf->WriteHTML('<td class = "green">');
             $mpdf->WriteHTML('Green');
             $mpdf->WriteHTML('</td>');
             $mpdf->WriteHTML('<td class = "green">');
-            $mpdf->WriteHTML('Green means both the Landlord and Lead Tenant have approved.');
+            $mpdf->WriteHTML('Full working condition, no marks or damage.');
             $mpdf->WriteHTML('</td>');
-            $mpdf->WriteHTML('<tr>');
+            $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('</table>');
             //END OF NEW KEY COLOUR SECTION
 
@@ -1504,7 +1533,7 @@ class ReportsController extends BaseController {
                     $mpdf->WriteHTML('</th>');
 
                     $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->status[$this->_view->stored_data['tenant_approved_check_in'] + $this->_view->stored_data['lord_approved_check_in']]);
+                        $mpdf->WriteHTML($this->_view->reportStatus[$this->_view->stored_data['tenant_approved_check_in'] + $this->_view->stored_data['lord_approved_check_in']]);
                     $mpdf->WriteHTML('</td>');
                 $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('</table>');
@@ -1735,7 +1764,7 @@ class ReportsController extends BaseController {
                     $mpdf->WriteHTML('</th>');
 
                     $mpdf->WriteHTML('<td class = "align-right">');
-                        $mpdf->WriteHTML($this->_view->status[$this->_view->stored_data['tenant_approved_check_out'] + $this->_view->stored_data['lord_approved_check_out']]);
+                        $mpdf->WriteHTML($this->_view->reportStatus[$this->_view->stored_data['tenant_approved_check_out'] + $this->_view->stored_data['lord_approved_check_out']]);
                     $mpdf->WriteHTML('</td>');
                 $mpdf->WriteHTML('</tr>');
             $mpdf->WriteHTML('</table>');

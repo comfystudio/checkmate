@@ -210,7 +210,7 @@ class ReportsController extends BaseController {
 
         // Building drop down arrays
         //$this->_view->status = explode(',', REPORT);
-        $this->_view->status = array('Green', 'Yellow', 'Red');
+        $this->_view->status = array('Green', 'Amber', 'Red');
         $this->_view->meter_type = explode(',', METER);
         $this->_view->key_status = explode(',', KEYS);
         $this->_view->clean_status = explode(',', CLEAN);
@@ -384,7 +384,8 @@ class ReportsController extends BaseController {
 
         // Building drop down arrays
         //$this->_view->status = explode(',', REPORT);
-        $this->_view->status = array('Green', 'Yellow', 'Red');
+        $this->_view->status = array('Green', 'Amber', 'Red');
+        $this->_view->reportStatus = array('Red', 'Amber', 'Green');
         $this->_view->meter_type = explode(',', METER);
         $this->_view->key_status = explode(',', KEYS);
         $this->_view->clean_status = explode(',', CLEAN);
@@ -740,35 +741,64 @@ class ReportsController extends BaseController {
          $mpdf->WriteHTML('</table>');
 
          //New colour key section
+//         $mpdf->WriteHTML('<table class = "colour-key">');
+//         $mpdf->WriteHTML('<tr>');
+//         $mpdf->WriteHTML('<td class = "red">');
+//         $mpdf->WriteHTML('Red');
+//         $mpdf->WriteHTML('</td>');
+//         $mpdf->WriteHTML('<td class = "red">');
+//         $mpdf->WriteHTML('Red means neither the Landlord / Agent nor Lead Tenant have approved.');
+//         $mpdf->WriteHTML('</td>');
+//
+//         $mpdf->WriteHTML('<tr>');
+//
+//         $mpdf->WriteHTML('<tr>');
+//         $mpdf->WriteHTML('<td class = "amber">');
+//         $mpdf->WriteHTML('Amber');
+//         $mpdf->WriteHTML('</td>');
+//         $mpdf->WriteHTML('<td class = "amber">');
+//         $mpdf->WriteHTML('Amber means either the Landlord / Agent or Lead Tenant have approved.');
+//         $mpdf->WriteHTML('</td>');
+//
+//         $mpdf->WriteHTML('<tr>');
+//
+//         $mpdf->WriteHTML('<tr>');
+//         $mpdf->WriteHTML('<td class = "green">');
+//         $mpdf->WriteHTML('Green');
+//         $mpdf->WriteHTML('</td>');
+//         $mpdf->WriteHTML('<td class = "green">');
+//         $mpdf->WriteHTML('Green means both the Landlord / Agent and Lead Tenant have approved.');
+//         $mpdf->WriteHTML('</td>');
+//         $mpdf->WriteHTML('<tr>');
+//         $mpdf->WriteHTML('</table>');
+
          $mpdf->WriteHTML('<table class = "colour-key">');
          $mpdf->WriteHTML('<tr>');
          $mpdf->WriteHTML('<td class = "red">');
          $mpdf->WriteHTML('Red');
          $mpdf->WriteHTML('</td>');
          $mpdf->WriteHTML('<td class = "red">');
-         $mpdf->WriteHTML('Red means neither the Landlord / Agent nor Lead Tenant have approved.');
+         $mpdf->WriteHTML('Not working condition, marked or damaged');
          $mpdf->WriteHTML('</td>');
-
-         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('</tr>');
 
          $mpdf->WriteHTML('<tr>');
          $mpdf->WriteHTML('<td class = "amber">');
          $mpdf->WriteHTML('Amber');
          $mpdf->WriteHTML('</td>');
          $mpdf->WriteHTML('<td class = "amber">');
-         $mpdf->WriteHTML('Amber means either the Landlord / Agent or Lead Tenant have approved.');
+         $mpdf->WriteHTML('Working condition, marked or damaged.');
          $mpdf->WriteHTML('</td>');
-
-         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('</tr>');
 
          $mpdf->WriteHTML('<tr>');
          $mpdf->WriteHTML('<td class = "green">');
          $mpdf->WriteHTML('Green');
          $mpdf->WriteHTML('</td>');
          $mpdf->WriteHTML('<td class = "green">');
-         $mpdf->WriteHTML('Green means both the Landlord / Agent and Lead Tenant have approved.');
+         $mpdf->WriteHTML('Full working condition, no marks or damage.');
          $mpdf->WriteHTML('</td>');
-         $mpdf->WriteHTML('<tr>');
+         $mpdf->WriteHTML('</tr>');
          $mpdf->WriteHTML('</table>');
          //END OF NEW KEY COLOUR SECTION
 
@@ -787,7 +817,7 @@ class ReportsController extends BaseController {
              $mpdf->WriteHTML('</th>');
 
              $mpdf->WriteHTML('<td class = "align-right">');
-             $mpdf->WriteHTML($this->_view->status[$this->_view->stored_data['tenant_approved_check_in'] + $this->_view->stored_data['lord_approved_check_in']]);
+             $mpdf->WriteHTML($this->_view->reportStatus[$this->_view->stored_data['tenant_approved_check_in'] + $this->_view->stored_data['lord_approved_check_in']]);
              $mpdf->WriteHTML('</td>');
              $mpdf->WriteHTML('</tr>');
              $mpdf->WriteHTML('</table>');
@@ -1019,7 +1049,7 @@ class ReportsController extends BaseController {
              $mpdf->WriteHTML('</th>');
 
              $mpdf->WriteHTML('<td class = "align-right">');
-             $mpdf->WriteHTML($this->_view->status[$this->_view->stored_data['tenant_approved_check_out'] + $this->_view->stored_data['lord_approved_check_out']]);
+             $mpdf->WriteHTML($this->_view->reportStatus[$this->_view->stored_data['tenant_approved_check_out'] + $this->_view->stored_data['lord_approved_check_out']]);
              $mpdf->WriteHTML('</td>');
              $mpdf->WriteHTML('</tr>');
              $mpdf->WriteHTML('</table>');

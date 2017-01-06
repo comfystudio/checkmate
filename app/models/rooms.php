@@ -60,9 +60,11 @@ class rooms extends Model{
 	public function getAllData($limit = false, $keywords = false, $user_id = false){
         $optLimit = $limit != false ? " LIMIT $limit" : "";
         $optKeywords = $keywords != false ? " AND CONCAT(IF(isnull(t1.name),' ',CONCAT(LOWER(t1.name),' '))) LIKE '%$keywords%'" : "";
-        $optUser = $user_id != false ? " AND t1.user_id IS NULL OR t1.user_id = ".$user_id : "";
+//        $optUser = $user_id != false ? " AND t1.user_id IS NULL OR t1.user_id = ".$user_id : "";
+        $optUser = $user_id != false ? " AND t1.user_id IS NULL": "";
 
-		$sql = "SELECT t1.id, t1.name, t1.is_active, GROUP_CONCAT(DISTINCT t3.name SEPARATOR ', ') AS items
+
+        $sql = "SELECT t1.id, t1.name, t1.is_active, GROUP_CONCAT(DISTINCT t3.name SEPARATOR ', ') AS items
 				FROM rooms t1
                     LEFT JOIN room_items t2 ON t1.id = t2.room_id
                         LEFT JOIN items t3 ON t2.item_id = t3.id AND t3.is_active = 1

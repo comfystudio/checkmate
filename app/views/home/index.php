@@ -59,8 +59,8 @@
 
     <div class = "row">
         <div class = "col-md-offset-3 col-md-6 strapline-header">
-            online inventory check in report 
-            for tenants landlords & letting agents
+            Online inventory check in report
+            for tenants, landlords & letting agents
         </div>
 
         <div class = "col-md-offset-3">

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
+
 <div class="greyback">
     <div class ="container">
         <div class="formintro">
@@ -50,11 +52,11 @@
         </div>
 
         <form class="full" action="" method="post" enctype="multipart/form-data">                
-                <div class = "form-wrapper">
+                <div class = "form-wrapper" style = "overflow: visible;">
                     <div class = "row">
                         <?php if(isset($this->templates) && !empty($this->templates)){?>
                             <div class="form-group col-sm-6 right-border <?php if ((!empty($this->missing)) && in_array('template_id', $this->missing)) { echo 'error'; }?>">
-                                <select id="template_id" name="template_id" class="form-control">
+                                <select id="template_id" name="template_id" class="form-control selectpicker" data-live-search="true" data-dropup-auto="false">
                                     <?php foreach($this->templates as $key => $template){?>
                                         <option value="<?php echo $template['id'] ?>" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['template_id'] == $template['id'])) {echo 'selected="selected"';} elseif(!empty($this->stored_data['template_id']) && $this->stored_data['template_id'] == $key){echo 'selected="selected"';}?> > <?php echo $template['title']?></option>
                                     <?php } ?>

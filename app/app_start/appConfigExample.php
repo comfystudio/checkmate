@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
+error_reporting(-1);
 
 // ************ SETTINGS ************ //
 date_default_timezone_set('Europe/London'); // Set Timezone to UK
@@ -9,7 +10,8 @@ define('SITE_EMAIL', "info@checkmatedeposit.com");
 //define('SITE_EMAIL', "william@websiteni.com");
 define('ERROR_EMAIL', "william@websiteni.com"); // Used for error reporting
 define('ROOT', $_SERVER['DOCUMENT_ROOT'].'/'); // Site Document Root
-define('MAX_FILE_SIZE', 8388608); // Maximum Upload Size 8MB
+//define('MAX_FILE_SIZE', 8388608); // Maximum Upload Size 8MB
+define('MAX_FILE_SIZE', 1388608); // 1 MB
 define('CURRENT_PAGE', basename($_SERVER['SCRIPT_NAME'])); // Used for nav active states
 define('CURRENT_URL', $_SERVER['REQUEST_URI']); // Used for nav active states
 define("DAYS", "Mon,Tues,Wed,Thurs,Fri,Sat,Sun");
@@ -45,12 +47,7 @@ define('SITE_URL', $baseURL);
 /** Database Connection (LOCAL, DEV or LIVE) */
 define('DB_TYPE', 'mysql');
 if(SITE_STATUS == 'LIVE'){
-	define('DB_USER', 'checkmat_wpusr');
- 	define('DB_PASSWORD', 'hmiBZ1gmXUyE');
- 	define('DB_HOST', 'localhost');
- 	define('DB_NAME', 'checkmat_cmdb');
- 	define('STRIPE_SECRET', 'sk_live_IT5dJHTGq9FQHfkP540ELFNG');
- 	define('STRIPE_PUBLISH', 'pk_live_45DdW3CW3klu6rvAv2dE8Apr');
+
 
 }elseif(SITE_STATUS == 'DEV'){
 	define('DB_USER', 'root');
@@ -67,8 +64,8 @@ if(SITE_STATUS == 'LIVE'){
  	// define('DB_PASSWORD', 'hmiBZ1gmXUyE');
  	// define('DB_HOST', 'localhost');
  	// define('DB_NAME', 'checkmat_cmdb');
- 	define('STRIPE_SECRET', 'sk_test_O5YGjWhWlTV0mL9G3HlE9ujh');
- 	define('STRIPE_PUBLISH', 'pk_test_tqAFgYsDaCflhYi4GY0y1Esb');
+ 	define('STRIPE_SECRET', 'test');
+ 	define('STRIPE_PUBLISH', 'test');
 }
 
 /** Format URL */

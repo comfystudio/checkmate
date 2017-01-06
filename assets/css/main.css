@@ -1037,6 +1037,18 @@ table tr:nth-child(3){
     color:red;
     font-size: 16px;
 }
+.report-status-0{
+    color:red;
+    font-size: 16px;
+}
+.report-status-1{
+    color:orange;
+    font-size: 16px;
+}
+.report-status-2{
+    color:green;
+    font-size: 16px;
+}
 
 h1, h2, h3{
     font-family: 'Lato';
@@ -1241,13 +1253,13 @@ body{
 .property-row{
     padding:45px 90px;
 }
-.property-row:nth-child(1){
+.property-row:nth-child(3n+1){
     background-color: #ededed;
 }
-.property-row:nth-child(2){
+.property-row:nth-child(3n+2){
     background-color: white;
 }
-.property-row:nth-child(3){
+.property-row:nth-child(3n+3){
     background-color: #cceaff;
 }
 .property-image{
@@ -1701,8 +1713,15 @@ Screen Size Below 490px
     .form-wrapper .form-group select, .form-wrapper .form-group-2 select{
         padding:14px 20px;
     }
-
-
+    .item-background{
+        margin: 0;
+    }
+    .checkbox-inline{
+        padding: 0 60px 15px !important;
+    }
+    .checkbox-inline label{
+        font-size: 20px;
+    }
 }
 
 

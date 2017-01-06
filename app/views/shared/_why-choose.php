@@ -2,7 +2,7 @@
 	<div class = "container">
 		<div class = "row">
 			<div class = "col-md-12 footer-top-text">
-				why choose Checkmate Deposit
+				Why choose Checkmate Deposit
 			</div>
 
 			<div class = "col-md-2">
@@ -16,7 +16,7 @@
 					Cost effective
 				</span>
 				<p class = "footer-icon-text">
-					Chackmate Deposit save's both time and money.
+					Checkmate Deposit save's both time and money.
 				</p>
 				<img src="/assets/images/footer-underline.png" alt ="footer-underline" class = "footer-underline">
 				

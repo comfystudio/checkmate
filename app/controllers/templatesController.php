@@ -249,7 +249,9 @@ class TemplatesController extends BaseController {
                                 if(isset($itemIds) && !empty($itemIds) && is_array($itemIds)){
                                     foreach ($itemIds as $key4 => $itemid) {
                                         // creating new room_item
-                                        $this->_roomsModel->createRoomItems($roomID, $itemid);
+                                        if(isset($itemid) && !empty($itemid)) {
+                                            $this->_roomsModel->createRoomItems($roomID, $itemid);
+                                        }
                                     }
                                 }
                             }

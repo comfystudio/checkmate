@@ -26,10 +26,10 @@ class Users extends Model{
                 }
 
                 //Alphabetic
-                $temp = Form::ValidateAlphabetic($input);
-                if($temp != true){
-                    $return['error'][$key] = 'Firstname should contain only alphabetic characters';
-                }
+//                $temp = Form::ValidateAlphabetic($input);
+//                if($temp != true){
+//                    $return['error'][$key] = 'Firstname should contain only alphabetic characters';
+//                }
 
                 //Required
                 if(empty($input) || $input == null){
@@ -46,10 +46,10 @@ class Users extends Model{
                 }
 
                 //Alphabetic
-                $temp = Form::ValidateAlphabetic($input);
-                if($temp != true){
-                    $return['error'][$key] = 'Surname should contain only alphabetic characters';
-                }
+//                $temp = Form::ValidateAlphabetic($input);
+//                if($temp != true){
+//                    $return['error'][$key] = 'Surname should contain only alphabetic characters';
+//                }
 
                 //Required
                 if(empty($input) || $input == null){

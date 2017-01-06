@@ -2,7 +2,7 @@
 	<footer id="footer" class="clearfix">
 		<div class="container">
 	       <div class="col-sm-5 footernews">
-		       	<h1>latest news</h1>
+		       	<h1>Latest news</h1>
 		       	<?php foreach($this->footerNews as $news){?>
 			       	<div class="news-item-1">
 			       		<span><?php echo date('F jS, Y', strtotime($news['date']))?></span>
@@ -13,7 +13,7 @@
 	       </div>
 
 	       <div class="col-sm-offset-2 col-sm-5 footercontact">
-	       		<h1>contact details</h1>
+	       		<h1>Contact details</h1>
 		       	<div class="contactdetails">
 		       		<h3>CheckMate Deposit</h3>
 		       		<p><?php if(isset($this->contactInfo[0]['location']) && !empty($this->contactInfo[0]['location'])){ echo $this->contactInfo[0]['location'];}else{ echo 'Glengorm Avenue Coleraine Bt52 1tf';}?></p>

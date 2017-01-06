@@ -49,7 +49,7 @@
                 	<?php if (isset($this->userType) && $this->userType == 1){?>
                     	Welcome new Landlord / Agent. Please register your details below
                 	<?php }else{ ?>
-                    	Welcome new Tenant. Please register your details below
+                    	Welcome new User. Please register your details below
                 	<?php } ?>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                         <div class = "form-group col-sm-6 right-border">
                             <select id="type" name="type" class="form-control">
                                 <option value="0" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['type'] == 0)) {echo 'selected="selected"';} ?> > Tenant</option>
-                                <option value="1" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['type'] == 1)) {echo 'selected="selected"';} ?> > Landlord</option>
+                                <option value="1" <?php if ((!empty($this->missing) || !empty($this->error)) && ($_POST['type'] == 1)) {echo 'selected="selected"';} ?> > LL/Agent</option>
                             </select>
                         </div>
                     </div>

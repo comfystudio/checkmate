@@ -106,20 +106,20 @@
         <?php foreach($this->properties as $property){?>
             <div class = "col-md-12 property-row">
                 <img src="/image.php?width=160&image=/assets/uploads/<?php echo $property['image'];?>" alt="<?php echo $property['image'];?>" class = "property-image">
-                <p><?php echo  $property['title'].' - '.$property['house_number'].', '.$property['address_1'].', '.$property['address_2'].', '.$property['postcode']?></p>
+                <p><?php echo  $property['title'].''.$property['house_number'].', '.$property['address_1'].', '.$property['address_2'].', '.$property['postcode']?></p>
                 <p>
                     <?php if(isset($property['check_out']) && !empty($property['check_out'])){?>
                         <?php $checkOutTime = strtotime($property['check_out'])?>
                         <?php $checkInTime = strtotime($property['check_in'])?>
                         <?php $difference = abs($checkOutTime - $timeInSeconds)?>
                         <?php $differenceCheckIn = abs($checkInTime - $timeInSeconds)?>
-                        <?php if($difference <= $fourDay){?>
-                            <img src="/assets/images/check-out.png">
-                            <a href = "/reports/checkout/<?php echo $property['id']?>">Check Out</a>
-                        <?php }elseif($differenceCheckIn <= $sevenDay){ ?>
-                            <img src="/assets/images/blue-map.png">
-                            <a href = "/reports/checkin/<?php echo $property['id']?>">Check In</a>
-                        <?php }elseif($difference > $fourDay){ ?>
+<!--                        --><?php //if($difference <= $fourDay){?>
+<!--                            <img src="/assets/images/check-out.png">-->
+<!--                            <a href = "/reports/checkout/--><?php //echo $property['id']?><!--">Check Out</a>-->
+<!--                        --><?php //}elseif($differenceCheckIn <= $sevenDay){ ?>
+<!--                            <img src="/assets/images/blue-map.png">-->
+<!--                            <a href = "/reports/checkin/--><?php //echo $property['id']?><!--">Check In</a>-->
+                        <?php if($difference > $fourDay && $differenceCheckIn > $sevenDay){ ?>
                             <img src="/assets/images/blue-map.png">
                             <a href = "/reports/start/<?php echo $property['id']?>">Start Check In</a>
                         <?php }?>
@@ -149,16 +149,16 @@
             <?php foreach($this->reports as $report){?>
                 <div class = "col-md-12 property-row">
                     <img src="/image.php?width=160&image=/assets/uploads/<?php echo $report['image'];?>" alt="<?php echo $report['image'];?>" class = "property-image">
-                    <p><?php echo $report['title'].' - '.$report['house_number'].', '.$report['address_1'].', '.$report['address_2'].', '.$report['postcode']?></p>
+                    <p><?php echo $report['title'].''.$report['house_number'].', '.$report['address_1'].', '.$report['address_2'].', '.$report['postcode']?></p>
                     <p>
                         <?php $checkOutTime = strtotime($report['check_out'])?>
                         <?php $checkInTime = strtotime($report['check_in'])?>
                         <?php $difference = abs($checkOutTime - $timeInSeconds)?>
                         <?php $differenceCheckIn = abs($checkInTime - $timeInSeconds)?>
-                        <?php if($difference <= $fourDay){?>
+                        <?php if($difference <= $fourDay && ($report['tenant_approved_check_out'] == 0 || $report['lord_approved_check_out'] == 0)){?>
                             <img src="/assets/images/check-out.png">
                             <a href = "/reports/checkout/<?php echo $report['property_id']?>">Check Out</a>
-                        <?php }elseif($differenceCheckIn <= $sevenDay){ ?>
+                        <?php }elseif($differenceCheckIn <= $sevenDay && ($report['tenant_approved_check_in'] == 0 || $report['lord_approved_check_in'] == 0)){ ?>
                             <img src="/assets/images/blue-map.png">
                             <a href = "/reports/checkin/<?php echo $report['property_id']?>">Check In</a>
                         <?php } ?>

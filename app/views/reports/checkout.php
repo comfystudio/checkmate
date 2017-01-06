@@ -140,7 +140,7 @@
                             <span class="label-check-in">Current Status</span>
                             <?php //echo $this->status[$this->report[0]['tenant_approved_check_out'] + $this->report[0]['lord_approved_check_out']]?>
                             <?php $class = $this->report[0]['tenant_approved_check_out'] + $this->report[0]['lord_approved_check_out']?>
-                            <i class="fa fa-circle status-<?php echo $class?>" aria-hidden="true"></i>
+                            <i class="fa fa-circle report-status-<?php echo $class?>" aria-hidden="true"></i>
                         </div>
                         <div class = "col-md-4">
                             <span class="label-check-in">Check In Date</span>
@@ -245,13 +245,13 @@
             </div>
 
             <div class = "row"><!-- Key for statuses -->
-                <div class = "col-sm-6" style = "padding-right: 30px;">
+                <div class = "col-sm-6">
                     <div class = "form-wrapper" style = "padding:10px 0;">
                         <div class="form-group-2 col-sm-12" style = "min-height:310px;">
                             <h1 class = "centre">Report Statuses</h1>
-                            <p class = "status-0">Red means neither the Landlord / Agent nor Lead Tenant have approved.</p>
+                            <p class = "status-2">Red means neither the Landlord / Agent nor Lead Tenant have approved.</p>
                             <p class = "status-1">Amber means either the Landlord / Agent or Lead Tenant have approved.</p>
-                            <p class = "status-2">Green means both the Landlord / Agent and Lead Tenant have approved.</p>
+                            <p class = "status-0">Green means both the Landlord / Agent and Lead Tenant have approved.</p>
                         </div>
                     </div>
                 </div>
@@ -260,9 +260,9 @@
                     <div class = "form-wrapper" style = "padding:10px 0;">
                         <div class="form-group-2 col-sm-12" style = "min-height:310px;">
                             <h1 class = "centre">Item Statuses</h1>
-                            <p class = "status-0">Not working condition, marked or damaged</p>
+                            <p class = "status-2">Not working condition, marked or damaged</p>
                             <p class = "status-1">Working condition, marked or damaged</p>
-                            <p class = "status-2">Full working condition. No marks or damage</p>
+                            <p class = "status-0">Full working condition. No marks or damage</p>
                         </div>
                     </div>
                 </div>
@@ -419,7 +419,7 @@
             </div>
 
             <div class = "row">
-                <div class = "col-sm-6" style = "padding-right: 30px;">
+                <div class = "col-sm-6">
                     <div class = "form-wrapper">
                         <div class="form-group-2 col-sm-12">
                             <label class = "form-control form-group-2-label">

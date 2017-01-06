@@ -213,7 +213,7 @@ jQuery(document).ready(function(){
                 html += '<div class = "row">';
                     html += '<div class="form-group col-sm-6 right-border">';
                         html += '<label class = "form-control form-group-3-label">';
-                            html += 'Item Status: <i class="fa fa-circle status-2" aria-hidden="true"></i>';
+                            html += 'Item Status: <i class="fa fa-circle status-0" aria-hidden="true"></i>';
                         html += '</label>';
                     html += '</div>';
                 html += '</div>';
@@ -226,12 +226,14 @@ jQuery(document).ready(function(){
 
                 html += '<div class = "row">';
                     html += '<div class = "form-group col-sm-6 right-border">';
-                        html += '<input '+disabledTenant+' type="text" class = "form-control form-group-3-label" id="items_tenant_comment_new_'+count+'" name="rooms['+currentRoom+'][items][new_'+count+'][tenant_comment]" placeholder = "Tenant Comment">';
+                        //html += '<input '+disabledTenant+' type="text" class = "form-control form-group-3-label" id="items_tenant_comment_new_'+count+'" name="rooms['+currentRoom+'][items][new_'+count+'][tenant_comment]" placeholder = "Tenant Comment">';
+                        html += '<textarea '+disabledTenant+' class = "form-control form-group-3-label" id="items_tenant_comment_new_'+count+'" name="rooms['+currentRoom+'][items][new_'+count+'][tenant_comment]" placeholder = "Tenant Comment" style = "height:124px"></textarea>';
                     html += '</div>';
 
                     html += '<div class = "form-group col-sm-6">';
-                        html += '<input '+disabledLord+' type="text" class = "form-control form-group-3-label" id="items_lord_comment_new_'+count+'" name="rooms['+currentRoom+'][items][new_'+count+'][lord_comment]" placeholder = "Lord Comment">';
-                    html += '</div>';
+                        //html += '<input '+disabledLord+' type="text" class = "form-control form-group-3-label" id="items_lord_comment_new_'+count+'" name="rooms['+currentRoom+'][items][new_'+count+'][lord_comment]" placeholder = "Lord Comment">';
+                        html += '<textarea '+disabledLord+' type="text" class = "form-control form-group-3-label" id="items_lord_comment_new_'+count+'" name="rooms['+currentRoom+'][items][new_'+count+'][lord_comment]" placeholder = "Lord Comment" style = "height:124px"></textarea>';
+                        html += '</div>';
                 html += '</div>';
 
                 html += '<div class = "row">';
@@ -240,8 +242,9 @@ jQuery(document).ready(function(){
                             html += 'Tenant Approval';
                         html += '</label>';
                         html += '<select '+disabledTenant+' class="form-control form-group-2-select tenant-item-approval" data-id = "new_'+count+'" name="rooms['+currentRoom+'][items][new_'+count+'][tenant_approved]">';
-                            html += '<option value="0">No</option>';
-                            html += '<option value="1" selected = "selected">Yes</option>';
+                            html += '<option value="0">Green</option>';
+                            html += '<option value="1">Amber</option>';
+                            html += '<option value="2">Red</option>';
                         html += '</select>';
                     html += '</div>';
 
@@ -250,8 +253,9 @@ jQuery(document).ready(function(){
                             html += 'LL / Agent Approval';
                         html += '</label>';
                         html += '<select '+disabledLord+' class="form-control form-group-2-select lord-item-approval" data-id = "new_'+count+'" name="rooms['+currentRoom+'][items][new_'+count+'][lord_approved]">';
-                            html += '<option value="0">No</option>';
-                            html += '<option value="1" selected = "selected">Yes</option>';
+                            html += '<option value="0">Green</option>';
+                            html += '<option value="1">Amber</option>';
+                            html += '<option value="2">Red</option>';
                         html += '</select>';
                     html += '</div>';
                 html += '</div>';
